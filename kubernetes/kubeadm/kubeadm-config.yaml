@@ -1,0 +1,10 @@
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta3
+kubernetesVersion: v1.22.2
+controlPlaneEndpoint: kube.homeland.lan
+networking:
+  podSubnet: "10.254.0.0/16"
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
