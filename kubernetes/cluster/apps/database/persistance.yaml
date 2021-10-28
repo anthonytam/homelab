@@ -13,3 +13,11 @@ spec:
   volumeMode: Filesystem
   local:
     path: /var/local/kubernetes/database/mariadb
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - docker01.homeland.lan
