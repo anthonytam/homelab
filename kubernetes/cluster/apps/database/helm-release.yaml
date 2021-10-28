@@ -24,7 +24,7 @@ spec:
       tag: 10.5.12-debian-10-r68
       debug: true
     auth:
-      existingSecret: mysecretrootpassword
+      rootPassword: mysecretrootpassword
     persistence:
       config:
         enabled: true
