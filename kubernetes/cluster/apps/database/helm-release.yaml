@@ -22,6 +22,7 @@ spec:
     image:
       repository: bitnami/mariadb
       tag: 10.5.12-debian-10-r68
+      debug: true
     persistence:
       config:
         enabled: true
