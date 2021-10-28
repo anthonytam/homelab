@@ -23,6 +23,8 @@ spec:
       repository: bitnami/mariadb
       tag: 10.5.12-debian-10-r68
       debug: true
+    auth:
+      rootPassword: mysecretrootpassword
     persistence:
       config:
         enabled: true
