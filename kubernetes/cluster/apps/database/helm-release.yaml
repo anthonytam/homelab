@@ -26,5 +26,6 @@ spec:
       config:
         enabled: true
         type: hostPath
+        storageClass: local-storage
         hostPath: /var/local/kubernetes/database/mariadb
         mountPath: /bitnami/mariadb
