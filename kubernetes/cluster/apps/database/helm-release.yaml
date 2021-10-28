@@ -20,7 +20,7 @@ spec:
       interval: 5m
   values:
     image:
-      repository: mariadb
+      repository: bitnami/mariadb
       tag: 10.5.12-debian-10-r68
     persistence:
       config:
