@@ -15,7 +15,7 @@ spec:
       version: 0.1.0
       sourceRef:
         kind: HelmRepository
-        name: chia-forks
+        name: chia-charts
         namespace: flux-system
       interval: 5m
   values:
