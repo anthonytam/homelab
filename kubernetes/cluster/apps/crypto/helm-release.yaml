@@ -12,7 +12,7 @@ spec:
     spec:
       # renovate: registryUrl=https://anthonytam.github.io/Chia-Forks-Docker/helm
       chart: chia-blockchain
-      version: 0.1.0
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: chia-charts
