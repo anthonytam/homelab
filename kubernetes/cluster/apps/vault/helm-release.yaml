@@ -18,3 +18,26 @@ spec:
         name: hashicorp
         namespace: flux-system
       interval: 5m
+  values:
+    server:
+      standalone:
+        enabled: true
+        config: |
+          ui = true
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+          }
+          storage "file" {
+            path = "/vault/data"
+          }
+      service:
+        enabled: true
+
+      dataStorage:
+        enabled: false
+    
+    ui:
+      enabled: true
+      serviceType: LoadBalancer
