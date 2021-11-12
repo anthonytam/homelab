@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: hashicorp-vault
-  namespace: vault
+  namespace: secrets
 spec:
   interval: 5m
   upgrade:
@@ -36,7 +36,10 @@ spec:
         enabled: true
 
       dataStorage:
-        enabled: false
+        enabled: true
+        size: 10Gi
+        storageClass: null
+        accessMode: ReadWriteOnce
     
     ui:
       enabled: true
