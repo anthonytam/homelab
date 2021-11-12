@@ -35,8 +35,6 @@ spec:
       service:
         enabled: true
         type: ClusterIP
-        externalIPs:
-          - "192.168.0.155"
       dataStorage:
         enabled: true
         size: 10Gi
