@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - persistance.yaml
   - helm-release.yaml
-  - service-account.yaml

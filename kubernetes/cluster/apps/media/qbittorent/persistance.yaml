@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: media-qbittorent-pv
+  name: media-qbittorrent-pv
   namespace: media
 spec:
   capacity:
@@ -12,7 +12,7 @@ spec:
   storageClassName: ""
   volumeMode: Filesystem
   local:
-    path: /var/local/kubernetes/media/qbittorent
+    path: /var/local/kubernetes/media/qbittorrent
   nodeAffinity:
     required:
       nodeSelectorTerms:
