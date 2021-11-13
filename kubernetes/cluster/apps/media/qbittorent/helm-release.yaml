@@ -19,18 +19,16 @@ spec:
         name: k8s-at-home
         namespace: flux-system
       interval: 5m
-      template:
-        metadata:
-          annotations:
-            vault.hashicorp.com/agent-inject: 'true'
-            vault.hashicorp.com/role: 'torrent-app'
-            vault.hashicorp.com/agent-inject-secret-vpn-auth.txt: 'homelab/vpn/config'
-            vault.hashicorp.com/agent-inject-template-vpn-auth.txt: |
-              {{- with secret "homelab/vpn/config" -}}
-              {{ .Data.data.username }}
-              {{ .Data.data.password }}
-              {{- end -}}
   values:
+    podAnnotations:
+      vault.hashicorp.com/agent-inject: 'true'
+      vault.hashicorp.com/role: 'torrent-app'
+      vault.hashicorp.com/agent-inject-secret-vpn-auth.txt: 'homelab/vpn/config'
+      vault.hashicorp.com/agent-inject-template-vpn-auth.txt: |
+        {{- with secret "homelab/vpn/config" -}}
+        {{ .Data.data.username }}
+        {{ .Data.data.password }}
+        {{- end -}}
     image:
       repository: gchr.io/k8s-at-home/qbittorrent
       tag: v4.3.7
