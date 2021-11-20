@@ -32,7 +32,7 @@ spec:
       create: true
       name: torrent-app
     image:
-      repository: gchr.io/k8s-at-home/qbittorrent
+      repository: ghcr.io/k8s-at-home/qbittorrent
       tag: v4.3.7
     settings:
       automaticPortSetup: true
