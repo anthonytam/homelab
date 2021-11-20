@@ -38,7 +38,7 @@ spec:
       automaticPortSetup: true
     env:
       TZ: America/Toronto
-      WAIT_FOR_VPN: true
+      WAIT_FOR_VPN: "true"
     service:
       main:
         enabled: true
@@ -81,6 +81,9 @@ spec:
           image:
             repository: dperson/openvpn-client
             tag: latest
+        securityContext:
+          runAsGroup: 0
+          runAsUser: 0
         env:
           FIREWALL: 'on'
         configFile: |-
