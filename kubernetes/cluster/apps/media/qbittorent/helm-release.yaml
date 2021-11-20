@@ -47,9 +47,8 @@ spec:
     persistence:
       config:
         enabled: true
-        size: 10Gi
-        storageClass: null
-        accessMode: ReadWriteOnce
+        type: hostPath
+        hostPath: /var/local/kubernetes/media/qbittorrent
       media:
         enabled: false
         size: 10Gi
