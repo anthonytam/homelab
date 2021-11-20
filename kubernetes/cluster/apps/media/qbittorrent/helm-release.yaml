@@ -19,15 +19,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    podAnnotations:
-      vault.hashicorp.com/agent-inject: 'true'
-      vault.hashicorp.com/role: 'torrent-app'
-      vault.hashicorp.com/agent-inject-secret-vpn-auth.txt: 'homelab/vpn/config'
-      vault.hashicorp.com/agent-inject-template-vpn-auth.txt: |
-        {{- with secret "homelab/vpn/config" -}}
-        {{ .Data.data.username }}
-        {{ .Data.data.password }}
-        {{- end -}}
     serviceAccount:
       create: true
       name: torrent-app
@@ -59,7 +50,3 @@ spec:
         size: 10Gi
         storageClass: null
         accessMode: ReadWriteOnce
-      shared:
-        enabled: true
-        type: emptyDir
-        mountPath: /shared
