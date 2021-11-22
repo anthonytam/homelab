@@ -82,8 +82,10 @@ spec:
             repository: dperson/openvpn-client
             tag: latest
         securityContext:
-          runAsGroup: 0
-          runAsUser: 0
+          capabilities:
+            add:
+              - NET_ADMIN
+              - SYS_MODULE
         env:
           FIREWALL: 'on'
         configFile: |-
