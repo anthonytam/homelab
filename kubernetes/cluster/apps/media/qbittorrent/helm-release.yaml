@@ -86,6 +86,8 @@ spec:
             add:
               - NET_ADMIN
               - SYS_MODULE
+          runAsGroup: 0
+          runAsUser: 0
         env:
           FIREWALL: 'on'
         configFile: |-
