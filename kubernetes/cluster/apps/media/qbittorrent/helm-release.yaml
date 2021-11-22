@@ -82,6 +82,7 @@ spec:
             repository: dperson/openvpn-client
             tag: latest
         securityContext:
+          privileged: true
           capabilities:
             add:
               - NET_ADMIN
