@@ -91,6 +91,7 @@ spec:
           runAsUser: 0
         env:
           FIREWALL: 'on'
+          ROUTE: '10.254.0.0/16'
         configFile: |-
           client
           dev tun
