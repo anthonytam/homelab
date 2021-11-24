@@ -58,17 +58,15 @@ spec:
       config:
         enabled: true
         type: hostPath
-        hostPath: /var/local/kubernetes/media/qbittorrent
+        hostPath: /var/local/kubernetes/media/qbittorrent/config
       media:
-        enabled: false
-        size: 10Gi
-        storageClass: null
-        accessMode: ReadWriteOnce
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/mammoth/complete
       downloads:
-        enabled: false
-        size: 10Gi
-        storageClass: null
-        accessMode: ReadWriteOnce
+        enabled: true
+        type: hostPath
+        hostPath: /var/local/kubernetes/media/qbittorrent/temp
       shared:
         enabled: true
         type: emptyDir
