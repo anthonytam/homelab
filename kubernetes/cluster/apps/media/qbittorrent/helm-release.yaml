@@ -31,9 +31,9 @@ spec:
     serviceAccount:
       create: true
       name: torrent-app
-    probes:
-      startup:
-        enabled: false
+    #probes:
+    #  startup:
+    #    enabled: false
     image:
       repository: ghcr.io/k8s-at-home/qbittorrent
       tag: v4.3.7
@@ -94,6 +94,7 @@ spec:
           runAsUser: 0
         env:
           FIREWALL: 'on'
+          ROUTE: '10.254.0.0/16,192.168.0.0/24'
         configFile: |-
           client
           dev tun
