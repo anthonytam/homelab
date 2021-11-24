@@ -21,7 +21,7 @@ spec:
   values:
     podAnnotations:
       vault.hashicorp.com/agent-inject: 'true'
-      vault.hashicorp.com/role: 'torrent-app'
+      vault.hashicorp.com/role: 'jackett-app'
       vault.hashicorp.com/agent-inject-secret-vpn-auth.txt: 'homelab/vpn/config'
       vault.hashicorp.com/agent-inject-template-vpn-auth.txt: |
         {{- with secret "homelab/vpn/config" -}}
@@ -30,7 +30,7 @@ spec:
         {{- end -}}
     serviceAccount:
       create: true
-      name: torrent-app
+      name: jackett-app
     # TODO: Fix me
     probes:
       startup:
