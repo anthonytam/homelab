@@ -59,14 +59,17 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /var/local/kubernetes/media/qbittorrent/config
+        mountPath: /config
       media:
         enabled: true
         type: hostPath
         hostPath: /mnt/mammoth/complete
+        mountPath: /media
       downloads:
         enabled: true
         type: hostPath
         hostPath: /var/local/kubernetes/media/qbittorrent/temp
+        mountPath: /downloads
       shared:
         enabled: true
         type: emptyDir
