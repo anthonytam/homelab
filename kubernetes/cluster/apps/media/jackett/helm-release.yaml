@@ -161,16 +161,3 @@ spec:
           134d3a3aa2f904512e85aa2dc2202498
           -----END OpenVPN Static key V1-----
           </tls-auth>
-
-          script-security 2
-          up /vpn/up.sh
-          down /vpn/down.sh
-        scripts:
-          up: |-
-            #!/bin/bash
-            /etc/openvpn/up.sh
-            echo "connected" > /shared/vpnstatus
-          down: |-
-            #!/bin/bash
-            /etc/openvpn/down.sh
-            echo "disconnected" > /shared/vpnstatus
