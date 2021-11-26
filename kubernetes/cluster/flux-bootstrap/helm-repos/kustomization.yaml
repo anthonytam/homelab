@@ -5,4 +5,5 @@ resources:
   - bitnami.yaml
   - hashicorp.yaml
   - k8s-at-home.yaml
+  - k8s-at-home-library.yaml
   - chia-charts.yaml
