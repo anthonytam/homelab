@@ -19,8 +19,10 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    routed_namespaces:
-      - vpn-gateway
+    image:
+      repository: ghcr.io/k8s-at-home/pod-gateway
+      tag: v1.4.0
+    routed_namespaces: []
     podAnnotations:
       vault.hashicorp.com/agent-inject: 'true'
       vault.hashicorp.com/role: 'vpn-app'
