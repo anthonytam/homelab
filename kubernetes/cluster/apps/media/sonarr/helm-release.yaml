@@ -42,5 +42,5 @@ spec:
       media:
         enabled: true
         type: hostPath
-        hostPath: /mnt/mammoth/completed/tv
+        hostPath: /mnt/mammoth/tv
         mountPath: /media

@@ -37,10 +37,10 @@ spec:
       config:
         enabled: true
         type: hostPath
-        hostPath: /var/local/kubernetes/media/sonarr/config
+        hostPath: /var/local/kubernetes/media/radarr/config
         mountPath: /config
       media:
         enabled: true
         type: hostPath
-        hostPath: /mnt/mammoth/completed/movies
+        hostPath: /mnt/mammoth/movies
         mountPath: /media
