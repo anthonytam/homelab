@@ -99,7 +99,7 @@ spec:
           runAsUser: 0
         env:
           FIREWALL: 'on'
-          ROUTE_1: '10.0.0.0/8'
+          ROUTE: '10.0.0.0/8'
         configFile: |-
           client
           dev tun
