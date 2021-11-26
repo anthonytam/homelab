@@ -20,7 +20,7 @@ spec:
       interval: 5m
   values:
     routed_namespaces:
-    - vpn
+      - vpn-gateway
     podAnnotations:
       vault.hashicorp.com/agent-inject: 'true'
       vault.hashicorp.com/role: 'vpn-app'
