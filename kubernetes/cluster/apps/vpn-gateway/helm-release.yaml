@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pod-gateway
-      version: 5.0.1
+      version: 5.1.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -31,7 +31,7 @@ spec:
       name: vpn-app
     image:
       repository: ghcr.io/k8s-at-home/pod-gateway
-      tag: v1.4.0
+      tag: latest
     addons:
       vpn:
         enabled: true
