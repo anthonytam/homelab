@@ -26,8 +26,6 @@ spec:
     auth:
       rootPassword: mysecretrootpassword
     persistence:
-      config:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/database/mariadb/config
-        mountPath: /config
+        existingClaim: "database-mariadb-pvc"
+        
