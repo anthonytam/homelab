@@ -1,0 +1,43 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jackett
+  namespace: downloads
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: jackett
+      version: 11.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: jackett-app
+    image:
+      repository: ghcr.io/k8s-at-home/jackett
+      tag: v0.20.53
+    env:
+      TZ: America/Toronto
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            port: 9117
+    persistence:
+      config:
+        enabled: true
+        type: hostPath
+        hostPath: /var/local/kubernetes/media/jackett/config
+        mountPath: /config
+      torrentblackhole:
+        enabled: false

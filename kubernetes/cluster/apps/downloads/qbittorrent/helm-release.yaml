@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+  namespace: downloads
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: qbittorrent
+      version: 13.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: torrent-app
+    image:
+      repository: ghcr.io/k8s-at-home/qbittorrent
+      tag: v4.3.7
+    settings:
+      automaticPortSetup: true
+    env:
+      TZ: America/Toronto
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            port: 8080
+      bittorent:
+        enabled: true
+        type: ClusterIP
+        ports:
+          bittorrent:
+            enabled: true
+            port: 6881
+            protocol: TCP
+            targetPort: 6881
+    persistence:
+      config:
+        enabled: true
+        type: hostPath
+        hostPath: /var/local/kubernetes/media/qbittorrent/config
+        mountPath: /config
+      media:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/mammoth/complete
+        mountPath: /media
+      downloads:
+        enabled: true
+        type: hostPath
+        hostPath: /var/local/kubernetes/media/qbittorrent/temp
+        mountPath: /downloads

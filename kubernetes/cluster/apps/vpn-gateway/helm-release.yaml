@@ -149,7 +149,8 @@ spec:
           -----END OpenVPN Static key V1-----
           </tls-auth>
     DNS: 172.16.1.1
-    routed_namespaces: []
+    routed_namespaces:
+      - downloads
     settings:
       VPN_INTERFACE: tun0
       VXLAN_ID: 43
@@ -166,4 +167,4 @@ spec:
       gatewayLabel: setGateway
       gatewayAnnotation: setGateway
       namespaceSelector:
-        label: "vpn-routed-gateway"
+        label: "vpn-routed-namespace"
