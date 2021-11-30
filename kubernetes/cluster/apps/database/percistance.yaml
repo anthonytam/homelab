@@ -26,6 +26,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata: 
   name: database-mariadb-pvc 
+  namespace: database
 spec: 
   accessModes: 
     - ReadWriteOnce
