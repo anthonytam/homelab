@@ -32,6 +32,17 @@ spec:
     image:
       repository: ghcr.io/k8s-at-home/pod-gateway
       tag: latest
+    DNS: 172.16.1.1
+    routed_namespaces:
+      - downloads
+    settings:
+      VPN_INTERFACE: tun0
+      VXLAN_ID: 43
+      VXLAN_IP_NETWORK: 172.16.1
+      VPN_BLOCK_OTHER_TRAFFIC: true
+      VPN_TRAFFIC_PORT: 1194
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 192.168.0.0/24"
+      VPN_LOCAL_CIDRS: "172.16.0.0/12 192.168.0.0/24 10.0.0.0/8"
     addons:
       vpn:
         enabled: true
@@ -148,23 +159,3 @@ spec:
           134d3a3aa2f904512e85aa2dc2202498
           -----END OpenVPN Static key V1-----
           </tls-auth>
-    DNS: 172.16.1.1
-    routed_namespaces:
-      - downloads
-    settings:
-      VPN_INTERFACE: tun0
-      VXLAN_ID: 43
-      VXLAN_IP_NETWORK: 172.16.1
-      VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: 1194
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 192.168.0.0/24"
-      VPN_LOCAL_CIDRS: "172.16.0.0/12 192.168.0.0/24 10.0.0.0/8"
-    webhook:
-      image:
-        repository: ghcr.io/k8s-at-home/gateway-admision-controller
-        tag: v3.4.0
-      gatewayDefault: false
-      gatewayLabel: setGateway
-      gatewayAnnotation: setGateway
-      namespaceSelector:
-        label: "vpn-routed-namespace"
