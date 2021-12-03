@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   # renovate: registryUrl=https://charts.jetstack.io chart=cert-manager
   - https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.crds.yaml
+  - namespace.yaml
+  - helm-release.yaml
