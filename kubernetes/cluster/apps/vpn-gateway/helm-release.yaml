@@ -5,7 +5,6 @@ kind: HelmRelease
 metadata:
   name: vpn-gateway
   namespace: vpn-gateway
-  labels:
 spec:
   interval: 5m
   chart:
