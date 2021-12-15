@@ -22,6 +22,18 @@ spec:
 
   # See https://github.com/k8s-at-home/charts/blob/master/charts/pod-gateway/values.yaml
   values:
+    podAnnotations:
+      vault.hashicorp.com/agent-inject: 'true'
+      vault.hashicorp.com/role: 'vpn-app'
+      vault.hashicorp.com/agent-inject-secret-vpn-auth.txt: 'homelab/vpn/config'
+      vault.hashicorp.com/agent-inject-template-vpn-auth.txt: |
+        {{- with secret "homelab/vpn/config" -}}
+        {{ .Data.data.username }}
+        {{ .Data.data.password }}
+        {{- end -}}
+    serviceAccount:
+      create: true
+      name: vpn-app
     settings:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: false
