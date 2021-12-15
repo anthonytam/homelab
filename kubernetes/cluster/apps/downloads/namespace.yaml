@@ -4,4 +4,4 @@ kind: Namespace
 metadata:
   name: downloads
   labels:
-    vpn-routed-gateway: "true"
+    routed-gateway: "true"
