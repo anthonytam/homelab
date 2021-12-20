@@ -49,3 +49,13 @@ spec:
         type: hostPath
         hostPath: /var/local/kubernetes/media/plex/transcode
         mountPath: /transcode
+      tv:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/mammoth/tv
+        mountPath: /media/tv
+      movies:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/mammoth/movies
+        mountPath: /media/movies
