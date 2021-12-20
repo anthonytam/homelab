@@ -29,6 +29,7 @@ spec:
       tag: v0.20.53
     env:
       TZ: America/Toronto
+    hostname: jackett
     service:
       main:
         enabled: true

@@ -42,6 +42,19 @@ spec:
       VPN_LOCAL_CIDRS: "192.168.0.0/16 172.16.0.0/24 10.0.0.0/8"
     routed_namespaces:
       - downloads
+    publicPorts:
+      - hostname: qbittorrent
+          IP: 2
+          ports:
+            - type: tcp
+              port: 8080
+            - type: tcp
+              port: 6881
+      - hostname: jackett
+          IP: 3
+          ports:
+            - type: tcp
+              port: 9117
     addons:
       vpn:
         enabled: true
