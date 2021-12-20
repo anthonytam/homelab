@@ -50,11 +50,11 @@ spec:
               port: 8080
             - type: tcp
               port: 6881
-      - hostname: jackett
+      - hostname: prowlarr
           IP: 3
           ports:
             - type: tcp
-              port: 9117
+              port: 9696
     addons:
       vpn:
         enabled: true
