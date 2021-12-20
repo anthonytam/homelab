@@ -44,3 +44,8 @@ spec:
         type: hostPath
         hostPath: /mnt/mammoth/tv
         mountPath: /media
+      downloads:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/mammoth/complete
+        mountPath: /complete

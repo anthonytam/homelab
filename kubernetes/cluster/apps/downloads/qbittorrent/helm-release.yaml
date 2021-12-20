@@ -57,7 +57,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/mammoth/complete
-        mountPath: /media
+        mountPath: /complete
       downloads:
         enabled: true
         type: hostPath
