@@ -4,7 +4,8 @@ kind: Kustomization
 resources:
   - anthonytam.yaml
   - bitnami.yaml
+  - chia-charts.yaml
   - hashicorp.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
-  - chia-charts.yaml
+  - traefik.yaml

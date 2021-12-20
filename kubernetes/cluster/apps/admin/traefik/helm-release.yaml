@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: admin
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://helm.traefik.io/traefik
+      chart: traefik
+      version: 10.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+      interval: 5m
+  values:
+    podAnnotations:
+      vault.hashicorp.com/agent-inject: 'true'
+      vault.hashicorp.com/role: 'traefik-app'
+      vault.hashicorp.com/agent-inject-secret-traefik.yaml: 'homelab/traefik/config'
+      vault.hashicorp.com/agent-inject-template-traefik.yaml: |
+        {{- with secret "homelab/traefik/config" -}}
+        {{ .Data.data.config }}
+        {{- end -}}
+    serviceAccount:
+      name: traefik-app
+      create: true
+    image:
+      name: traefik
+      tag: v2.5.5
+    ingressRoute:
+      dashboard:
+        enabled: true
+    ports:
+      web:
+        redirectTo: websecure
+      websecure:
+        tls:
+          enabled: true
+          options: "default"
+
+    additionalArguments:
+      - "--configFile=/vault/secrets/traefik.yaml"
+      - "--providers.file.filename=/etc/traefik/dynamic.yml"
+      - "--providers.file.watch=true"
