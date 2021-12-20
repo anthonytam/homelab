@@ -44,17 +44,17 @@ spec:
       - downloads
     publicPorts:
       - hostname: qbittorrent
-          IP: 2
-          ports:
-            - type: tcp
-              port: 8080
-            - type: tcp
-              port: 6881
+        IP: 2
+        ports:
+          - type: tcp
+            port: 8080
+          - type: tcp
+            port: 6881
       - hostname: prowlarr
-          IP: 3
-          ports:
-            - type: tcp
-              port: 9696
+        IP: 3
+        ports:
+          - type: tcp
+            port: 9696
     addons:
       vpn:
         enabled: true
@@ -72,7 +72,6 @@ spec:
               - "SYS_MODULE"
         env:
           TZ: "America/Toronto"
-          IPTABLES_BACKEND: nft
         networkPolicy:
           enabled: true
           egress:
