@@ -32,6 +32,14 @@ spec:
     env:
       TZ: America/Toronto
     hostname: qbittorrent
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "qbittorrent.homeland.farm"
+            paths:
+              - path: /
+                pathType: Prefix
     service:
       main:
         enabled: true

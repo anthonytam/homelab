@@ -30,6 +30,14 @@ spec:
     env:
       TZ: America/Toronto
     hostname: prowlarr
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "prowlarr.homeland.farm"
+            paths:
+              - path: /
+                pathType: Prefix
     service:
       main:
         enabled: true

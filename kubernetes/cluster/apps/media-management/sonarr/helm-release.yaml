@@ -27,12 +27,14 @@ spec:
       tag: v3.0.6.1342
     env:
       TZ: America/Toronto
-    service:
+    ingress:
       main:
         enabled: true
-        ports:
-          http:
-            port: 8989
+        hosts:
+          - host: "sonarr.homeland.farm"
+            paths:
+              - path: /
+                pathType: Prefix
     persistence:
       config:
         enabled: true

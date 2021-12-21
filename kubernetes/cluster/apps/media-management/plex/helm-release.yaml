@@ -32,12 +32,14 @@ spec:
       PLEX_PREFERENCE_2: "EnableIPv6=0"
       PLEX_PREFERENCE_3: "LanNetworksBandwidth=192.168.0.0/16"
       PLEX_PREFERENCE_4: "TreatWanIpAsLocal=0"
-    service:
+    ingress:
       main:
         enabled: true
-        ports:
-          http:
-            port: 32400
+        hosts:
+          - host: "plex.homeland.farm"
+            paths:
+              - path: /
+                pathType: Prefix
     persistence:
       config:
         enabled: true
