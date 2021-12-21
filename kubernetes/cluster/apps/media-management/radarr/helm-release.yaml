@@ -33,6 +33,14 @@ spec:
         ports:
           http:
             port: 7878
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "radarr.homeland.farm"
+            paths:
+              - path: /
+                pathType: Prefix
     persistence:
       config:
         enabled: true
