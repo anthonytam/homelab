@@ -44,5 +44,5 @@ spec:
           enabled: true
           options: "default"
     additionalArguments:
-      - "--providers.file.filename=/etc/traefik/dynamic.yml"
+      - "--providers.file.filename=/vault/secrets/dynamic.yml"
       - "--providers.file.watch=true"
