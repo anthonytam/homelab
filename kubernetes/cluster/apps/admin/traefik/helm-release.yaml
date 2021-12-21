@@ -23,8 +23,8 @@ spec:
       podAnnotations: {
         vault.hashicorp.com/agent-inject: 'true',
         vault.hashicorp.com/role: 'traefik-app',
-        vault.hashicorp.com/agent-inject-secret-traefik.yaml: 'homelab/traefik/config',
-        vault.hashicorp.com/agent-inject-template-traefik.yaml: '{{- with secret "homelab/traefik/config" -}}
+        vault.hashicorp.com/agent-inject-secret-dynamic.yml: 'homelab/traefik/config',
+        vault.hashicorp.com/agent-inject-template-dynamic.yml: '{{- with secret "homelab/traefik/config" -}}
           {{ .Data.data.config }}
           {{- end -}}'
       }
@@ -44,6 +44,5 @@ spec:
           enabled: true
           options: "default"
     additionalArguments:
-      - "--configFile=/vault/secrets/traefik.yaml"
       - "--providers.file.filename=/etc/traefik/dynamic.yml"
       - "--providers.file.watch=true"
