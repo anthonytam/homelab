@@ -20,14 +20,14 @@ spec:
       interval: 5m
   values:
     deployment:
-      podAnnotations:
-        - vault.hashicorp.com/agent-inject: 'true'
-        - vault.hashicorp.com/role: 'traefik-app'
-        - vault.hashicorp.com/agent-inject-secret-traefik.yaml: 'homelab/traefik/config'
-        - vault.hashicorp.com/agent-inject-template-traefik.yaml: |
-            {{- with secret "homelab/traefik/config" -}}
-            {{ .Data.data.config }}
-            {{- end -}}
+      podAnnotations: {
+        vault.hashicorp.com/agent-inject: 'true',
+        vault.hashicorp.com/role: 'traefik-app',
+        vault.hashicorp.com/agent-inject-secret-traefik.yaml: 'homelab/traefik/config',
+        vault.hashicorp.com/agent-inject-template-traefik.yaml: {{- with secret "homelab/traefik/config" -}}
+          {{ .Data.data.config }}
+          {{- end -}}
+      }
     serviceAccount:
       name: traefik-app
     image:
