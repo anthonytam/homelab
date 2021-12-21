@@ -41,11 +41,6 @@ spec:
               - path: /
                 pathType: Prefix
     service:
-      main:
-        enabled: true
-        ports:
-          http:
-            port: 8080
       bittorent:
         enabled: true
         type: ClusterIP
