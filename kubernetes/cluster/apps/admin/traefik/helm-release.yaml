@@ -19,17 +19,8 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    podAnnotations:
-      vault.hashicorp.com/agent-inject: 'true'
-      vault.hashicorp.com/role: 'traefik-app'
-      vault.hashicorp.com/agent-inject-secret-traefik.yaml: 'homelab/traefik/config'
-      vault.hashicorp.com/agent-inject-template-traefik.yaml: |
-        {{- with secret "homelab/traefik/config" -}}
-        {{ .Data.data.config }}
-        {{- end -}}
     serviceAccount:
       name: traefik-app
-      create: true
     image:
       name: traefik
       tag: v2.5.5
@@ -43,8 +34,6 @@ spec:
         tls:
           enabled: true
           options: "default"
-
     additionalArguments:
-      - "--configFile=/vault/secrets/traefik.yaml"
       - "--providers.file.filename=/etc/traefik/dynamic.yml"
       - "--providers.file.watch=true"
