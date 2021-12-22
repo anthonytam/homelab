@@ -35,6 +35,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /var/local/kubernetes/password-management/vaultwarden/config
+        mountPath: /config
     env:
       TZ: America/Toronto
       SIGNUPS_ALLOWED: true
