@@ -33,9 +33,8 @@ spec:
     persistence:
       config:
         enabled: true
-        
-    podSecurityContext:
-      fsGroup: 568
+        type: hostPath
+        hostPath: /var/local/kubernetes/password-management/vaultwarden/config
     env:
       TZ: America/Toronto
       SIGNUPS_ALLOWED: true
