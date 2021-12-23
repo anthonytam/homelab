@@ -1,0 +1,46 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: chia-blockchain
+  namespace: crypto
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://anthonytam.github.io/Chia-Forks-Docker/helm
+      chart: chia-blockchain
+      version: 0.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: chia-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    podAnnotations:
+      vault.hashicorp.com/agent-inject: 'true'
+      vault.hashicorp.com/role: 'chia-app'
+      vault.hashicorp.com/agent-inject-secret-key.txt: 'homelab/chia/config'
+      vault.hashicorp.com/agent-inject-template-key.txt: |
+        {{- with secret "homelab/chia/config" -}}
+        {{ .Data.data.key }}
+        {{- end -}}
+    serviceAccount:
+      create: true
+      name: chia-app
+    image:
+      repository: ghcr.io/chia-network/chia
+      tag: 1.2.11
+    env:
+      TZ: America/Toronto
+      keys: /vault/secrets/key.txt
+    persistence:
+      key:
+        enabled: false
+      blockchain:
+        enabled: true
+        type: hostPath
+        hostPath: /var/local/kubernetes/smart-home/hass/config
+        mountPath: /root/.chia
