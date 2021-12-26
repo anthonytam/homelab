@@ -47,5 +47,5 @@ spec:
       blockchain:
         enabled: true
         type: hostPath
-        hostPath: /var/local/kubernetes/smart-home/hass/config
+        hostPath: /var/local/kubernetes/crypto/chia/data
         mountPath: /root/.chia
