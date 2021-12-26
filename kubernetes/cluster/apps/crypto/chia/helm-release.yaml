@@ -36,6 +36,9 @@ spec:
     env:
       TZ: America/Toronto
       keys: /vault/secrets/key.txt
+    service:
+      main:
+        type: LoadBancer
     persistence:
       key:
         enabled: false
