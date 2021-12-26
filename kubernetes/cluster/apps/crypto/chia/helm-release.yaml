@@ -49,3 +49,8 @@ spec:
         type: hostPath
         hostPath: /var/local/kubernetes/crypto/chia/data
         mountPath: /root/.chia
+      plots:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/mammoth/chia-plots
+        mounthPath: /plots
