@@ -39,6 +39,8 @@ spec:
     service:
       main:
         type: LoadBalancer
+        annotations:
+          metallb.universe.tf/allow-shared-ip: 'node01-sharing'
     persistence:
       key:
         enabled: false

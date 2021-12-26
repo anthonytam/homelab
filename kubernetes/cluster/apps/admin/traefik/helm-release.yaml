@@ -43,6 +43,10 @@ spec:
         tls:
           enabled: true
           options: "default"
+    service:
+      annotations:
+        annotations:
+          metallb.universe.tf/allow-shared-ip: 'node01-sharing'
     additionalArguments:
       - "--providers.file.filename=/vault/secrets/dynamic.yml"
       - "--providers.file.watch=true"
