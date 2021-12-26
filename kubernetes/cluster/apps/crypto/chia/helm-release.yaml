@@ -38,7 +38,7 @@ spec:
       keys: /vault/secrets/key.txt
     service:
       main:
-        type: LoadBalncer
+        type: LoadBalancer
     persistence:
       key:
         enabled: false
