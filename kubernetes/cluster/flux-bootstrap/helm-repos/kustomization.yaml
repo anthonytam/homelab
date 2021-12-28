@@ -5,6 +5,7 @@ resources:
   - anthonytam.yaml
   - bitnami.yaml
   - chia-charts.yaml
+  - external-secrets.yaml
   - hashicorp.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
