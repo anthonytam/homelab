@@ -16,3 +16,10 @@ spec:
         name: external-secrets
         namespace: flux-system
       interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: external-secrets-app
+    image:
+      repository: ghcr.io/external-secrets/kubernetes-external-secrets
+      tag: 8.5.0
