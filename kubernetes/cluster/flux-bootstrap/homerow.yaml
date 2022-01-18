@@ -16,7 +16,3 @@ spec:
     substituteFrom:
       - kind: Secret
         name: homerow-secrets
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
