@@ -1,0 +1,40 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mysql
+  namespace: homerow
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: mysql
+      version: 8.8.21
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      name: "homerow-mysql-app"
+    image:
+      repository: bitnami/mysql
+      tag: 8.0.27-debian-10-r78
+    primary:
+      podAnnotations: {
+        vault.hashicorp.com/agent-inject: 'true',
+        vault.hashicorp.com/role: 'web',
+        vault.hashicorp.com/agent-inject-secret-config: 'secret/data/web',
+        vault.hashicorp.com/agent-inject-template-config: '{{- with secret "homelab/homerow/database/config" -}}
+          export ALLOW_EMPTY_PASSWORD="{{ .Data.data.ALLOW_EMPTY_PASSWORD }}"
+          export MYSQL_DATABASE="{{ .Data.data.MYSQL_DATABASE }}"
+          export MYSQL_PASSWORD="{{ .Data.data.MYSQL_PASSWORD }}"
+          export MYSQL_ROOT_PASSWORD="{{ .Data.data.MYSQL_ROOT_PASSWORD }}"
+          export MYSQL_ROOT_USER="{{ .Data.data.MYSQL_ROOT_USER }}"
+          export MYSQL_USER="{{ .Data.data.MYSQL_USER }}"
+          {{- end -}}'
+      }
