@@ -29,3 +29,8 @@ spec:
         metallb.universe.tf/allow-shared-ip: 'node01-sharing'
     mariadb:
       enabled: false
+    externalDatabase:
+      host: mysql.homerow.svc.cluster.local
+      user: homerow_staging
+      database: homerow_staging
+      existingSecret: mysql
