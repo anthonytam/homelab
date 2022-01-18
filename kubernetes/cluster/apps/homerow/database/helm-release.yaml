@@ -19,8 +19,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    auth:
-      rootPassword: "temp"
     serviceAccount:
       name: "homerow-mysql-app"
     image:
