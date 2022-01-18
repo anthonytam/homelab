@@ -27,6 +27,8 @@ spec:
     ingress:
       enabled: true
       hostname: staging.homerow.ca
+    service:
+      type: ClusterIP
     persistence:
       existingClaim: wordpress-staging-pvc
     mariadb:
