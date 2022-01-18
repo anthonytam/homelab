@@ -5,7 +5,7 @@ metadata:
   namespace: homerow
 spec:
   claimRef:
-    name: wordpress-staging
+    name: wordpress-staging-pvc
     namespace: homerow
   capacity:
     storage: 10Gi
@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: wordpress-staging
+  name: wordpress-staging-pvc
   namespace: homerow
 spec:
   storageClassName: ""

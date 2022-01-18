@@ -27,6 +27,8 @@ spec:
     service:
       annotations:
         metallb.universe.tf/allow-shared-ip: 'node01-sharing'
+    persistence:
+      existingClaim: wordpress-staging-pvc
     mariadb:
       enabled: false
     externalDatabase:
