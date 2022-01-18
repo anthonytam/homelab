@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: data-mysql-pvc
+  name: data-mysql-0
   namespace: homerow
 spec:
   storageClassName: ""
