@@ -24,6 +24,13 @@ spec:
     image:
       repository: bitnami/wordpress
       tag: 5.8.3-debian-10-r2
+    wordpressUsername: ${wordpress_username}
+    wordpressPassword: ${wordpress_password}
+    wordpressEmail: ${wordpress_email}
+    wordpressFirstName: ${wordpress_first_name}
+    wordpressLastName: ${wordpress_last_name}
+    wordpressBlogName: ${wordpress_blog_name}
+    wordpressPlugins: all
     ingress:
       enabled: true
       hostname: staging.homerow.ca
@@ -35,6 +42,6 @@ spec:
       enabled: false
     externalDatabase:
       host: mysql.homerow.svc.cluster.local
-      user: homerow_staging
-      database: homerow_staging
-      existingSecret: mysql
+      user: ${mysql_user}
+      database: ${mysql_database}
+      password: ${mysql_password}
