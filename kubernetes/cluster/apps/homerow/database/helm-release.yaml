@@ -24,6 +24,3 @@ spec:
     image:
       repository: bitnami/mysql
       tag: 8.0.27-debian-10-r78
-    primary:
-      persistence:
-        exitingClaim: data-mysql-pvc
