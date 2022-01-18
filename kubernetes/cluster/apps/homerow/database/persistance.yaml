@@ -5,7 +5,7 @@ metadata:
   namespace: homerow
 spec:
   claimRef:
-    name: data-mysql-pvc
+    name: data-mysql-0
     namespace: homerow
   capacity:
     storage: 10Gi
