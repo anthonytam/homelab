@@ -24,9 +24,9 @@ spec:
     image:
       repository: bitnami/wordpress
       tag: 5.8.3-debian-10-r2
-    service:
-      annotations:
-        metallb.universe.tf/allow-shared-ip: 'node01-sharing'
+    ingress:
+      enabled: true
+      hostname: staging.homerow.ca
     persistence:
       existingClaim: wordpress-staging-pvc
     mariadb:
