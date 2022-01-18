@@ -33,3 +33,5 @@ metadata:
 spec:
   storageClassName: ""
   volumeName: data-mysql-pv
+  accessModes:
+  - ReadWriteOnce

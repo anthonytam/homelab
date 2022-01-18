@@ -38,3 +38,5 @@ spec:
           export MYSQL_USER="{{ .Data.data.MYSQL_USER }}"
           {{- end -}}'
       }
+    persistence:
+      exitingClaim: data-mysql-pvc
