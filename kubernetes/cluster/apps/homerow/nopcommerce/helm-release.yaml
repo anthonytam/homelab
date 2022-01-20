@@ -37,4 +37,7 @@ spec:
             port: 80
     persistence:
       config:
-        enabled: false
+        enabled: true
+        mountPath: /app
+        hostPath: /var/local/kubernetes/homerow/nopcommerce
+        type: hostPath
