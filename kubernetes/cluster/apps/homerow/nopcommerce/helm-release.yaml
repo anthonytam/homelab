@@ -32,6 +32,9 @@ spec:
     service:
       main:
         enabled: true
+        ports:
+          http:
+            port: 80
     persistence:
       config:
         enabled: false
