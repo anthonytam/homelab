@@ -43,8 +43,8 @@ spec:
         type: hostPath
       datasettings:
         enabled: true
-        mountPath: /app/App_Data/datasettings.json
-        hostPath: /var/local/kubernetes/homerow/nopcommerce/datasettings.json
+        mountPath: /app/App_Data/dataSettings.json
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/dataSettings.json
         type: hostPath
       plugins:
         enabled: true
