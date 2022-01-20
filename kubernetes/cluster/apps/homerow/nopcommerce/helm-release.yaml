@@ -13,7 +13,7 @@ spec:
       chart: nopcommerce
       version: 0.1.1
       sourceRef:
-        kind: HelmRpository
+        kind: HelmRepository
         name: anthonytam
         namespace: flux-system
       interval: 5m
