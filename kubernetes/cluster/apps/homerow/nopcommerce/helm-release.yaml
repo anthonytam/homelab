@@ -34,8 +34,7 @@ spec:
         enabled: true
         ports:
           http:
-            port: 443
-            protocol: HTTPS
+            port: 80
     persistence:
       config:
         enabled: true
