@@ -1,0 +1,53 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: valheim
+  namespace: games
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: valheim
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: valheim-app
+    image:
+      repository: ghcr.io/lloesche/valheim-server
+      tag: latest
+      pullPolicy: Always
+    env:
+      TZ: America/Toronto
+      SERVER_NAME: Quarantine
+      WORLD_NAME: quarantine
+      SERVER_PASS: homelandfarm
+      SERVER_PUBLIC: false
+      ADMINLIST_IDS: jjmirks
+    service:
+      main:
+        annotations:
+          metallb.universe.tf/allow-shared-ip: 'node01-sharing'
+        type: LoadBalancer
+        ports:
+          http:
+            enabled: false
+          valheim:
+            port: 2456
+            targetPort: 2456
+            protocol: UDP
+    persistence:
+      config:
+        enabled: true
+        type: hostPath
+        hostPath: /var/local/kubernetes/games/valheim/config
+        mountPath: /config
