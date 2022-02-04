@@ -26,13 +26,13 @@ spec:
       repository: ghcr.io/lloesche/valheim-server
       tag: latest
       pullPolicy: Always
+    envFrom: 
+    - secretRef:
+      name: valhiem-secrets
     env:
       TZ: America/Toronto
-      SERVER_NAME: Quarantine
       WORLD_NAME: quarantine
-      SERVER_PASS: homelandfarm
-      SERVER_PUBLIC: false
-      ADMINLIST_IDS: jjmirks
+      SERVER_PUBLIC: true
       UPDATE_CRON: "0 4 0 0 0"
       BACKUPS_CRON: "*/20 0 0 0 0"
       BACKUPS_IF_IDLE: false
