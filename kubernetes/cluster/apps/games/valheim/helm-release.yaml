@@ -33,6 +33,9 @@ spec:
       SERVER_PASS: homelandfarm
       SERVER_PUBLIC: false
       ADMINLIST_IDS: jjmirks
+      UPDATE_CRON: "0 4 0 0 0"
+      BACKUPS_CRON: "*/20 0 0 0 0"
+      BACKUPS_IF_IDLE: false
     service:
       main:
         annotations:
