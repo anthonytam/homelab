@@ -28,7 +28,7 @@ spec:
       pullPolicy: Always
     envFrom: 
     - secretRef:
-      name: valhiem-secrets
+        name: valhiem-secrets
     env:
       TZ: America/Toronto
       WORLD_NAME: quarantine
