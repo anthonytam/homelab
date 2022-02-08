@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: magento-staging
+  namespace: homerow
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: magento
+      version: 19.2.3
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      name: "homerow-magento-app"
+    image:
+      repository: bitnami/magento
+      tag: 2.4.3
+
+    magentoHost: ${magento_host}
+    magentoUsername: ${magento_username}
+    magentoPassword: ${magento_password}
+    magentoEmail: ${magento_email}
+    magentoFirstName: ${magento_first_name}
+    magentoLastName: ${magento_last_name}
+    magentoAdminUri: ${magento_admin_uri}
+
+    mariadb:
+      auth:
+        rootPassword: ${mysql_root_password}
+        password: ${mysql_password}
+      primary:
+        persistence:
+          exitingClaim: magento-mysql-pvc
+
+    persistence:
+      existingClaim: magento-staging-pvc
+
+    service:
+      type: ClusterIP
+
+    ingress:
+      enabled: true
+      hostname: magento.homerow.ca
