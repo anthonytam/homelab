@@ -39,7 +39,10 @@ spec:
         password: ${mysql_password}
       primary:
         persistence:
-          exitingClaim: magento-mysql-pvc
+          exitingClaim: magento-mariadb-pvc
+      
+    elasticsearch:
+      enabled: false
 
     persistence:
       existingClaim: magento-staging-pvc
