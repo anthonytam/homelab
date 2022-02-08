@@ -42,7 +42,13 @@ spec:
           exitingClaim: magento-mariadb-pvc
       
     elasticsearch:
-      enabled: false
+      master:
+        persistence:
+          exitingClaim: magento-elasticsearch-master-pvc
+      data:
+        persistence:
+          existingClaim: magento-elasticsearch-data-pvc
+        
 
     persistence:
       existingClaim: magento-staging-pvc
@@ -53,8 +59,3 @@ spec:
     ingress:
       enabled: true
       hostname: magento.homerow.ca
-    
-    autoscaling:
-      enabled: true
-      minReplicas: 1
-      maxReplicas: 1

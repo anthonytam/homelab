@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   - persistance.yaml
   - persistance-mariadb.yaml
+  - persistance-elasticsearch-master.yaml
+  - persistance-elasticsearch-data.yaml
   - helm-release.yaml
