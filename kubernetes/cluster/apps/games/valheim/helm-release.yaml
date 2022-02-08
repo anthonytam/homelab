@@ -31,7 +31,7 @@ spec:
         name: valhiem-secrets
     env:
       TZ: America/Toronto
-      WORLD_NAME: quarantine
+      WORLD_NAME: HypeHouseValheim
       SERVER_PUBLIC: true
       UPDATE_CRON: "0 4 0 0 0"
       BACKUPS_CRON: "*/20 0 0 0 0"
