@@ -12,7 +12,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
+  storageClassName: "local-storage"
   volumeMode: Filesystem
   local:
     path: /var/local/kubernetes/homerow/magento-elasticsearch-data
@@ -31,7 +31,7 @@ metadata:
   name: magento-elasticsearch-data-pvc
   namespace: homerow
 spec:
-  storageClassName: ""
+  storageClassName: "local-storage"
   volumeName: data-magento-elasticsearch-data-pv
   accessModes:
   - ReadWriteOnce

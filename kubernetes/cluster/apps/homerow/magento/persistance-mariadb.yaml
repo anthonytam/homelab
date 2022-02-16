@@ -12,7 +12,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
+  storageClassName: "local-storage"
   volumeMode: Filesystem
   local:
     path: /var/local/kubernetes/homerow/magento-database
@@ -31,7 +31,7 @@ metadata:
   name: magento-mariadb-pvc
   namespace: homerow
 spec:
-  storageClassName: ""
+  storageClassName: "local-storage"
   volumeName: data-magento-mariadb-pv
   accessModes:
   - ReadWriteOnce
