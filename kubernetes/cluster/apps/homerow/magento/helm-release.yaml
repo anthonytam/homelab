@@ -50,7 +50,7 @@ spec:
           existingVolume: data-magento-elasticsearch-master-pv
 
     persistence:
-      hostPath: /var/local/kubernetes/homerow/magento
+      existingClaim: data-magento-pvc
 
     service:
       type: ClusterIP
