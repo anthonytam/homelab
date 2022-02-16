@@ -1,38 +1,10 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: data-magento-mariadb-pv
-  namespace: homerow
-spec:
-  claimRef:
-    name: data-magento-staging-mariadb-0
-    namespace: homerow
-  capacity:
-    storage: 10Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: "local-storage"
-  volumeMode: Filesystem
-  local:
-    path: /var/local/kubernetes/homerow/magento-database
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - kube01
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: data-magento-staging-mariadb-0
+  name: data-magento-mariadb
   namespace: homerow
 spec:
-  storageClassName: "local-storage"
-  volumeName: data-magento-mariadb-pv
+  storageClassName: "local-path"
   accessModes:
   - ReadWriteOnce
   resources:

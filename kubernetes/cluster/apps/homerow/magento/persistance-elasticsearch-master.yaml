@@ -1,23 +1,12 @@
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 metadata:
-  name: data-magento-elasticsearch-master-pv
+  name: data-magento-elasticsearch-master
   namespace: homerow
 spec:
-  capacity:
-    storage: 10Gi
+  storageClassName: "local-path"
   accessModes:
   - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: "local-storage"
-  volumeMode: Filesystem
-  local:
-    path: /var/local/kubernetes/homerow/magento-elasticsearch-master
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - kube01
+  resources:
+    requests:
+      storage: 10Gi
