@@ -130,7 +130,7 @@ data:
     done
 
     mkdir -m 0775 -p ${absolutePath}
-    chown 568:1001 $(absolutePath}
+    chown 568:1001 ${absolutePath}
   teardown: |-
     #!/bin/sh
     while getopts "m:s:p:" opt
