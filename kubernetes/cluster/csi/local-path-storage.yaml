@@ -148,7 +148,7 @@ data:
         esac
     done
 
-    rm -rf ${absolutePath}
+    mv ${absolutePath} /var/local/kubernetes/garbage
   helperPod.yaml: |-
     apiVersion: v1
     kind: Pod
