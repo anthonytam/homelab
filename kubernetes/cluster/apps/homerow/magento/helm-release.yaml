@@ -24,7 +24,9 @@ spec:
     image:
       repository: bitnami/magento
       tag: 2.4.3
-
+    containerPorts:
+      http: 80
+      https: 443
     magentoHost: ${magento_host}
     magentoUsername: ${magento_username}
     magentoPassword: ${magento_password}
@@ -54,6 +56,8 @@ spec:
 
     service:
       type: ClusterIP
+      port: 80
+      httpsPort: 443
 
     ingress:
       enabled: true
