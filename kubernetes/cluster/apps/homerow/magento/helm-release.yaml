@@ -25,8 +25,8 @@ spec:
       repository: bitnami/magento
       tag: 2.4.3
     containerPorts:
-      http: 80
-      https: 443
+      http: 8080
+      https: 8443
     magentoHost: ${magento_host}
     magentoUsername: ${magento_username}
     magentoPassword: ${magento_password}
