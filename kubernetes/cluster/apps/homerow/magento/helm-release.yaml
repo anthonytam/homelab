@@ -39,18 +39,15 @@ spec:
         password: ${mysql_password}
       primary:
         persistence:
-          storage-class:
           exitingClaim: data-magento-staging-mariadb-0
       
     elasticsearch:
       master:
         persistence:
-          storage-class: local-storage
-          exitingClaim: data-magento-staging-elasticsearch-master-0
+          exitingVolume: data-magento-staging-elasticsearch-master-0
       data:
         persistence:
-          storage-class: local-storage
-          existingClaim: data-magentostaging--elasticsearch-data-0
+          existingVolume: data-magento-staging-elasticsearch-data-0
 
     persistence:
       hostPath: /var/local/kubernetes/homerow/magento
