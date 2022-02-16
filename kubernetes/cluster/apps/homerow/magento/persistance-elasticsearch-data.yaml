@@ -4,9 +4,6 @@ metadata:
   name: data-magento-elasticsearch-data-pv
   namespace: homerow
 spec:
-  claimRef:
-    name: magento-elasticsearch-data-pvc
-    namespace: homerow
   capacity:
     storage: 10Gi
   accessModes:
@@ -24,17 +21,3 @@ spec:
           operator: In
           values:
           - kube01
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: magento-elasticsearch-data-pvc
-  namespace: homerow
-spec:
-  storageClassName: "local-storage"
-  volumeName: data-magento-elasticsearch-data-pv
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi

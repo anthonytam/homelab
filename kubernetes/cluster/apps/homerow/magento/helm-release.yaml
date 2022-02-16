@@ -39,18 +39,22 @@ spec:
         password: ${mysql_password}
       primary:
         persistence:
-          exitingClaim: data-magento-staging-mariadb-0
+          storageClass:
+          hostPath: /var/local/kubernetes/homerow/magento-database
       
     elasticsearch:
       master:
         persistence:
-          exitingClaim: data-magento-staging-elasticsearch-master-0
+          storageClass: local-storage
+          hostPath: /var/local/kubernetes/homerow/magento-elasticsearch-master
       data:
         persistence:
-          existingClaim: magento-elasticsearch-data-pvc
+          storageClass: local-storage
+          hostPath: /var/local/kubernetes/homerow/magento-elasticsearch-data
 
     persistence:
-      existingClaim: magento-staging-pvc
+      storageClass: local-storage
+      hostPath: /var/local/kubernetes/homerow/magento
 
     service:
       type: ClusterIP
