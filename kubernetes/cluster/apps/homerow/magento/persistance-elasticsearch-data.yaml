@@ -4,9 +4,6 @@ metadata:
   name: data-magento-elasticsearch-data-pv
   namespace: homerow
 spec:
-  claimRef:
-    name: data-magentostaging--elasticsearch-data-0
-    namespace: homerow
   capacity:
     storage: 10Gi
   accessModes:
