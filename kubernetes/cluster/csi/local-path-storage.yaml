@@ -129,7 +129,8 @@ data:
         esac
     done
 
-    mkdir -m 0777 -p ${absolutePath}
+    mkdir -m 0775 -p ${absolutePath}
+  chown 568:1001 $(absolutePath}
   teardown: |-
     #!/bin/sh
     while getopts "m:s:p:" opt
