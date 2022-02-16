@@ -39,15 +39,15 @@ spec:
         password: ${mysql_password}
       primary:
         persistence:
-          existingClaim: data-magento-mariadb
+          existingClaim: data-magento-mariadb-pvc
       
     elasticsearch:
       master:
         persistence:
-          existingClaim: data-magento-elasticsearch-data
+          existingClaim: data-magento-elasticsearch-master-pvc
       data:
         persistence:
-          existingClaim: data-magento-elasticsearch-master
+          existingClaim: data-magento-elasticsearch-data-pvc
 
     persistence:
       existingClaim: data-magento-pvc
