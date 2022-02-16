@@ -5,7 +5,7 @@ metadata:
   namespace: homerow
 spec:
   claimRef:
-    name: magento-mariadb-pvc
+    name: data-magento-staging-mariadb-0
     namespace: homerow
   capacity:
     storage: 10Gi
@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: magento-mariadb-pvc
+  name: data-magento-staging-mariadb-0
   namespace: homerow
 spec:
   storageClassName: "local-storage"
