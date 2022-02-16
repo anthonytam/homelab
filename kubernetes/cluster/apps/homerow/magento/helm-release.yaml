@@ -39,21 +39,17 @@ spec:
         password: ${mysql_password}
       primary:
         persistence:
-          storageClass: local-storage
           hostPath: /var/local/kubernetes/homerow/magento-database
       
     elasticsearch:
       master:
         persistence:
-          storageClass: local-storage
           hostPath: /var/local/kubernetes/homerow/magento-elasticsearch-master
       data:
         persistence:
-          storageClass: local-storage
           hostPath: /var/local/kubernetes/homerow/magento-elasticsearch-data
 
     persistence:
-      storageClass: local-storage
       hostPath: /var/local/kubernetes/homerow/magento
 
     service:
