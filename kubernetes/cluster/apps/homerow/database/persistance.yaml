@@ -1,40 +1,12 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: data-mysql-pv
-  namespace: homerow
-spec:
-  claimRef:
-    name: data-mysql-0
-    namespace: homerow
-  capacity:
-    storage: 10Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
-  volumeMode: Filesystem
-  local:
-    path: /var/local/kubernetes/homerow/mysql
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - kube01
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: data-mysql-0
+  name: data-mysql
   namespace: homerow
 spec:
-  storageClassName: ""
-  volumeName: data-mysql-pv
-  accessModes:
-  - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: "local-path"

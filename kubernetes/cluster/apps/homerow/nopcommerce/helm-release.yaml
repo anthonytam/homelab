@@ -38,21 +38,21 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /app/App_Data/appsettings.json
-        hostPath: /var/local/kubernetes/homerow/nopcommerce/appsettings.json
+        mountPath: /app/App_Data/
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/App_Data
         type: hostPath
-      datasettings:
+      logs:
         enabled: true
-        mountPath: /app/App_Data/dataSettings.json
-        hostPath: /var/local/kubernetes/homerow/nopcommerce/dataSettings.json
+        mountPath: /app/log
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/log
         type: hostPath
       plugins:
         enabled: true
-        mountPath: /app/App_Data/plugins.json
-        hostPath: /var/local/kubernetes/homerow/nopcommerce/plugins.json
+        mountPath: /app/Plugins
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/plugins
         type: hostPath
-      dataprotectionkeys:
+      wwwroot:
         enabled: true
-        mountPath: /app/App_Data/DataProtectionKeys
-        hostPath: /var/local/kubernetes/homerow/nopcommerce/DataProtectionKeys
+        mountPath: /app/wwwroot
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/wwwroot
         type: hostPath
