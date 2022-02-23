@@ -38,21 +38,21 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /cummies
+        mountPath: /app/App_Data/
         hostPath: /var/local/kubernetes/homerow/nopcommerce/App_Data
         type: hostPath
-      # logs:
-      #   enabled: true
-      #   mountPath: /app/log
-      #   hostPath: /var/local/kubernetes/homerow/nopcommerce/log
-      #   type: hostPath
-      # plugins:
-      #   enabled: true
-      #   mountPath: /app/Plugins
-      #   hostPath: /var/local/kubernetes/homerow/nopcommerce/plugins
-      #   type: hostPath
-      # wwwroot:
-      #   enabled: true
-      #   mountPath: /app/wwwroot
-      #   hostPath: /var/local/kubernetes/homerow/nopcommerce/wwwroot
-      #   type: hostPath
+      logs:
+        enabled: true
+        mountPath: /app/log
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/log
+        type: hostPath
+      plugins:
+        enabled: true
+        mountPath: /app/Plugins
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/plugins
+        type: hostPath
+      wwwroot:
+        enabled: true
+        mountPath: /app/wwwroot
+        hostPath: /var/local/kubernetes/homerow/nopcommerce/wwwroot
+        type: hostPath
