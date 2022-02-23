@@ -9,5 +9,4 @@ spec:
       storage: 10Gi
   accessModes:
   - ReadWriteOnce
-  claimPolicy: Retain
   storageClassName: "local-path"
