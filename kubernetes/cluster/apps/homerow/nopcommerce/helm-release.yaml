@@ -18,6 +18,10 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: nopcommerceteam/nopcommerce
+      tag: 4.50.1
+      pullPolicy: IfNotPresent
     serviceAccount:
       create: true
       name: nopcommerce-app
