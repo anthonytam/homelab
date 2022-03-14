@@ -30,11 +30,12 @@ spec:
       TS3SERVER_LICENSE: accept
       TZ: America/Toronto
     service:
-      main:
-        type: NodePort
-        ports:
-          tcp:
-            enabled: false
+      annotations:
+        metallb.universe.tf/allow-shared-ip: 'node01-sharing'
+      type: LoadBalancer
+      ports:
+        tcp:
+          enabled: true
     persistence:
       enabled: true
       storageClass: local-path
