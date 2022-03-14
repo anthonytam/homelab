@@ -30,8 +30,6 @@ spec:
       TS3SERVER_LICENSE: accept
       TZ: America/Toronto
     service:
-      annotations:
-        metallb.universe.tf/allow-shared-ip: 'node01-sharing'
       type: LoadBalancer
       externalIPs:
         - 192.168.0.240
