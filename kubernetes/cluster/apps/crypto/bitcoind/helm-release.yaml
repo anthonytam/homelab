@@ -24,7 +24,7 @@ spec:
       name: bitcoind-app
     image:
       repository: ruimarinho/bitcoin-core
-      tag: 22.0
+      tag: "22.0"
     env:
       TZ: America/Toronto
     service:
