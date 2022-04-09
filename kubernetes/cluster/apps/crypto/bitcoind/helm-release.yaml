@@ -36,4 +36,3 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /var/local/kubernetes/crypto/bitcoind/data
-      plots:
