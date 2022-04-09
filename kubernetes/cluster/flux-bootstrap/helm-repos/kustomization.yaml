@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - anthonytam.yaml
   - bitnami.yaml
-  - chia-charts.yaml
+  - blockchain-charts.yaml
   - external-secrets.yaml
   - hashicorp.yaml
   - jetstack.yaml
