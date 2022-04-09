@@ -10,12 +10,12 @@ spec:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://anthonytam.github.io/Chia-Forks-Docker/helm
+      # renovate: registryUrl=https://anthonytam.github.io/blockchain-helm-charts/helm
       chart: chia-blockchain
       version: 0.1.2
       sourceRef:
         kind: HelmRepository
-        name: chia-charts
+        name: blockchain-charts
         namespace: flux-system
       interval: 5m
   values:
