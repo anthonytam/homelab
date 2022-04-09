@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: chia-charts
+  name: blockchain-charts
   namespace: flux-system
 spec:
   interval: 15m
-  url: https://anthonytam.github.io/Chia-Forks-Docker/helm
+  url: https://anthonytam.github.io/blockchain-helm-charts/helm
   timeout: 3m
