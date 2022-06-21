@@ -29,7 +29,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: "beta.homerow.ca"
+          - host: "homerow.ca"
             paths:
               - path: /
                 pathType: Prefix
