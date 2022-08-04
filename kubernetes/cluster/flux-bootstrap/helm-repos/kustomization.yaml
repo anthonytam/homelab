@@ -6,6 +6,7 @@ resources:
   - bitnami.yaml
   - blockchain-charts.yaml
   - external-secrets.yaml
+  - factorio-helm.yaml
   - hashicorp.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
