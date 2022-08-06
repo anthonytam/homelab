@@ -1,0 +1,32 @@
+[server]
+host = 0.0.0.0
+port = 7125
+enable_debug_logging = False
+
+[database]
+database_path = /home/klippy/.moonraker_database
+
+[data_store]
+temperature_store_size = 1800
+gcode_store_size = 1000
+
+[file_manager]
+config_path = /home/klippy/.config
+
+[authorization]
+cors_domains = 
+	http://*.local
+trusted_clients = 
+	192.168.8.0/24
+
+[octoprint_compat]
+
+[history]
+
+[machine]
+provider = none
+
+[update_manager]
+enable_repo_debug = True
+enable_system_updates = False
+

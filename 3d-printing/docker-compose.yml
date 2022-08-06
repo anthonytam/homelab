@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  klipper:
+    image: dimalo/klipper-moonraker
+    container_name: klipper
+    ports:
+      - 7125:7125
+    restart: unless-stopped
+    volumes:
+      - ./gcode-files:/home/klippy/gcode_files
+      - ./moonraker-config:/home/klippy/.config
+      - ./moonraker-database:/home/klippy/.moonraker_database
+      - ./moonraker:/home/klippy/.moonraker
+    devices:
+      - /dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0:/dev/ttyUSB0
+
+  fluidd:
+    image: cadriel/fluidd
+    restart: unless-stopped
+    container_name: fluidd
+    ports:
+      - 8010:80
+    depends_on: 
+      - klipper
+    links:
+      - klipper:klipper
+
+  mainsail:
+    image: dimalo/mainsail
+    container_name: mainsail
+    ports:
+      - 8011:80
+    depends_on: 
+      - klipper
+    links:
+      - klipper:klipper
