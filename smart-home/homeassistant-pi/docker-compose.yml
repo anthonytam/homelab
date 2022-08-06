@@ -10,9 +10,9 @@ services:
     privileged: true
     network_mode: host
   mosquitto:
+    container_name: mosquitto
     image: eclipse-mosquitto
     volumes:
       - ./mosquitto-config:/mosquitto/:rw
-    ports:
-      - 1883:1883
-      - 9001:9001
+    restart: unless-stopped
+    network_mode: host
