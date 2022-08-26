@@ -1,0 +1,72 @@
+- id: '1659809212821'
+  alias: Turn on Family Room lights with switch
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: a6180dd3be1f25e97469e57acda5c710
+    entity_id: switch.tasmotaden
+    domain: switch
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 6aa5210336f11564f1c9749a34be38d5
+    entity_id: switch.family_room_lamp_1
+    domain: switch
+  - type: turn_on
+    device_id: ef342631cc1b9bb23a01b66fde727912
+    entity_id: switch.family_room_light_2
+    domain: switch
+  mode: single
+- id: '1659809255695'
+  alias: Turn off Family Room lights with switch
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: a6180dd3be1f25e97469e57acda5c710
+    entity_id: switch.tasmotaden
+    domain: switch
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 6aa5210336f11564f1c9749a34be38d5
+    entity_id: switch.family_room_lamp_1
+    domain: switch
+  - type: turn_off
+    device_id: ef342631cc1b9bb23a01b66fde727912
+    entity_id: switch.family_room_light_2
+    domain: switch
+  mode: single
+- id: '1659815747594'
+  alias: Turn on Dining Room lights with switch
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: a126da9b08fe4d04bae8cab83fadb5c0
+    entity_id: switch.tasmotadining
+    domain: switch
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 20e6e14b982408ee39f16d7fff3fbc41
+    entity_id: switch.dining_room_light_1_socket_1
+    domain: switch
+  mode: single
+- id: '1659815767612'
+  alias: Turn off Dining Room lights with switch
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: a126da9b08fe4d04bae8cab83fadb5c0
+    entity_id: switch.tasmotadining
+    domain: switch
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 20e6e14b982408ee39f16d7fff3fbc41
+    entity_id: switch.dining_room_light_1_socket_1
+    domain: switch
+  mode: single
