@@ -1,0 +1,10 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: esxi01-storage-class
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: csi.vsphere.vmware.com
+parameters:
+  datastoreurl: " ds:///vmfs/volumes/5ce73be2-47e5ee40-16eb-2c59e53b51d0/"
+reclaimPolicy: Retain
