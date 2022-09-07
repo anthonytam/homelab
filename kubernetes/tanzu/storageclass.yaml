@@ -6,5 +6,5 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: csi.vsphere.vmware.com
 parameters:
-  datastoreurl: " ds:///vmfs/volumes/5ce73be2-47e5ee40-16eb-2c59e53b51d0/"
+  datastoreurl: "ds:///vmfs/volumes/6318de18-2deb8348-c10b-2c59e53b51d0/"
 reclaimPolicy: Retain
