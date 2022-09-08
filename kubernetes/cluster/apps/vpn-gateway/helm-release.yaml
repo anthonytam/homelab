@@ -24,7 +24,7 @@ spec:
   values:
     podAnnotations:
       vault.hashicorp.com/agent-inject: 'true'
-      vault.hashicorp.com/role: 'vpn-app'
+      vault.hashicorp.com/role: 'vpn-gateway-role'
       vault.hashicorp.com/agent-inject-secret-vpn-auth.txt: 'secret/vpn-gateway/config'
       vault.hashicorp.com/agent-inject-template-vpn-auth.txt: |
         {{- with secret "secret/vpn-gateway/config" -}}
