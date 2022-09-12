@@ -24,7 +24,7 @@ spec:
       tag: v1.23.1
     ingress:
       main:
-        enabled: true
+        enabled: false
         hosts:
           - host: "bw.homeland.farm"
             paths:
@@ -33,11 +33,10 @@ spec:
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/password-management/vaultwarden/config
-        mountPath: /config
+        storageClass: esxi01-storage-class
+        size: 10Gi
     env:
       TZ: America/Toronto
       SIGNUPS_ALLOWED: true
-      DOMAIN: "https://bw.homeland.farm"
+      DOMAIN: "https://bw.tam.land"
       ADMIN_TOKEN: ""
