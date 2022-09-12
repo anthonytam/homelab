@@ -38,6 +38,8 @@ spec:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: false
       VPN_TRAFFIC_PORT: 1194
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.200.0.0/16 10.201.0.0/16 10.202.0.0/16"
+      VPN_LOCAL_CIDRS: "10.200.0.0/16 10.201.0.0/16 10.202.0.0/16"
     routed_namespaces:
       - downloads
     publicPorts:
@@ -72,12 +74,6 @@ spec:
               ports:
                 - port: 1194
                   protocol: UDP
-            - to:
-                - ipBlock:
-                    cidr: 10.201.0.0/16
-            - to:
-                - ipBlock:
-                    cidr: 10.202.0.0/16
         configFile: |-
           client
           dev tun
