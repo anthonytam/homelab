@@ -11,5 +11,6 @@ resources:
   - jetstack.yaml
   - k8s-at-home.yaml
   - k8s-sigs.yaml
+  - nextcloud-helm.yaml
   - sandermann.yaml
   - traefik.yaml

@@ -1,0 +1,40 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nextcloud
+  namespace: file-sharing
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: nextcloud
+      version: 3.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud-helm
+        namespace: flux-system
+      interval: 5m
+  values:
+    rbac:
+      enabled: true
+      serviceaccount:
+        create: true
+        name: nextcloud-app
+    image:
+      repository: nextcloud
+      tag: 24.0.5-apache
+      pullPolicy: IfNotPresent
+    persistence:
+      enabled: true
+      storageClass: esxi01-storage-class
+      nextcloudData:
+        enabled: true
+        storageClass: nfs-k8s-data
+    # Temp solution from Issue #10 to prevent installation failures
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
