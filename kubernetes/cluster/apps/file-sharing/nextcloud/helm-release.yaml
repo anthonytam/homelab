@@ -33,6 +33,10 @@ spec:
       nextcloudData:
         enabled: true
         storageClass: nfs-k8s-data
+    extraSecurityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      runAsNonRoot: true
     # Temp solution from Issue #10 to prevent installation failures
     livenessProbe:
       enabled: false
