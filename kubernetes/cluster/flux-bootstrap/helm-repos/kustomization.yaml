@@ -10,5 +10,6 @@ resources:
   - hashicorp.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
+  - k8s-sigs.yaml
   - sandermann.yaml
   - traefik.yaml
