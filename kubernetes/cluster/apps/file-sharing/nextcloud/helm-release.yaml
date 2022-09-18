@@ -43,6 +43,8 @@ spec:
       labels: {}
       path: /
       pathType: Prefix
+    nextcloud:
+      host: cloud.tam.land
     # Temp solution from Issue #10 to prevent installation failures
     livenessProbe:
       enabled: false
