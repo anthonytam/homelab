@@ -45,6 +45,7 @@ spec:
       blockchain:
         enabled: true
         storageClass: esxi01-storage-class
+        accessMode: ReadWriteOnce
         mountPath: /root/.chia
       plots:
         enabled: false

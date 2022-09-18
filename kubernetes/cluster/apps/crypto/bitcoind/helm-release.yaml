@@ -35,3 +35,4 @@ spec:
       blockchain:
         enabled: true
         storageClass: esxi01-storage-class
+        accessMode: ReadWriteOnce
