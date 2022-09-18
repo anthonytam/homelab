@@ -38,6 +38,9 @@ spec:
       keys: /vault/secrets/key.txt
     service:
       main:
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+          metallb.universe.tf/allow-shared-ip: "crypto-sharing"
         type: LoadBalancer
     persistence:
       key:

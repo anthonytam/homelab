@@ -29,8 +29,10 @@ spec:
       TZ: America/Toronto
     service:
       main:
-        type: NodePort
-        enabled: true
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+          metallb.universe.tf/allow-shared-ip: "crypto-sharing"
+        type: LoadBalancer
     persistence:
       blockchain:
         enabled: true
