@@ -46,6 +46,7 @@ spec:
         enabled: true
         storageClass: esxi01-storage-class
         accessMode: ReadWriteOnce
+        size: 300Gi
         mountPath: /root/.chia
       plots:
         enabled: false
