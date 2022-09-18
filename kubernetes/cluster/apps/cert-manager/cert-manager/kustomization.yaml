@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - cloudflare-api-secret.yaml
-  - letsencrypt-homeland.yaml
+  - letsencrypt-production-cf.yaml
