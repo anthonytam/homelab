@@ -24,12 +24,16 @@ spec:
       tag: v1.23.1
     ingress:
       main:
-        enabled: false
+        enabled: true
         hosts:
-          - host: "bw.homeland.farm"
+          - host: "bw.tam.land"
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - secretname: tamland-tls
+            hosts:
+                - bw.tam.land
     persistence:
       config:
         enabled: true
