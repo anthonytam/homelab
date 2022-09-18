@@ -2,7 +2,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - tlsstore-tamland.yaml
-  - cert-tamland.yaml
-  - tlsstore-homelandfarm.yaml
-  - cert-homelandfarm.yaml
+  - tamland.yaml
+  - homelandfarm.yaml

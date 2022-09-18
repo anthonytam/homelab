@@ -1,4 +1,11 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: homelandfarm-tls
+  namespace: admin
+type: Opaque
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -13,3 +20,12 @@ spec:
   dnsNames:
     - "homeland.farm"
     - "*.homeland.farm"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: homelandfarm-tlsstore
+  namespace: admin
+spec:
+  defaultCertificate:
+    secretName: "homelandfarm-tls"
