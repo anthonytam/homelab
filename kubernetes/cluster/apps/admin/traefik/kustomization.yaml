@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - certs
   - service-account.yaml
+  - traefik-config.yaml
   - helm-release.yaml
