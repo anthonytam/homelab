@@ -34,5 +34,4 @@ spec:
     persistence:
       blockchain:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/crypto/bitcoind/data
+        storageClass: esxi01-storage-class
