@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "tamland-cert"
+  namespace: admin
+spec:
+  secretName: "tamland-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "tam.land"
+  dnsNames:
+    - "tam.land"
+    - "*.tam.land"
