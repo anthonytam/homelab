@@ -33,6 +33,16 @@ spec:
       nextcloudData:
         enabled: true
         storageClass: nfs-k8s-data
+    ingress:
+      enabled: true
+      annotations: {}
+      tls:
+        - secretName: tamland-tls
+          hosts:
+            - cloud.tam.land
+      labels: {}
+      path: /
+      pathType: Prefix
     # Temp solution from Issue #10 to prevent installation failures
     livenessProbe:
       enabled: false
