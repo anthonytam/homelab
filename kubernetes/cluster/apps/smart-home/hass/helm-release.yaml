@@ -12,7 +12,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: home-assistant
-      version: 11.2.1
+      version: 13.4.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -25,20 +25,19 @@ spec:
       create: true
     image:
       name: homeassistant/home-assistant
-      tag: "2021.12"
+      tag: "2022.9"
     env:
       TZ: America/Toronto
     ingress:
       main:
         enabled: true
         hosts:
-          - host: "hass.homeland.farm"
+          - host: "hass.tam.land"
             paths:
               - path: /
                 pathType: Prefix
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/smart-home/hass/config
+        storageClass: esxi01-storage-class
         mountPath: /config

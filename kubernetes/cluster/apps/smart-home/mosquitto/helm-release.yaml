@@ -22,6 +22,11 @@ spec:
     image:
       repository: eclipse-mosquitto
       tag: 2.0.14
-    hostNetwork: true
-    env:
-      TZ: America/Toronto
+    service:
+      main:
+        enabled: true
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.2
+          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+        type: LoadBalancer
+

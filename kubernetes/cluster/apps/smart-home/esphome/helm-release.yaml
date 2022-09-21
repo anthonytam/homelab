@@ -26,13 +26,12 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: "esphome.homeland.farm"
+          - host: "esphome.tam.land"
             paths:
               - path: /
                 pathType: Prefix
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/smart-home/esphome/config
+        storageClass: esxi01-storage-class
         mountPath: /config
