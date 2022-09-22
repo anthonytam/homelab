@@ -31,9 +31,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: "portfolio.tam.land"
+          - host: portfolio.tam.land
             paths:
               - path: /
                 pathType: Prefix
-        tls:
-          - secretname: tamland-tls
