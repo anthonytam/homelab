@@ -26,7 +26,7 @@ spec:
       tag: 1.195.0
     envFrom:
       - secretRef:
-        name: ghostfolio-credentials
+          name: ghostfolio-credentials
     env:
       BASE_CURRENCY: CAD
     service:
