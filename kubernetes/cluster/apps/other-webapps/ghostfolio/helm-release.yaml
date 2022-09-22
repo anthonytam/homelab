@@ -27,6 +27,9 @@ spec:
     env:
       BASE_CURRENCY: CAD
       DATABASE_URL: null
+    service:
+      main:
+        enabled: true
     ingress:
       main:
         enabled: true
