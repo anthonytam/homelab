@@ -20,6 +20,7 @@ spec:
       interval: 5m
   values:
     serviceAccount:
+      create: true
       name: database-app
     global:
       storageClass: esxi01-storage-class
