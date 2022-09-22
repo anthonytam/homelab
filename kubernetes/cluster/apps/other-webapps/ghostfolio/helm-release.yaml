@@ -29,6 +29,7 @@ spec:
           name: ghostfolio-credentials
     env:
       BASE_CURRENCY: CAD
+      PORT: 3333
     service:
       main:
         enabled: true
