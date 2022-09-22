@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
-      chart: postgres
+      chart: postgresql
       version: 11.9.1
       sourceRef:
         kind: HelmRepository
