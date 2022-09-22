@@ -24,9 +24,11 @@ spec:
       name: ghostfolio-app
     image:
       tag: 1.195.0
+    envFrom:
+      - secretRef:
+        name: ghostfolio-credentials
     env:
       BASE_CURRENCY: CAD
-      DATABASE_URL: null
     service:
       main:
         enabled: true
