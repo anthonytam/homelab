@@ -30,18 +30,10 @@ spec:
     service:
       main:
         enabled: true
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: unifi.tam.land
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - secretName: tamland-tls
-            hosts:
-              - unifi.tam.land
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.2
+          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+        type: LoadBalancer
     persistence:
       data:
         enabled: true
