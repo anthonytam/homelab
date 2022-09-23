@@ -48,4 +48,6 @@ spec:
     persistence:
       data:
         enabled: true
+        accessModes: ReadWriteOnce
+        size: 10Gi
         storageClass: esxi01-storage-class
