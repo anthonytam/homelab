@@ -1,0 +1,51 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: unifi
+  namespace: admin
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: unifi
+      version: 5.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: unifi-app
+    image:
+      repository: jacobalberty/unifi
+      tag: v7.2.94
+    env:
+      TZ: America/Toronto
+    service:
+      main:
+        enabled: true
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: unifi.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: http
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - unifi.tam.land
+    persistence:
+      data:
+        enabled: true
+        storageClass: esxi01-storage-class
