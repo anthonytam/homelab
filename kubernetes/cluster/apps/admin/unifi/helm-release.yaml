@@ -40,7 +40,7 @@ spec:
                 pathType: Prefix
                 service:
                   name: main
-                  port: http
+                  port: 8443
         tls:
           - secretName: tamland-tls
             hosts:
