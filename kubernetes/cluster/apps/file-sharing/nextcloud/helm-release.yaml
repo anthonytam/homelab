@@ -37,14 +37,30 @@ spec:
       enabled: true
       annotations: {}
       tls:
-        - secretName: tamland-tls
+        - secretName: tamland-tlsstore
           hosts:
             - cloud.tam.land
       labels: {}
       path: /
       pathType: Prefix
+    internalDatabase:
+      enabled: false
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      existingSecret:
+        enabled: true
+        host: postgres-general-postgresql.database.svc.cluster.local:5432
+        database: nextcloud
+        secretName: nextcloud-credentials
+        usernameKey: postgres-username
+        passwordKey: postgres-password
     nextcloud:
       host: cloud.tam.land
+    phpClientHttpsFix:
+      enabled: true
+    cronjob:
+      enabled: true
     # Temp solution from Issue #10 to prevent installation failures
     livenessProbe:
       enabled: false
