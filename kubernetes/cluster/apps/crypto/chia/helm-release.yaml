@@ -52,4 +52,10 @@ spec:
         size: 300Gi
         mountPath: /root/.chia
       plots:
-        enabled: false
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: truenas.local.tam.land
+            path: /mnt/main-bay/k8s-data/chia-plots
+
