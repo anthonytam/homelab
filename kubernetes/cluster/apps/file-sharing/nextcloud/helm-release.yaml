@@ -37,7 +37,7 @@ spec:
       enabled: true
       annotations: {}
       tls:
-        - secretName: tamland-tlsstore
+        - secretName: tamland-tls
           hosts:
             - cloud.tam.land
       labels: {}
