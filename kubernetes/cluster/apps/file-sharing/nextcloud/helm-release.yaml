@@ -37,9 +37,9 @@ spec:
       enabled: true
       annotations: {}
       tls:
-        - secretName: tamland-tls
-          hosts:
+        - hosts:
             - cloud.tam.land
+        secretName: tamland-tls
       labels: {}
       path: /
       pathType: Prefix
