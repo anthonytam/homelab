@@ -30,6 +30,10 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - secretname: tamland-tls
+            hosts:
+                - esphome.tam.land
     persistence:
       config:
         enabled: true

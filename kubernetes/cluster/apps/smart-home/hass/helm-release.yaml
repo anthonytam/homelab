@@ -36,6 +36,10 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - secretname: tamland-tls
+            hosts:
+                - hass.tam.land
     persistence:
       config:
         enabled: true

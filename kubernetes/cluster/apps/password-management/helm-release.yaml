@@ -41,6 +41,6 @@ spec:
         size: 10Gi
     env:
       TZ: America/Toronto
-      SIGNUPS_ALLOWED: true
+      SIGNUPS_ALLOWED: false
       DOMAIN: "https://bw.tam.land"
       ADMIN_TOKEN: ""
