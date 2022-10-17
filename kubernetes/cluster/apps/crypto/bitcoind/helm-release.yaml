@@ -27,6 +27,13 @@ spec:
       tag: "22.0"
     env:
       TZ: America/Toronto
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
     service:
       main:
         enabled: true
