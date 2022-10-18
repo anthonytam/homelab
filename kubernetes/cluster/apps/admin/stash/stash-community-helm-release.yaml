@@ -22,12 +22,12 @@ spec:
     podAnnotations:
       vault.hashicorp.com/agent-inject: 'true'
       vault.hashicorp.com/role: 'stash-role'
-      vault.hashicorp.com/agent-inject-secret-stash-license.txt: 'secret/backups/stash-licenses'
-      vault.hashicorp.com/agent-inject-template-stash-license.txt: |
+      vault.hashicorp.com/agent-inject-secret-stash-license.pem: 'secret/backups/stash-licenses'
+      vault.hashicorp.com/agent-inject-template-stash-license.pem: |
         {{- with secret "secret/backups/stash-licenses" -}}
         {{ .Data.data.stashLicense }}
         {{- end -}}
-    license: /vault/secrets/stash-license.txt
+    license: /vault/secrets/stash-license.pem
     serviceAccount:
       create: true
       name: stash-app
