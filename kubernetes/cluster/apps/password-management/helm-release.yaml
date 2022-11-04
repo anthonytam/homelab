@@ -41,7 +41,7 @@ spec:
                 service:
                   port: websocket
         tls:
-          - secretname: tamland-tls
+          - secretName: tamland-tls
             hosts:
                 - bw.tam.land
     persistence:
