@@ -37,7 +37,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretname: tamland-tls
+          - secretName: tamland-tls
             hosts:
                 - hass.tam.land
     persistence:

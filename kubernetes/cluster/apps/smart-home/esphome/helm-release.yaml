@@ -31,7 +31,7 @@ spec:
               - path: /
                 pathType: Prefix
         tls:
-          - secretname: tamland-tls
+          - secretName: tamland-tls
             hosts:
                 - esphome.tam.land
     persistence:
