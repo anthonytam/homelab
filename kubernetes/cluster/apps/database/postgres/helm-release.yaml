@@ -22,12 +22,16 @@ spec:
     serviceAccount:
       create: true
       name: database-app
-    global:
-      storageClass: esxi01-storage-class
-      auth:
-        existingSecret: postgres-credentials
-        secretKeys:
-          adminPasswordKey: admin-password
+    auth:
+      existingSecret: postgres-credentials
+      secretKeys:
+        adminPasswordKey: admin-password
+        userPasswordKey: user-password
+        replicationPasswordKey: replication-password
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: postgres-pvc
     image:
       repository: bitnami/postgresql
       tag: 14.5.0-debian-11-r14
