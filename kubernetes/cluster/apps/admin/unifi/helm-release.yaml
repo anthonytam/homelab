@@ -37,6 +37,4 @@ spec:
     persistence:
       data:
         enabled: true
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: esxi01-storage-class
+        existingClaim: unifi-pvc

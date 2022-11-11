@@ -10,15 +10,13 @@ data:
       middlewares:
         basic:
           basicAuth:
-            users: ["${traefik_basic_auth_credentials_hash}"]
-
+            users: [""]
         localOnly:
           ipWhiteList:
             sourceRange:
               - 10.200.0.0/16
-              - 10.201.0.0/16
-              - 10.202.0.0/16
-
+              - 10.96.0.0/11
+              - 10.64.0.0/13
       routers:
         api:
           rule: "Host(`traefik.tam.land`)"
