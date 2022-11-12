@@ -33,6 +33,13 @@ spec:
     image:
       repository: ghcr.io/chia-network/chia
       tag: 1.5.1
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
     env:
       TZ: America/Toronto
       keys: /vault/secrets/key.txt
