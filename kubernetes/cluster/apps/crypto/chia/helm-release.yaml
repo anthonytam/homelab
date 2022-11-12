@@ -39,7 +39,7 @@ spec:
     service:
       main:
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.2
           metallb.universe.tf/allow-shared-ip: "crypto-sharing"
         type: LoadBalancer
     persistence:
@@ -47,9 +47,7 @@ spec:
         enabled: false
       blockchain:
         enabled: true
-        storageClass: esxi01-storage-class
-        accessMode: ReadWriteOnce
-        size: 300Gi
+        existingClaim: chia-pvc
         mountPath: /root/.chia
       plots:
         enabled: true

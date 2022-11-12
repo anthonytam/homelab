@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: chia-pvc
+  namespace: crypto
+spec:
+  resources:
+    requests:
+      storage: 300Gi
+  accessModes:
+    - ReadWriteOnce
