@@ -37,5 +37,5 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: esxi01-storage-class
+        existingClaim: esphome-pvc
         mountPath: /config

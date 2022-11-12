@@ -43,5 +43,5 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: esxi01-storage-class
+        existingClaim: homeassistant-pvc
         mountPath: /config
