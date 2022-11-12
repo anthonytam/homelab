@@ -45,3 +45,4 @@ spec:
       blockchain:
         enabled: true
         exisingClaim: bitcoind-pvc
+        accessMode: ReadWriteOnce
