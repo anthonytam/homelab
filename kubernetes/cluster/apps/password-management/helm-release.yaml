@@ -55,7 +55,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: esxi01-storage-class
+        existingClaim: vaultwarden-pvc
         size: 10Gi
     env:
       TZ: America/Toronto
