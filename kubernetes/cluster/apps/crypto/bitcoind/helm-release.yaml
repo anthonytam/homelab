@@ -46,3 +46,4 @@ spec:
         enabled: true
         exisingClaim: bitcoind-pvc
         accessMode: ReadWriteOnce
+        size: 700Gi
