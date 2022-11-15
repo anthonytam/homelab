@@ -29,10 +29,10 @@ spec:
       pullPolicy: IfNotPresent
     persistence:
       enabled: true
-      storageClass: esxi01-storage-class
+      existingClaim: nextcloud-pvc
       nextcloudData:
         enabled: true
-        storageClass: nfs-k8s-data
+        existingClaim: nextcloud-data-pvc
     ingress:
       enabled: true
       annotations: {}
