@@ -1,0 +1,3 @@
+moonraker-config/.moonraker.conf.bkp
+gcode-files/*.gcode
+moonraker-database/*.mdb
