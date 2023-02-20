@@ -59,8 +59,6 @@ spec:
       host: cloud.tam.land
     phpClientHttpsFix:
       enabled: true
-    cronjob:
-      enabled: true
     # Temp solution from Issue #10 to prevent installation failures
     livenessProbe:
       enabled: false
