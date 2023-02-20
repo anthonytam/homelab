@@ -31,11 +31,7 @@ spec:
     primary:
       persistence:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: nfs.local.tam.land
-            path: /nfs-share/postgres
+        existingClaim: postgres-nfs-pvc 
     image:
       repository: bitnami/postgresql
       tag: 15.1.0-debian-11-r14
