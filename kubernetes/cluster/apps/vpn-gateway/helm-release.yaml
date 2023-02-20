@@ -34,6 +34,7 @@ spec:
     serviceAccount:
       create: true
       name: vpn-app
+    DNSPolicy: ClusterFirst
     settings:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
