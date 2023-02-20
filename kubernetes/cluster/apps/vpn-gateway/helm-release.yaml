@@ -22,15 +22,6 @@ spec:
 
   # See https://github.com/k8s-at-home/charts/blob/master/charts/pod-gateway/values.yaml
   values:
-    podAnnotations:
-      vault.hashicorp.com/agent-inject: 'true'
-      vault.hashicorp.com/role: 'vpn-gateway-role'
-      vault.hashicorp.com/agent-inject-secret-vpn-auth.txt: 'secrets/vpn-gateway/config'
-      vault.hashicorp.com/agent-inject-template-vpn-auth.txt: |
-        {{`{{- with secret "secrets/vpn-gateway/config" -}}
-        {{ .Data.data.username }}
-        {{ .Data.data.password }}
-        {{- end -}}`}}
     serviceAccount:
       create: true
       name: vpn-app
@@ -38,9 +29,8 @@ spec:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_TRAFFIC_PORT: 1194
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.22.0.0/16 172.24.0.0/16"
-      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
-      DNS_LOCAL_CIRDS: "local cluster.local svc secrets.svc"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.200.0.0/16 10.201.0.0/16 10.202.0.0/16"
+      VPN_LOCAL_CIDRS: "10.200.0.0/16 10.201.0.0/16 10.202.0.0/16"
     routed_namespaces:
       - downloads
     publicPorts:
@@ -97,7 +87,7 @@ spec:
 
           remote-cert-tls server
 
-          auth-user-pass /vault/secrets/vpn-auth.txt
+          auth-user-pass /vpn-auth.txt
 
           verb 3
           pull
