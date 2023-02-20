@@ -43,5 +43,9 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: homeassistant-pvc
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/hass
         mountPath: /config
