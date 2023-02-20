@@ -55,8 +55,11 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: vaultwarden-pvc
-        size: 10Gi
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/vaultwarden
     env:
       TZ: America/Toronto
       SIGNUPS_ALLOWED: true
