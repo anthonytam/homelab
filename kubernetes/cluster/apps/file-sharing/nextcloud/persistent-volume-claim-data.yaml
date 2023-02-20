@@ -1,13 +1,26 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-nfs-data-pv
+spec:
+  storageClassName: nextcloud-data-nfs-manual
+  capacity:
+    storage: 200Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: truenas.local.tam.land
+    path: "/mnt/main-bay/k8s-data/nextcloud-data"
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nextcloud-data-pvc
+  name: nextcloud-data-nfs-pvc
   namespace: file-sharing
 spec:
-  storageClassName: nfs-k8s-data
+  storageClassName: nextcloud-data-nfs-manual
+  accessModes:
+    - ReadWriteMany
   resources:
     requests:
-      # "The provisioned storage limit is not enforced. The application can expand to use all the available storage regardless of the provisioned size."
-      storage: 1Mi
-  accessModes:
-    - ReadWriteOnce
+      storage: 200Gi
