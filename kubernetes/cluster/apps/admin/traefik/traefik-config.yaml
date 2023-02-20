@@ -14,9 +14,7 @@ data:
         localOnly:
           ipWhiteList:
             sourceRange:
-              - 10.200.0.0/16
-              - 10.96.0.0/11
-              - 10.64.0.0/13
+              - 10.200.0.0/24
       routers:
         api:
           rule: "Host(`traefik.tam.land`)"
