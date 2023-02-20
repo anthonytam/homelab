@@ -19,7 +19,7 @@
       "kubernetes/.+\\.ya?ml$"
     ],
     "ignorePaths": [
-      "kubernetes/bootstrap/"
+      "kubernetes/cluster/flux-bootstrap/"
     ],
   },
   "flux": {
