@@ -42,6 +42,3 @@ spec:
           nfs:
             server: nfs.local.tam.land
             path: /nfs-share/unifi
-    podSecurityContext:
-      fsUser: 65534
-      fsGroup: 65534
