@@ -34,13 +34,13 @@ spec:
     serviceAccount:
       create: true
       name: vpn-app
-    DNSPolicy: ClusterFirst
     settings:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_TRAFFIC_PORT: 1194
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.200.0.0/16 10.201.0.0/16 10.202.0.0/16"
-      VPN_LOCAL_CIDRS: "10.200.0.0/16 10.201.0.0/16 10.202.0.0/16"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.22.0.0/16 172.24.0.0/16"
+      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
+      DNS_LOCAL_CIRDS: "local cluster.local svc secrets.svc"
     routed_namespaces:
       - downloads
     publicPorts:
