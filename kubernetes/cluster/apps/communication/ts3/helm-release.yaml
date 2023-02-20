@@ -24,7 +24,7 @@ spec:
       name: ts3-app
     image:
       repository: teamspeak
-      tag: 3.13.6
+      tag: 3.13.7
       pullPolicy: IfNotPresent
     env:
       TS3SERVER_LICENSE: accept
