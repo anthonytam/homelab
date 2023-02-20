@@ -37,4 +37,8 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: unifi-pvc
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/unifi
