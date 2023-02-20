@@ -44,6 +44,10 @@ spec:
     persistence:
       blockchain:
         enabled: true
-        exisingClaim: bitcoind-pvc
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/bitcoind
         accessMode: ReadWriteOnce
         size: 700Gi

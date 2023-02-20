@@ -47,7 +47,11 @@ spec:
         enabled: false
       blockchain:
         enabled: true
-        existingClaim: chia-pvc
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/chia
         mountPath: /root/.chia
       plots:
         enabled: true
