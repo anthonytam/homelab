@@ -57,6 +57,8 @@ spec:
           - type: tcp
             port: 9696
     addons:
+      netshoot:
+        enabled: true
       vpn:
         enabled: true
         type: openvpn
