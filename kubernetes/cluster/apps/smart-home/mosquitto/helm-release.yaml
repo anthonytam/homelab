@@ -12,7 +12,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: mosquitto
-      version: 4.1.0
+      version: 4.8.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: eclipse-mosquitto
-      tag: 2.0.14
+      tag: 2.0.15
     service:
       main:
         enabled: true
