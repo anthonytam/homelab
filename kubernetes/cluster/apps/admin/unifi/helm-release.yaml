@@ -31,7 +31,7 @@ spec:
       main:
         enabled: true
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.2
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
           metallb.universe.tf/allow-shared-ip: "misc-sharing"
         type: LoadBalancer
     persistence:
