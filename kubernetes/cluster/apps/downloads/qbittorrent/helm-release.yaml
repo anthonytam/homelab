@@ -36,7 +36,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: "qbittorrent.homeland.farm"
+          - host: "qbittorrent.tam.land"
             paths:
               - path: /
                 pathType: Prefix
@@ -53,16 +53,25 @@ spec:
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/media/qbittorrent/config
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/qbittorrent
         mountPath: /config
       media:
         enabled: true
-        type: hostPath
-        hostPath: /mnt/mammoth/complete
+        type: custom
+        volumeSpec:
+          nfs:
+            server: truenas.local.tam.land
+            path: /mnt/main-bay/k8s-data/media
         mountPath: /complete
       downloads:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/media/qbittorrent/temp
+        type: custom
+        volumeSpec:
+          nfs:
+            server: truenas.local.tam.land
+            path: /mnt/main-bay/k8s-data/qbittorrent
         mountPath: /downloads

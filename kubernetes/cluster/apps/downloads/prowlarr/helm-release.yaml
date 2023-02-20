@@ -34,13 +34,16 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: "prowlarr.homeland.farm"
+          - host: "prowlarr.tam.land"
             paths:
               - path: /
                 pathType: Prefix
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /var/local/kubernetes/media/prowlarr/config
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/prowlarr
         mountPath: /config
