@@ -26,7 +26,7 @@ spec:
       create: true
       name: vpn-app
     persistence:
-      credentials:
+      shared:
         enabled: true
         type: secret
         name: vpn-credentials 
