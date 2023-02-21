@@ -26,7 +26,7 @@ spec:
       create: true
       name: vpn-app
     persistence:
-      shared:
+      credentials:
         enabled: true
         type: secret
         name: vpn-credentials 
@@ -73,6 +73,9 @@ spec:
               ports:
                 - port: 1194
                   protocol: UDP
+        volumeMounts:
+          - name: credentials
+            mountPath: /secrets
         configFile: |-
           client
           dev tun
