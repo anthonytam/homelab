@@ -26,12 +26,11 @@ spec:
       create: true
       name: vpn-app
     persistence:
-      config:
+      credentials:
         enabled: true
         type: secret
         name: vpn-credentials 
         mountPath: /secrets
-        readOnly: true
     settings:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
