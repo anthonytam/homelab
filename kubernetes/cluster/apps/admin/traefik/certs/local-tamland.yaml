@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: local-tamland-tls
+  namespace: admin
+type: Opaque
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "local-tamland-cert"
+  namespace: admin
+spec:
+  secretName: "local-tamland-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "local.tam.land"
+  dnsNames:
+    - "local.tam.land"
+    - "*.local.tam.land"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: local-tamland-tlsstore
+  namespace: admin
+spec:
+  defaultCertificate:
+    secretName: "local-tamland-tls"
