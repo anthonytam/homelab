@@ -5,6 +5,7 @@ resources:
   - anthonytam.yaml
   - appscode.yaml
   - bitnami.yaml
+  - bjw-s.yaml
   - blockchain-charts.yaml
   - external-secrets.yaml
   - factorio-helm.yaml
