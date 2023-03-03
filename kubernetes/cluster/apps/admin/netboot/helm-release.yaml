@@ -62,10 +62,15 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: "netboot.local.tam.land"
+          - host: netboot.local.tam.land
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - secretName: local-tamland-tls
+            hosts:
+              - netboot.local.tam.land
+        
     persistence:
       config:
         enabled: true
