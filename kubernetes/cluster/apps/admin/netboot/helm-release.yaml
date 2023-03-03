@@ -69,6 +69,7 @@ spec:
     persistence:
       config:
         enabled: true
+        type: custom
         mountPath: /config
         volumeSpec:
           nfs:
