@@ -16,7 +16,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mariadb-nfs-pvc
-  namespace: database
+  namespace: retro-repair
 spec:
   storageClassName: mariadb-nfs-manual
   accessModes:
