@@ -32,7 +32,10 @@ spec:
     ingress:
       enabled: true
       hostname: retrorepair.wiki
-      tls: true
+      extraTls:
+        - hosts:
+            - retrorepair.wiki
+          secretName: retrorepair.wiki-tls
     mariadb:
       enabled: false
     externalDatabase:
