@@ -1,24 +1,24 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mediawiki-nfs-pv
+  name: wikijs-nfs-pv
 spec:
-  storageClassName: mediawiki-nfs-manual
+  storageClassName: wikijs-nfs-manual
   capacity:
     storage: 20Gi
   accessModes:
     - ReadWriteMany
   nfs:
     server: nfs.local.tam.land
-    path: "/nfs-share/mediawiki"
+    path: "/nfs-share/wikijs"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mediawiki-nfs-pvc
+  name: wikijs-nfs-pvc
   namespace: retro-repair
 spec:
-  storageClassName: mediawiki-nfs-manual
+  storageClassName: wikijs-nfs-manual
   accessModes:
     - ReadWriteMany
   resources:
