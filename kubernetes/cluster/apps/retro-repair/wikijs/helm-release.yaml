@@ -28,7 +28,7 @@ spec:
       TZ: America/Toronto
     envFrom:
       - secretRef:
-          name: wikijs-crdentials
+          name: wikijs-credentials
     ingress:
       main:
         enabled: true
