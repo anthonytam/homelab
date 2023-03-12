@@ -40,4 +40,5 @@ spec:
       enabled: false
     externalDatabase:
       existingSecret: mediawiki-credentials
+      host: mariadb.retro-repair.svc.cluster.local
 
