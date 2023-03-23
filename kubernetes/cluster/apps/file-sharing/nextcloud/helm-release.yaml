@@ -25,7 +25,7 @@ spec:
         name: nextcloud-app
     image:
       repository: nextcloud
-      tag: 25.0.4-apache
+      tag: 26.0.0-apache
       pullPolicy: IfNotPresent
     persistence:
       enabled: true
