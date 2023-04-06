@@ -32,7 +32,7 @@ spec:
       name: chia-app
     image:
       repository: ghcr.io/chia-network/chia
-      tag: 1.7.0
+      tag: 1.7.1
     env:
       TZ: America/Toronto
       keys: /vault/secrets/key.txt

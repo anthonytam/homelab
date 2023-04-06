@@ -33,4 +33,4 @@ spec:
         existingClaim: retro-repair-postgres-nfs-pvc 
     image:
       repository: bitnami/postgresql
-      tag: 15.1.0-debian-11-r14
+      tag: 15.2.0-debian-11-r14
