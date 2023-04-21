@@ -2,15 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: postgres-general
-  namespace: database
+  name: postgres
+  namespace: retro-repair
 spec:
   interval: 5m
   upgrade:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: postgresql
       version: 12.2.8
       sourceRef:
@@ -21,7 +20,7 @@ spec:
   values:
     serviceAccount:
       create: true
-      name: database-app
+      name: retro-repair-postgres-app
     auth:
       existingSecret: postgres-credentials
       secretKeys:
@@ -31,7 +30,7 @@ spec:
     primary:
       persistence:
         enabled: true
-        existingClaim: postgres-nfs-pvc 
+        existingClaim: retro-repair-postgres-nfs-pvc 
     image:
       repository: bitnami/postgresql
       tag: 15.2.0-debian-11-r14

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: retrorepairwiki-tls
+  name: retrorepair.wiki-tls
   namespace: admin
 type: Opaque
 ---
@@ -12,7 +12,7 @@ metadata:
   name: "retorepairwiki-cert"
   namespace: admin
 spec:
-  secretName: "retrorepairwiki-tls"
+  secretName: "retrorepair.wiki-tls"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
@@ -28,4 +28,4 @@ metadata:
   namespace: admin
 spec:
   defaultCertificate:
-    secretName: "retrorepairwiki-tls"
+    secretName: "retrorepair.wiki-tls"
