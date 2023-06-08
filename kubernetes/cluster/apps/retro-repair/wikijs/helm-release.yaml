@@ -23,7 +23,7 @@ spec:
       name: retro-repair-wikijs-app
     image:
       repository: linuxserver/wikijs
-      tag: 2.5.298
+      tag: 2.5.299
     env:
       TZ: America/Toronto
     envFrom:
