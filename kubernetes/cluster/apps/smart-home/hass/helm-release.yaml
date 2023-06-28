@@ -25,7 +25,7 @@ spec:
       create: true
     image:
       name: homeassistant/home-assistant
-      tag: "2023.1"
+      tag: "2023.6"
     env:
       TZ: America/Toronto
     ingress:
