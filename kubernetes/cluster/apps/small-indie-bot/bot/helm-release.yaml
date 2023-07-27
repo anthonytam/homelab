@@ -24,8 +24,9 @@ spec:
     image:
       repository: registry.local.tam.land/small-indie-bot/bot
       tag: latest
-    env:
-      TZ: America/Toronto
+    service:
+      main:
+        enabled: false
     persistence:
       config:
         enabled: true
