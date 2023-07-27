@@ -23,7 +23,7 @@ spec:
       name: netboot-app
     image:
       repository: linuxserver/netbootxyz
-      tag: 0.6.7
+      tag: 0.6.8
     env:
       TZ: America/Toronto
     service:
