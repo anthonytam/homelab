@@ -1,7 +1,0 @@
-steps:
-  - name: Setup Flux CLI
-    uses: fluxcd/flux2/action@main
-    with:
-      version: 'latest'
-  - name: Run Flux CLI
-    run: flux version --client
