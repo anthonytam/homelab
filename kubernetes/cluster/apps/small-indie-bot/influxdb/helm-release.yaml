@@ -1,0 +1,51 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: influxdb
+  namespace: small-indie-bot
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: influxdb-app
+    image:
+      repository: influxdb
+      tag: 2.7
+    env:
+      TZ: America/Toronto
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            port: 8086
+    persistence:
+      config:
+        enabled: true
+        type: custom
+        mountPath: /etc/influxdb2
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/small-indie-bot-influxdb/config
+      data:
+        enabled: true
+        type: custom
+        mountPath: /var/lib/influxdb2
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/small-indie-bot-influxdb/data
