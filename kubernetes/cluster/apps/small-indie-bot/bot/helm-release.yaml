@@ -24,6 +24,9 @@ spec:
     image:
       repository: registry.local.tam.land/small-indie-bot/bot
       tag: latest
+    envFrom:
+      - secretRef:
+          name: bot-environments
     service:
       main:
         enabled: false
