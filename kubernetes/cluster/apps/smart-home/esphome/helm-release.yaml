@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: esphome/esphome
-      tag: "2023.7.0"
+      tag: "2023.8.2"
     ingress:
       main:
         enabled: true
