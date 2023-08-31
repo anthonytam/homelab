@@ -23,7 +23,7 @@ spec:
       name: wikijs-home-app
     image:
       repository: linuxserver/wikijs
-      tag: 2.5.299
+      tag: 2.5.300
     env:
       TZ: America/Toronto
     envFrom:
