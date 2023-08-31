@@ -27,6 +27,13 @@ spec:
     env:
       WINEDEBUG: "-all"
       INSTANCE_NAME: "TamLand"
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
     service:
       main:
         enabled: true
