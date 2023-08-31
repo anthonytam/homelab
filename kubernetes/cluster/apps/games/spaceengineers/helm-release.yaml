@@ -37,7 +37,7 @@ spec:
         ports:
           http:
             enabled: false
-          gameServer:
+          gameserver:
             enabled: true
             port: 27016
             protocol: UDP
