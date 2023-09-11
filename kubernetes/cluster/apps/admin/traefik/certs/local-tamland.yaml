@@ -4,6 +4,12 @@ kind: Secret
 metadata:
   name: local-tamland-tls
   namespace: admin
+  annotations:
+    cert-manager-sync.lestak.sh/sync-enabled: "true"
+    cert-manager-sync.lestak.sh/vault-addr: "hashicorp-vault.secrets.svc.cluster.local:8200"
+    cert-manager-sync.lestak.sh/vault-role: "cert-manager-sync-role"
+    cert-manager-sync.lestak.sh/vault-auth-method: "kubernetes"
+    cert-manager-sync.lestak.sh/vault-path: "le-certs/local-tam-land/certificate"
 type: Opaque
 ---
 apiVersion: cert-manager.io/v1
