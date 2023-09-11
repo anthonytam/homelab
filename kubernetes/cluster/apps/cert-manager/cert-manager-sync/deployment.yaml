@@ -25,6 +25,9 @@ spec:
       containers:
         - image: registry.local.tam.land/cert-manager-sync/cert-manager-sync:0.0.1
           name: cert-manager-sync
+          env:
+            - name: OPERATOR_NAME
+              value: "cert-manager-sync.lestak.sh"
           resources:
             limits:
               cpu: 500m
