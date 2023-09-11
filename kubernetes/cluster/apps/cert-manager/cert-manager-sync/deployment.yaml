@@ -23,7 +23,7 @@ spec:
       imagePullSecrets:
         - name: regcred
       containers:
-        - image: registry.example.com/devops/cert-manager-sync:v0.0.1
+        - image: registry.local.tam.land/cert-manager-sync/cert-manager-sync:v0.0.1
           name: cert-manager-sync
           resources:
             limits:
