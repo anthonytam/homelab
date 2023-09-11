@@ -23,7 +23,7 @@ spec:
       imagePullSecrets:
         - name: regcred
       containers:
-        - image: registry.local.tam.land/cert-manager-sync/cert-manager-sync:0.0.1
+        - image: registry.local.tam.land/cert-manager-sync/cert-manager-sync:0.0.2
           name: cert-manager-sync
           env:
             - name: OPERATOR_NAME
