@@ -20,7 +20,7 @@ spec:
     env:
       DENY_LIST: "default,kube-system"
       RECONCILE_WAIT: "10s"
-      WATCH_NAMESPACE: "small-indie-guild"
+      WATCH_NAMESPACE: ""
     replicaCount: 1
     image:
       repository: datainfrahq/druid-operator
