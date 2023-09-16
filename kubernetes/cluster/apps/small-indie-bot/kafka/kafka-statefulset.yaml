@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka
+  namespace: small-indie-bot
+  labels:
+    app: kafka-app
+spec:
+  serviceName: kafka-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-app
+  template:
+    metadata:
+      labels:
+        app: kafka-app
+    spec:
+      containers:
+        - name: kafka-container
+          image: doughgle/kafka-kraft
+          ports:
+            - containerPort: 9092
+            - containerPort: 9093
+          env:
+            - name: REPLICAS
+              value: '1'
+            - name: SERVICE
+              value: kafka-svc
+            - name: NAMESPACE
+              value: small-indie-bot
+            - name: SHARE_DIR
+              value: /mnt/kafka
+            - name: CLUSTER_ID
+              value: oh-sxaDRTcyAr6pFRbXyzA
+            - name: DEFAULT_REPLICATION_FACTOR
+              value: '1'
+            - name: DEFAULT_MIN_INSYNC_REPLICAS
+              value: '1'
+          volumeMounts:
+            - name: data
+              mountPath: /mnt/kafka
+  volumeClaimTemplates:
+    - metadata:
+      name: kafka-nfs-pvc
+      namespace: small-indie-bot
+    spec:
+      storageClassName: kafka-nfs-manual
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 20Gi

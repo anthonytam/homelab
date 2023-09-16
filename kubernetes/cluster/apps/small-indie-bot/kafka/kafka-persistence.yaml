@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kafka-nfs-pv
+spec:
+  storageClassName: kafka-nfs-manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nfs.local.tam.land
+    path: "/nfs-share/kafka"
