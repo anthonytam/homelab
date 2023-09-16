@@ -7,7 +7,7 @@ metadata:
     app: kafka-app
 spec:
   serviceName: kafka-svc
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: kafka-app
@@ -24,7 +24,7 @@ spec:
             - containerPort: 9093
           env:
             - name: REPLICAS
-              value: '1'
+              value: '3'
             - name: SERVICE
               value: kafka-svc
             - name: NAMESPACE
@@ -34,9 +34,9 @@ spec:
             - name: CLUSTER_ID
               value: oh-sxaDRTcyAr6pFRbXyzA
             - name: DEFAULT_REPLICATION_FACTOR
-              value: '1'
+              value: '3'
             - name: DEFAULT_MIN_INSYNC_REPLICAS
-              value: '1'
+              value: '2'
           volumeMounts:
             - name: kafka-nfs-pvc
               mountPath: /mnt/kafka
