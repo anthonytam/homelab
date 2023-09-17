@@ -7,6 +7,7 @@ resources:
   - bitnami.yaml
   - bjw-s.yaml
   - blockchain-charts.yaml
+  - elastic-co.yaml
   - external-secrets.yaml
   - factorio-helm.yaml
   - hashicorp.yaml
