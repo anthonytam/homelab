@@ -1,0 +1,13 @@
+apiVersion: logstash.k8s.elastic.co/v1alpha1
+kind: Logstash
+metadata:
+  name: logstash
+  namespace: logging
+spec:
+  version: 8.10.3
+  count: 1
+  elasticsearchRefs:
+    - clusterName: es
+      name: elasticsearch
+  pipelinesRef:
+    secretName: logstash-pipelines
