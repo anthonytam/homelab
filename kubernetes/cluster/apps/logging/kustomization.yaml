@@ -7,4 +7,3 @@ resources:
   - elastic-operator.yaml
   - elasticsearch
   - kibana
-  - logstash

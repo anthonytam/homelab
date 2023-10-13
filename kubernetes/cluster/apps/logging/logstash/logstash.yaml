@@ -7,7 +7,6 @@ spec:
   version: 8.10.3
   count: 1
   elasticsearchRefs:
-    - clusterName: es
       name: elasticsearch
   pipelinesRef:
     secretName: logstash-pipelines
