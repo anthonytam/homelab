@@ -10,4 +10,4 @@ spec:
     - ReadWriteOnce
   nfs:
     server: nfs.local.tam.land
-    path: "/nfs-data/logstash-data-0"
+    path: "/nfs-share/logstash-data-0"
