@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch
   namespace: logging
 spec:
-  version: 8.8.0
+  version: 8.10.3
   nodeSets:
   - name: default
     config:
