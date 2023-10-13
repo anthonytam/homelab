@@ -11,3 +11,14 @@ spec:
       name: elasticsearch
   pipelinesRef:
     secretName: logstash-pipelines
+  volumeClaimTemplates:
+    - metadata:
+        name: logstash-data # Do not change this name unless you set up a volume mount for the data path.
+        namespace: logging
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Gi
+        storageClassName: logstash-nfs-manual

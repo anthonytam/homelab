@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - logstash.yaml
   - pipelines-secret.yaml
+  - logstash-persistence.yaml

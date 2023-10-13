@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: logstash-nfs-pv-0
+spec:
+  storageClassName: logstash-nfs-manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: nfs.local.tam.land
+    path: "/nfs-data/logstash-data-0"
