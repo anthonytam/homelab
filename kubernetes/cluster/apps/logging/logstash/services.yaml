@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash-service
+  namespace: logging
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.200.12.3
+    metallb.universe.tf/allow-shared-ip: "crypto-sharing"
+spec:
+  type: LoadBalancer
+  selector:
+    logstash.k8s.elastic.co/name: logstash
+  ports:
+  - protocol: UDP
+    port: 5140
+    targetPort: 5140

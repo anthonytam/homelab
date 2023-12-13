@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grocy
+  namespace: other-webapps
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: grocy-app
+    env:
+      PUID: 568
+      GUID: 568
+      TZ: America/Toronto
+    image:
+      repository: lscr.io/linuxserver/grocy
+      tag: 4.0.3
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            port: 80
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: grocy.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: tam.land-tls
+            hosts:
+              - grocy.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: custom
+        mountPath: /config
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/grocy/config

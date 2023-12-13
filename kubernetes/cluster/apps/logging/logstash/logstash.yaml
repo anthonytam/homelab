@@ -7,7 +7,9 @@ spec:
   version: 8.10.3
   count: 1
   elasticsearchRefs:
+    - clusterName: logging-es
       name: elasticsearch
+      namespace: logging
   pipelinesRef:
     secretName: logstash-pipelines
   volumeClaimTemplates:
