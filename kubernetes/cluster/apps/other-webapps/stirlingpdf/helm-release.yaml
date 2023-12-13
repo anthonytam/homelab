@@ -1,0 +1,51 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: stirling-pdf
+  namespace: other-webapps
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 2.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        enabled: true
+        containers:
+          main:
+            image:
+              repository: frooodle/s-pdf
+              tag: 0.15.1
+    serviceAccount:
+      create: true
+      name: stirlingpdf-app
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: pdf.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - pdf.tam.land
