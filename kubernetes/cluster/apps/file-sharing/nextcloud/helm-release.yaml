@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: nextcloud
-      version: 4.3.2
+      version: 4.5.5
       sourceRef:
         kind: HelmRepository
         name: nextcloud-helm
@@ -25,7 +25,7 @@ spec:
         name: nextcloud-app
     image:
       repository: nextcloud
-      tag: 27.1.1-apache
+      tag: 27.1.4-apache
       pullPolicy: IfNotPresent
     persistence:
       enabled: true

@@ -23,7 +23,7 @@ spec:
       name: grafana-app
     image:
       repository: grafana/grafana
-      tag: 10.1.4
+      tag: 10.2.2
     env:
       TZ: America/Toronto
     service:

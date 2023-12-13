@@ -30,7 +30,7 @@ spec:
       image:
         repository: gcr.io/kubebuilder/kube-rbac-proxy
         pullPolicy: IfNotPresent
-        tag: "v0.14.1"
+        tag: "v0.15.0"
     livenessProbe:
       httpGet:
         path: /healthz
