@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: chia-blockchain
@@ -32,7 +32,7 @@ spec:
       name: chia-app
     image:
       repository: ghcr.io/chia-network/chia
-      tag: 2.1.1
+      tag: 2.1.4
     env:
       TZ: America/Toronto
       keys: /vault/secrets/key.txt
