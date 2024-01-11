@@ -4,7 +4,7 @@ metadata:
   name: druid-cluster
   namespace: small-indie-bot
 spec:
-  image: apache/druid:28.0.0
+  image: apache/druid:28.0.1
   startScript: /druid.sh
   podLabels:
     environment: prod
