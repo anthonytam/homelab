@@ -1,0 +1,36 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: redis-general
+  namespace: database
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: redis
+      version: 18.9.1
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: bitnami/redis
+      tag: 7.2.4-debian-11-r2
+    auth:
+      existingSecret: redis-credentials
+      existingSecretPasswordKey: admin-password
+    serviceAccount:
+      create: true
+      name: redis-app
+    master:
+      persistence:
+        enabled: true
+        existingClaim: redis-nfs-pvc 
+    replica:
+      replicaCount: 0
