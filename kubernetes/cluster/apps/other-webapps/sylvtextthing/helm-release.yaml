@@ -34,7 +34,7 @@ spec:
         enabled: true
         ports:
           http:
-            port: 32768
+            port: 80
     ingress:
       main:
         enabled: true
@@ -52,9 +52,9 @@ spec:
     persistence:
       config:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: nfs.local.tam.land
-            path: /nfs-share/sylvtextthing
-        mountPath: /app/database
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/sylvtextthing
+        globalMounts:
+          - path: /app/database
+            readonly: false
