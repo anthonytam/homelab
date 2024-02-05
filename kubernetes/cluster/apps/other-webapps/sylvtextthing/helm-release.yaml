@@ -1,8 +1,8 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: stirling-pdf
+  name: sylv-text-thing
   namespace: other-webapps
 spec:
   interval: 5m
@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.5.0
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -24,22 +24,22 @@ spec:
         containers:
           main:
             image:
-              repository: frooodle/s-pdf
-              tag: 0.19.1
+              repository: registry.local.tam.land/wow/sylvtextthing
+              tag: latest
     serviceAccount:
       create: true
-      name: stirlingpdf-app
+      name: sylvtextthing-app
     service:
       main:
         enabled: true
         ports:
           http:
-            port: 8080
+            port: 32768
     ingress:
       main:
         enabled: true
         hosts:
-          - host: pdf.tam.land
+          - host: sylv.tam.land
             paths:
               - path: /
                 pathType: Prefix
@@ -48,4 +48,13 @@ spec:
         tls:
           - secretName: tamland-tls
             hosts:
-              - pdf.tam.land
+              - sylv.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: nfs.local.tam.land
+            path: /nfs-share/sylvtextthing
+        mountPath: /app/database
