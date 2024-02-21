@@ -8,3 +8,4 @@ resources:
   - netboot
   - registry
   - minio
+  - mailrise
