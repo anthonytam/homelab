@@ -37,6 +37,7 @@ spec:
               tag: latest
             command:
               - 'mailrise'
+              - '-v'
               - '/vault/secrets/mailrise.conf'
     serviceAccount:
       create: true
