@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: mailrise
+  namespace: admin
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 2.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    defaultPodOptions:
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: 'mailrise-role'
+        vault.hashicorp.com/agent-inject-secret-mailrise.conf: 'secrets/admin/mailrise'
+        vault.hashicorp.com/agent-inject-template-mailrise.conf: |
+          {{- with secret "secrets/admin/mailrise" -}}
+          {{ .Data.data.config }}
+          {{- end -}}
+    controllers:
+      main:
+        enabled: true
+        containers:
+          main:
+            image:
+              repository: yoryan/mailrise
+              tag: latest
+            command:
+              - 'mailrise'
+              - '/vault/secrets/mailrise.conf'
+    serviceAccount:
+      create: true
+      name: mailrise-app
+    service:
+      main:
+        enabled: true
+        type: LoadBalancer
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+        ports:
+          http:
+            enabled: false
+          smtp:
+            enabled: true
+            primary: true
+            port: 8025
+            protocol: TCP
+    persistence:
+      config:
+        enabled: false
