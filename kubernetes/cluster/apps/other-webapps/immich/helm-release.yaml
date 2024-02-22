@@ -1,0 +1,122 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: immich
+  namespace: other-webapps
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 2.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: immich-app
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v1.95.1
+            command: /bin/sh
+            args:
+              - ./start-server.sh
+            envFrom: &envFrom
+              - secret: immich-configuration
+      microservice:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v1.95.1
+            command: /bin/sh
+            args:
+              - ./start-microservices.sh
+            envFrom: *envFrom
+      machine-learning:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v1.95.1
+            envFrom: *envFrom
+      postgres:
+        containers:
+          main:
+            image:
+              repository: tensorchord/pgvecto-rs
+              tag: pg16-v0.2.0
+            envFrom:
+              - secret: immich-postgres-configuration
+      redis:
+        containers:
+          main:
+            image:
+              repository: redis
+              tag: 7.2.4
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 3001
+      microservice:
+        controller: microservice
+        ports:
+          http:
+            port: 3002
+      machine-learning:
+        controller: machine-learning
+        ports:
+          http:
+            port: 3003
+      postgres:
+        controller: postgres
+        ports:
+          http:
+            port: 5432
+      redis:
+        controller: redis
+        ports:
+          http:
+            port: 6379
+
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: photos.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - photos.tam.land
+
+    persistence:
+      data:
+        enabled: true
+        type: nfs
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/immich/data
+        globalMounts:
+          - path: /usr/src/app/upload
+      pgdata:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/immich-postgres
+        globalMounts:
+          - path: /var/lib/postgresql/data
