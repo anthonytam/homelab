@@ -10,7 +10,6 @@ spec:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: factorio-server-charts
       version: 1.2.5
       sourceRef:
@@ -20,90 +19,85 @@ spec:
       interval: 5m
   values:
     image:
-      tag: "stable"
+      repository: "factoriotools/factorio"
+      tag: 1.1.104
     service:
-      type: ClusterIP
+      type: LoadBalancer
       port: 34197
-      externalIPs:
-        - "192.168.0.155"
     strategy:
       type: Recreate
     persistence:
       enabled: true
       dataDir:
         Size: "20Gi"
-      storageClassName: ""
-      annotations: {}
+      storageClassName: factorio-nfs-manual
+
+    mods:
+      enabled: true
+      portal:
+        - aai-containers
+        - bobinserters
+        - BottleneckLite
+        - DiscoScience
+        - even-distribution
+        - flib
+        - "Flow Control"
+        - GUI_Unifyer
+        - helmod
+        - HelmodAddonRequester
+        - informatron
+        - jetpack
+        - Krastorio2
+        - Krastorio2Assets
+        - FNEI
+        - LTN_Combinator_Modernized
+        - LogisticTrainNetwork
+        - LtnManager
+        - rso-mod
+        - RitnLib
+        - "Squeak Through"
+        - VehicleSnap
+        - Waterfill_Fork
+
     factorioServer:
-      # specify a save name
-      save_name: "New-Space-Ex"
-      # Generate a New Save
-      generate_new_save: false
-      # Update mods on start
+      save_name: "WenKrast"
+      generate_new_save: true
       update_mods_on_start: true
-      # lets the game know if you want to load the latest save
-      load_latest_save: false
-      # Location of the configuration files that are generated
-      config_path: /srv
+      load_latest_save: true
+
+    import_save:
+      enabled: false
+
+    account:
+      accountSecret: factorio-account
+
+    serverPassword:
+      passwordSecret: factorio-server-password
 
     server_settings:
-      # Your Instance Name
-      name: NewSpaceEX
+      name: WenKrast
       # Your Instance Description
-      description: "Becoming Elon-2"
+      description: "Wen we Krast??"
       tags:
       - game
       - tags
-      # Maximum number of players allowed, admins can join even a full server. 0 means unlimited.
       max_players: 0
-      # Game visibility
       visibility:
-        # Game will be published on the official Factorio matching server
         public: false
-        # Game will be broadcast on LAN
         lan: true
-      # Your factorio.com login credentials. Required for games with visibility public
-      username: ${factorio_username}
-      password: ''
-      # Authentication token. May be used instead of password above.
-      token: ${factorio_auth_token}
-      # password required to log into the factorio server
-      game_password: 'farts'
-      # When set to true, the server will only allow clients that have a valid Factorio.com account
       require_user_verification: true
-      # optional, default value is 0. 0 means unlimited.
       max_upload_in_kilobytes_per_second: 0
-      # optional, default value is 5. 0 means unlimited.
       max_upload_slots: 5
-      # optional one tick is 16ms in default speed, default value is 0. 0 means no minimum.
       minimum_latency_in_ticks: 0
-      # Players that played on this map already can join even when the max player limit was reached.
       ignore_player_limit_for_returning_players: false
-      # possible values are, true, false and admins-only
-      allow_commands: admins-only
-      # Autosave interval in minutes
+      allow_commands: true
       autosave_interval: 5
-      # server autosave slots, it is cycled through when the server autosaves.
-      autosave_slots: 10
-      # How many minutes until someone is kicked when doing nothing, 0 for never.
+      autosave_slots: 20
       afk_autokick_interval: 15
-      # Whether should the server be paused when no players are present.
       auto_pause: true
-      # specifies if anyone can pause or only admins
-      only_admins_can_pause_the_game: true
-      # Whether autosaves should be saved only on server or also on all connected clients. Default is true.
+      only_admins_can_pause_the_game: false
       autosave_only_on_server: true
-      #  Highly experimental feature, enable only at your own
-      #  risk of losing your saves. On UNIX systems, server will fork itself to create an
-      #  autosave. Autosaving on connected Windows clients will be disabled regardless of
-      #  autosave_only_on_server option.
       non_blocking_saving: true
-      #  Long network messages are split into segments that are sent
-      #  over multiple ticks. Their size depends on the number of peers currently connected.
-      #  Increasing the segment size will increase upload bandwidth requirement for the server
-      #  and download bandwidth requirement for clients. This setting only affects server
-      #  outbound messages. Changing these settings can have a negative impact on connection
-      #  stability for some clients.
       minimum_segment_size: 25
       minimum_segment_size_peer_count: 20
       maximum_segment_size: 100
@@ -111,12 +105,12 @@ spec:
 
     # Password and port for the rcon service
     rcon:
-      password: "UKei6LeeK6Aeda4"
+      external: true
+      type: LoadBalancer
+      serviceAnnotations:
+
+      passwordSecret: factorio-rcon-password
       port: 27015
 
     admin_list:
       - "atam"
-      - "elimirks"
-      - "flyingseahorse"
-      - "interiorwolfe"
-      - "pastagirl"
