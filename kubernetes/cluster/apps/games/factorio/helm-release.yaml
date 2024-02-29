@@ -21,15 +21,22 @@ spec:
     image:
       repository: "factoriotools/factorio"
       tag: 1.1.104
+
     service:
       type: LoadBalancer
       port: 34197
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+        metallb.universe.tf/allow-shared-ip: "misc-sharing"
+
     strategy:
       type: Recreate
+
     persistence:
       enabled: true
       dataDir:
         Size: "20Gi"
+        existingClaim: factorio-nfs-pvc
       storageClassName: factorio-nfs-manual
 
     mods:
@@ -41,7 +48,7 @@ spec:
         - DiscoScience
         - even-distribution
         - flib
-        - "Flow Control"
+        - Flow%20Control
         - GUI_Unifyer
         - helmod
         - HelmodAddonRequester
@@ -55,7 +62,7 @@ spec:
         - LtnManager
         - rso-mod
         - RitnLib
-        - "Squeak Through"
+        - Squeak%20Through
         - VehicleSnap
         - Waterfill_Fork
 
@@ -66,13 +73,14 @@ spec:
       load_latest_save: true
 
     import_save:
-      enabled: false
+      enabled: true
+      reimport_on_change: true
 
     account:
-      accountSecret: factorio-account
+      accountSecret: factorio-configuration
 
     serverPassword:
-      passwordSecret: factorio-server-password
+      passwordSecret: factorio-configuration
 
     server_settings:
       name: WenKrast
@@ -90,7 +98,7 @@ spec:
       max_upload_slots: 5
       minimum_latency_in_ticks: 0
       ignore_player_limit_for_returning_players: false
-      allow_commands: true
+      allow_commands: admins-only
       autosave_interval: 5
       autosave_slots: 20
       afk_autokick_interval: 15
@@ -103,14 +111,50 @@ spec:
       maximum_segment_size: 100
       maximum_segment_size_peer_count: 10
 
-    # Password and port for the rcon service
     rcon:
       external: true
       type: LoadBalancer
       serviceAnnotations:
-
-      passwordSecret: factorio-rcon-password
+        metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+        metallb.universe.tf/allow-shared-ip: "misc-sharing"
+      passwordSecret: factorio-configuration
       port: 27015
 
     admin_list:
       - "atam"
+
+    #Krastorio2 settings
+    map_gen_settings:
+      autoplace_controls:
+        coal:
+          frequency: 1
+          size: 1
+          richness: 1
+        stone:
+          frequency: 1
+          size: 1
+          richness: 1
+        copper-ore:
+          frequency: 1
+          size: 1
+          richness: 1
+        iron-ore:
+          frequency: 1
+          size: 1
+          richness: 1
+        uranium-ore:
+          frequency: 1
+          size: 1
+          richness: 1
+        crude-oil:
+          frequency: 1
+          size: 1
+          richness: 1
+        trees:
+          frequency: 1
+          size: 1
+          richness: 1
+        enemy-base:
+          frequency: 1
+          size: 1
+          richness: 1
