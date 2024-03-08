@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.5.0
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,7 +25,7 @@ spec:
           main:
             image:
               repository: ghostfolio/ghostfolio
-              tag: 2.46.0
+              tag: 2.61.0
             envFrom:
               - secret: ghostfolio-configuration
     serviceAccount:
