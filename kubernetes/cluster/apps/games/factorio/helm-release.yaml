@@ -42,7 +42,6 @@ spec:
     mods:
       enabled: true
       portal:
-        - aai-containers
         - bobinserters
         - BottleneckLite
         - DiscoScience
@@ -65,6 +64,8 @@ spec:
         - Squeak%20Through
         - VehicleSnap
         - Waterfill_Fork
+        - Updated_Construction_Drones
+        - Roboport64
 
     factorioServer:
       save_name: "WenKrast"
@@ -122,6 +123,7 @@ spec:
 
     admin_list:
       - "atam"
+      - "FlyingSeahorse"
 
     #Krastorio2 settings
     map_gen_settings:
