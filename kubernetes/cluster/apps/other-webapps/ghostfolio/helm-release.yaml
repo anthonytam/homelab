@@ -25,7 +25,7 @@ spec:
           main:
             image:
               repository: ghostfolio/ghostfolio
-              tag: 2.61.0
+              tag: 2.62.0
             envFrom:
               - secret: ghostfolio-configuration
     serviceAccount:
