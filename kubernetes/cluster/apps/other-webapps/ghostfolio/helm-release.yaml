@@ -1,4 +1,4 @@
----
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.2/charts/library/common/values.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -26,8 +26,16 @@ spec:
             image:
               repository: ghostfolio/ghostfolio
               tag: 2.63.1
-            envFrom:
+            envFrom: &envFrom
               - secret: ghostfolio-configuration
+      postgres:
+        enabled: true
+        containers:
+          postgres:
+            image:
+              repository: postgres
+              tag: 16.2
+            envFrom: *envFrom
       redis:
         enabled: true
         containers:
@@ -42,9 +50,16 @@ spec:
       app:
         enabled: true
         controller: app
+        primary: true
         ports:
           http:
             port: 3333
+      postgres:
+        enabled: true
+        controller: postgres
+        ports:
+          http:
+            port: 5432
       redis:
         enabled: true
         controller: redis
@@ -52,7 +67,7 @@ spec:
           http:
             port: 6379
     ingress:
-      main:
+      app:
         enabled: true
         hosts:
           - host: ghostfolio.local.tam.land
@@ -60,8 +75,19 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: app
+                  identifier: app
         tls:
           - secretName: local-tamland-tls
             hosts:
               - ghostfolio.local.tam.land
+    persistence:
+      pgdata:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/ghostfolio/postgres
+        advancedMounts:
+          postgres:
+            postgres:
+              - path: /var/lib/postgresql/data
+                readOnly: false
