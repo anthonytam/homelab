@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -11,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -19,10 +18,10 @@ spec:
       interval: 5m
   values:
     controllers:
-      main:
+      app:
         enabled: true
         containers:
-          main:
+          app:
             image:
               repository: frooodle/s-pdf
               tag: 0.22.2
@@ -30,13 +29,15 @@ spec:
       create: true
       name: stirlingpdf-app
     service:
-      main:
+      app:
         enabled: true
+        controller: app
+        primary: true
         ports:
           http:
             port: 8080
     ingress:
-      main:
+      app:
         enabled: true
         hosts:
           - host: pdf.tam.land
@@ -44,7 +45,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
         tls:
           - secretName: tamland-tls
             hosts:
