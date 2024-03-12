@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -21,9 +21,9 @@ spec:
       create: true
       name: immich-app
     controllers:
-      main:
+      app:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.98.1
@@ -34,7 +34,7 @@ spec:
               - secret: immich-configuration
       microservice:
         containers:
-          main:
+          microservice:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.98.1
@@ -44,14 +44,14 @@ spec:
             envFrom: *envFrom
       machine-learning:
         containers:
-          main:
+          machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v1.98.1
             envFrom: *envFrom
       postgres:
         containers:
-          main:
+          postgres:
             image:
               repository: tensorchord/pgvecto-rs
               tag: pg16-v0.2.0
@@ -59,39 +59,45 @@ spec:
               - secret: immich-postgres-configuration
       redis:
         containers:
-          main:
+          redis:
             image:
               repository: redis
               tag: 7.2.4
     service:
-      main:
-        controller: main
+      app:
+        enabled: true
+        controller: app
+        primary: true
         ports:
           http:
             port: 3001
       microservice:
+        enabled: true
         controller: microservice
         ports:
           http:
             port: 3002
       machine-learning:
+        enabled: true
         controller: machine-learning
         ports:
           http:
             port: 3003
       postgres:
+        enabled: true
         controller: postgres
         ports:
           http:
             port: 5432
       redis:
+        enabled: true
         controller: redis
         ports:
           http:
             port: 6379
 
     ingress:
-      main:
+      app:
         enabled: true
         hosts:
           - host: photos.tam.land
@@ -99,7 +105,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
         tls:
           - secretName: tamland-tls
             hosts:
@@ -113,10 +119,14 @@ spec:
         path: /mnt/main-bay/k8s-data/immich/data
         globalMounts:
           - path: /usr/src/app/upload
+            readOnly: false
       pgdata:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
         path: /nfs-share/immich-postgres
-        globalMounts:
-          - path: /var/lib/postgresql/data
+        advancedMounts:
+          postgres:
+            postgres:
+              - path: /var/lib/postgresql/data
+                readOnly: false
