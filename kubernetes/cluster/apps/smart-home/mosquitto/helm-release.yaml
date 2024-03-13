@@ -39,4 +39,20 @@ spec:
             enabled: true
             port: 1883
             protocol: TCP
-
+    configMaps:
+      mosquitto-config:
+        enabled: true
+        data:
+          mosquitto.conf: |
+            allow_anonymous true
+            listener 1883
+    persistence:
+      appconfig:
+        enabled: true
+        type: configMap
+        identifier: mosquitto-config
+        advancedMounts:
+          app:
+            app:
+              - path: /mosquitto/config
+                readOnly: true
