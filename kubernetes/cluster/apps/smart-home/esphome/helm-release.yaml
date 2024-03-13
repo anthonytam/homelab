@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -10,36 +9,55 @@ spec:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: esphome
-      version: 8.4.2
+      chart: app-template
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: esphome/esphome
-      tag: "2024.2.1"
+    controllers:
+      app:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: esphome/esphome
+              tag: "2024.2.2"
+    serviceAccount:
+      create: true
+      name: esphome-app
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 6052
     ingress:
-      main:
+      app:
         enabled: true
         hosts:
           - host: "esphome.tam.land"
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  identifier: app
         tls:
           - secretName: tamland-tls
             hosts:
                 - esphome.tam.land
     persistence:
-      config:
+      appdata:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: nfs.local.tam.land
-            path: /nfs-share/esphome
-        mountPath: /config
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/smart-home/esphome/app
+        advancedMounts:
+          app:
+            app:
+              - path: /config
+                readOnly: false
