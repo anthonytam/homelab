@@ -53,10 +53,7 @@ spec:
         enabled: true
         controller: app
         primary: false
-        type: LoadBalancer
-        annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
-          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+        type: NodePort
         ports:
           tftp:
             enabled: true
