@@ -49,17 +49,6 @@ spec:
         ports:
           http:
             port: 80
-      tftp:
-        enabled: true
-        controller: app
-        primary: false
-        type: NodePort
-        externalTrafficPolicy: Local
-        ports:
-          tftp:
-            enabled: true
-            protocol: UDP
-            port: 69
     ingress:
       app:
         enabled: true
