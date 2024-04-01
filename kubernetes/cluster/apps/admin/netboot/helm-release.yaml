@@ -54,6 +54,7 @@ spec:
         controller: app
         primary: false
         type: NodePort
+        externalTrafficPolicy: Local
         ports:
           tftp:
             enabled: true
