@@ -78,8 +78,8 @@ spec:
       assets:
         enabled: true
         type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/admin/netbootxyz/assets
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/netboot-roots
         advancedMounts:
           app:
             app:
