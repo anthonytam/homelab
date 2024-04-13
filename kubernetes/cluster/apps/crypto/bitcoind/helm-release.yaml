@@ -10,44 +10,60 @@ spec:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://anthonytam.github.io/blockchain-helm-charts/helm
-      chart: bitcoind
-      version: 0.1.1
+      chart: app-template
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
-        name: blockchain-charts
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
     serviceAccount:
       create: true
       name: bitcoind-app
-    image:
-      repository: ruimarinho/bitcoin-core
-      tag: "23.0"
-    env:
-      TZ: America/Toronto
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    service:
-      main:
+    controllers:
+      app:
         enabled: true
+        containers:
+          app:
+            image:
+              repository: kylemanna/bitcoind
+              tag: latest
+              pullPolicy: Always
+            env:
+              TZ: America/Toronto
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+    service:
+      app:
+        enabled: true
+        controller: app
+        prinary: true
+        type: LoadBalancer
         annotations:
           metallb.universe.tf/loadBalancerIPs: 10.200.12.2
           metallb.universe.tf/allow-shared-ip: "crypto-sharing"
-        type: LoadBalancer
+        ports:
+          bitcoind:
+            enabled: true
+            port: 8333
+            protocol: TCP
+          bitcoind-rpc:
+            enabled: true
+            port: 8332
+            protocol: TCP
     persistence:
       blockchain:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: nfs.local.tam.land
-            path: /nfs-share/bitcoind
-        accessMode: ReadWriteOnce
-        size: 700Gi
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/crypto/bitcoind
+        advancedMounts:
+          app:
+            app:
+              - path: /bitcoin/.bitcoin
