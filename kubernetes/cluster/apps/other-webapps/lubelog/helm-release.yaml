@@ -35,6 +35,7 @@ spec:
       app:
         enabled: true
         controller: app
+        primary: true
         ports:
           http:
             port: 8080
@@ -47,7 +48,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: app
+                  identifier: app
         tls:
           - secretName: tamland-tls
             hosts:
