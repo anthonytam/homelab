@@ -21,26 +21,40 @@ spec:
       create: true
       name: paperless-ngx-app
     controllers:
-      main:
+      app:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
               tag: 2.7.2
             envFrom: &envFrom
               - secret: paperless-configuration
+      postgres:
+        enabled: true
+        containers:
+          postgres:
+            image:
+              repository: postgres
+              tag: 16.2
+            envFrom: *envFrom
       redis:
         containers:
-          main:
+          app:
             image:
               repository: redis
               tag: 7.2.4
     service:
-      main:
-        controller: main
+      app:
+        controller: app
         ports:
           http:
             port: 8000
+      postgres:
+        enabled: true
+        controller: postgres
+        ports:
+          http:
+            port: 5432
       redis:
         controller: redis
         ports:
@@ -48,7 +62,7 @@ spec:
             port: 6379
 
     ingress:
-      main:
+      app:
         enabled: true
         hosts:
           - host: paperless.local.tam.land
@@ -56,7 +70,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
         tls:
           - secretName: local-tamland-tls
             hosts:
@@ -68,26 +82,45 @@ spec:
         type: nfs
         server: truenas.local.tam.land
         path: /mnt/main-bay/k8s-data/paperless/data
-        globalMounts:
-          - path: /usr/src/paperless/data
+        advancedMounts:
+          app:
+            app:
+              - path: /usr/src/paperless/data
       media:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
         path: /mnt/main-bay/k8s-data/paperless/media
-        globalMounts:
-          - path: /usr/src/paperless/media
+        advancedMounts:
+          app:
+            app:
+              - path: /usr/src/paperless/media
       export:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
         path: /mnt/main-bay/k8s-data/paperless/export
-        globalMounts:
-          - path: /usr/src/paperless/export
+        advancedMounts:
+          app:
+            app:
+              - path: /usr/src/paperless/export
       consume:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
         path: /mnt/main-bay/k8s-data/paperless/consume
-        globalMounts:
-          - path: /usr/src/paperless/consume
+        advancedMounts:
+          app:
+            app:
+              - path: /usr/src/paperless/consume
+      pgdata:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/paperless/postgres
+        advancedMounts:
+          postgres:
+            postgres:
+              - path: /var/lib/postgresql/data
+                readOnly: false
+
