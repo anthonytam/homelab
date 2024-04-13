@@ -19,10 +19,10 @@ spec:
       interval: 5m
   values:
     controllers:
-      main:
+      app:
         enabled: true
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/hargata/lubelogger
               tag: v1.3.0
@@ -32,14 +32,14 @@ spec:
       create: true
       name: lubelog-app
     service:
-      main:
+      app:
         enabled: true
-        controller: main
+        controller: app
         ports:
           http:
             port: 8080
     ingress:
-      main:
+      app:
         enabled: true
         hosts:
           - host: lubelog.tam.land
@@ -47,7 +47,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  name: app
         tls:
           - secretName: tamland-tls
             hosts:
@@ -59,8 +59,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/config
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /App/config
       data:
         enabled: true
@@ -68,8 +68,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/data
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /App/data
       translations:
         enabled: true
@@ -77,8 +77,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/translations
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /App/wwwroot/translations
       documents:
         enabled: true
@@ -86,8 +86,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/documents
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /App/wwwroot/documents
       images:
         enabled: true
@@ -95,8 +95,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/images
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /App/wwwroot/images
       temp:
         enabled: true
@@ -104,8 +104,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/temp
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /App/wwwroot/temp
       log:
         enabled: true
@@ -113,8 +113,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/log
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /App/log
       keys:
         enabled: true
@@ -122,6 +122,6 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/lubelog/keys
         advancedMounts:
-          main:
-            main:
+          app:
+            app:
               - path: /root/.aspnet/DataProtection-Keys
