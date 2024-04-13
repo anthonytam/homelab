@@ -56,63 +56,79 @@ spec:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/config
-        globalMounts:
-          - path: /App/config
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/config
+        advancedMounts:
+          main:
+            main:
+              - path: /App/config
+                readonly: false
       data:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/data
-        globalMounts:
-          - path: /App/data
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/data
+        advancedMounts:
+          main:
+            main:
+              - path: /App/data
+                readonly: false
       translations:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/translations
-        globalMounts:
-          - path: /App/wwwroot/translations
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/translations
+        advancedMounts:
+          main:
+            main:
+              - path: /App/wwwroot/translations
+                readonly: false
       documents:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/documents
-        globalMounts:
-          - path: /App/wwwroot/documents
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/documents
+        advancedMounts:
+          main:
+            main:
+              - path: /App/wwwroot/documents
+                readonly: false
       images:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/images
-        globalMounts:
-          - path: /App/wwwroot/images
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/images
+        advancedMounts:
+          main:
+            main:
+              - path: /App/wwwroot/images
+                readonly: false
       temp:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/temp
-        globalMounts:
-          - path: /App/wwwroot/temp
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/temp
+        advancedMounts:
+          main:
+            main:
+              - path: /App/wwwroot/temp
+                readonly: false
       log:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/log
-        globalMounts:
-          - path: /App/log
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/log
+        advancedMounts:
+          main:
+            main:
+              - path: /App/log
+                readonly: false
       keys:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/lubelog/keys
-        globalMounts:
-          - path: /root/.aspnet/DataProtection-Keys
-            readonly: false
+        path: /nfs-share/other-webapps/lubelog/keys
+        advancedMounts:
+          main:
+            main:
+              - path: /root/.aspnet/DataProtection-Keys
+                readonly: false
