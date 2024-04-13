@@ -20,7 +20,7 @@ spec:
   values:
     image:
       repository: "factoriotools/factorio"
-      tag: 1.1.104
+      tag: 1.1.107
 
     service:
       type: LoadBalancer
