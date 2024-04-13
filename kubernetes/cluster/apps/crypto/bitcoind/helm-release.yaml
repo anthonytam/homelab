@@ -43,7 +43,7 @@ spec:
       app:
         enabled: true
         controller: app
-        prinary: true
+        primary: true
         type: LoadBalancer
         annotations:
           metallb.universe.tf/loadBalancerIPs: 10.200.12.2
