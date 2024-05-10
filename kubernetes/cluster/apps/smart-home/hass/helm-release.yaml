@@ -34,7 +34,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 16.2
+              tag: 16.3
             envFrom: 
               - secret: homeassistant-configuration
     serviceAccount:

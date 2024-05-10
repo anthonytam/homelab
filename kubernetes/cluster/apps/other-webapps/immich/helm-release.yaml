@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.102.3
+              tag: v1.103.1
             command: /bin/sh
             args:
               - ./start-server.sh
@@ -37,7 +37,7 @@ spec:
           microservice:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.102.3
+              tag: v1.103.1
             command: /bin/sh
             args:
               - ./start-microservices.sh
@@ -47,7 +47,7 @@ spec:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.102.3
+              tag: v1.103.1
             envFrom: *envFrom
       postgres:
         containers:
