@@ -27,7 +27,6 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.106.3
-            command: /bin/sh
             envFrom: &envFrom
               - secret: immich-configuration
       machine-learning:
