@@ -26,28 +26,16 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.103.1
+              tag: v1.106.3
             command: /bin/sh
-            args:
-              - ./start-server.sh
             envFrom: &envFrom
               - secret: immich-configuration
-      microservice:
-        containers:
-          microservice:
-            image:
-              repository: ghcr.io/immich-app/immich-server
-              tag: v1.103.1
-            command: /bin/sh
-            args:
-              - ./start-microservices.sh
-            envFrom: *envFrom
       machine-learning:
         containers:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.103.1
+              tag: v1.106.3
             envFrom: *envFrom
       postgres:
         containers:
@@ -71,12 +59,6 @@ spec:
         ports:
           http:
             port: 3001
-      microservice:
-        enabled: true
-        controller: microservice
-        ports:
-          http:
-            port: 3002
       machine-learning:
         enabled: true
         controller: machine-learning
