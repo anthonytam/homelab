@@ -20,5 +20,3 @@ spec:
   values:
     driver:
       enabled: false
-    toolkit:
-      enabled: false
