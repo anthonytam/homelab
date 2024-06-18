@@ -15,6 +15,7 @@ resources:
   - k8s-at-home.yaml
   - k8s-sigs.yaml
   - nextcloud-helm.yaml
+  - nvidia-device-plugin.yaml
   - sandermann.yaml
   - traefik.yaml
   - vmware-tanzu.yaml
