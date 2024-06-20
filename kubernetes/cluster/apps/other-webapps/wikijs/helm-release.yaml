@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: wikijs-home
@@ -23,7 +23,7 @@ spec:
       name: wikijs-home-app
     image:
       repository: linuxserver/wikijs
-      tag: 2.5.302
+      tag: 2.5.303
     env:
       TZ: America/Toronto
     envFrom:
