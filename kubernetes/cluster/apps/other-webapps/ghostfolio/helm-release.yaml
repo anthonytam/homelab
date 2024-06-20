@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.2/charts/library/common/values.schema.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: ghostfolio
@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.1.0
+      version: 3.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghostfolio/ghostfolio
-              tag: 2.80.0
+              tag: 2.89.0
             envFrom: &envFrom
               - secret: ghostfolio-configuration
       postgres:
@@ -42,7 +42,7 @@ spec:
           redis:
             image:
               repository: redis
-              tag: 7.2.4
+              tag: 7.2.5
     serviceAccount:
       create: true
       name: ghostfolio-app
