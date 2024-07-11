@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.2/charts/library/common/values.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: small-indie-bot
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      app:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: grafana/grafana-enterprise
+              tag: 11.1.0
+    serviceAccount:
+      create: true
+      name: small-indie-bot-grafana-app
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 3000
+    persistence:
+      data:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/small-indie-bot/grafana/data
+        advancedMounts:
+          app:
+            app:
+              - path: /var/lib/grafana
+                readOnly: false
