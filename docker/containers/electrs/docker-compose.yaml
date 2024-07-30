@@ -1,0 +1,16 @@
+services:
+  electrs:
+    image: registry.local.tam.land/anthonytam/electrs:latest
+    container_name: electrs
+    ports:
+      - 50001:50001
+      - 4224:4224
+    volumes:
+      - ./data/db:/app/data
+    environment:
+      ELECTRS_DB_DIR: /app/data
+      ELECTRS_ELECTRUM_RPC_ADDR: 0.0.0.0:50001
+      ELECTRS_DAEMON_RPC_ADDR: bitcoin-core-rpc.crypto.svc.cluster.local:8332
+      ELECTRS_DAEMON_P2P_ADDR: bitcoin-core-p2p.crypto.svc.cluster.local:8333
+      ELECTRS_MONITORING_ADDR: 0.0.0.0:4224
+      ELECTRS_LOG_FILTERS: INFO

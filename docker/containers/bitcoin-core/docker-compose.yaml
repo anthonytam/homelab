@@ -1,0 +1,9 @@
+services:
+  bitcoind:
+    image: registry.local.tam.land/anthonytam/bitcoind:v27.1
+    container_name: bitcoind
+    ports:
+      - 8332:8332
+      - 8333:8333
+    volumes:
+      - ./data:/app/.bitcoin

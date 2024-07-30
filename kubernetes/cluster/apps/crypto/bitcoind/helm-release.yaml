@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.1.0
+      version: 3.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,11 +27,8 @@ spec:
         containers:
           app:
             image:
-              repository: kylemanna/bitcoind
-              tag: latest
-              pullPolicy: Always
-            env:
-              TZ: America/Toronto
+              repository: registry.local.tam.land/anthonytam/bitcoind
+              tag: v27.1
             probes:
               liveness:
                 enabled: false
@@ -49,11 +46,11 @@ spec:
           metallb.universe.tf/loadBalancerIPs: 10.200.12.2
           metallb.universe.tf/allow-shared-ip: "crypto-sharing"
         ports:
-          bitcoind:
+          p2p:
             enabled: true
             port: 8333
             protocol: TCP
-          bitcoind-rpc:
+          rpc:
             enabled: true
             port: 8332
             protocol: TCP
@@ -61,9 +58,9 @@ spec:
       blockchain:
         enabled: true
         type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/crypto/bitcoind
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/bitcoind
         advancedMounts:
           app:
             app:
-              - path: /bitcoin/.bitcoin
+              - path: /app/.bitcoin
