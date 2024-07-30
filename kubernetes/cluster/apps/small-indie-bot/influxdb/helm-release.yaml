@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sylv-text-thing
-  namespace: other-webapps
+  name: influxdb
+  namespace: small-indie-bot
 spec:
   interval: 5m
   upgrade:
@@ -24,11 +24,11 @@ spec:
         containers:
           app:
             image:
-              repository: registry.local.tam.land/wow/sylvtextthing
-              tag: latest
+              repository: influxdb
+              tag: 2.7.8
     serviceAccount:
       create: true
-      name: sylvtextthing-app
+      name: small-indie-bot-influxdb-app
     service:
       app:
         enabled: true
@@ -36,29 +36,25 @@ spec:
         primary: true
         ports:
           http:
-            port: 80
-    ingress:
-      app:
-        enabled: true
-        hosts:
-          - host: sylv.tam.land
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-        tls:
-          - secretName: tamland-tls
-            hosts:
-              - sylv.tam.land
+            port: 8086
     persistence:
       config:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/other-webapps/sylvtextthing/app
+        path: /nfs-share/small-indie-bot/influxdb/config
         advancedMounts:
           app:
             app:
-              - path: /app/database
+              - path: /etc/influxdb2
+                readOnly: false
+      data:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/small-indie-bot/influxdb/data
+        advancedMounts:
+          app:
+            app:
+              - path: /var/lib/influxdb2
                 readOnly: false

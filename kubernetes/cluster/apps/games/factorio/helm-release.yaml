@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: factorio
@@ -20,7 +20,7 @@ spec:
   values:
     image:
       repository: "factoriotools/factorio"
-      tag: 1.1.107
+      tag: 1.1.109
 
     service:
       type: LoadBalancer

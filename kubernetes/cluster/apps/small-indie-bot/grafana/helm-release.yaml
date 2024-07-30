@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sylv-text-thing
-  namespace: other-webapps
+  name: grafana
+  namespace: small-indie-bot
 spec:
   interval: 5m
   upgrade:
@@ -24,11 +24,11 @@ spec:
         containers:
           app:
             image:
-              repository: registry.local.tam.land/wow/sylvtextthing
-              tag: latest
+              repository: grafana/grafana-enterprise
+              tag: 11.1.3
     serviceAccount:
       create: true
-      name: sylvtextthing-app
+      name: small-indie-bot-grafana-app
     service:
       app:
         enabled: true
@@ -36,29 +36,15 @@ spec:
         primary: true
         ports:
           http:
-            port: 80
-    ingress:
-      app:
-        enabled: true
-        hosts:
-          - host: sylv.tam.land
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-        tls:
-          - secretName: tamland-tls
-            hosts:
-              - sylv.tam.land
+            port: 3000
     persistence:
-      config:
+      data:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/other-webapps/sylvtextthing/app
+        path: /nfs-share/small-indie-bot/grafana/data
         advancedMounts:
           app:
             app:
-              - path: /app/database
+              - path: /var/lib/grafana
                 readOnly: false

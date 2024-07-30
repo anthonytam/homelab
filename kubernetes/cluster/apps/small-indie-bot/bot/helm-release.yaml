@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sylv-text-thing
-  namespace: other-webapps
+  name: bot
+  namespace: small-indie-bot
 spec:
   interval: 5m
   upgrade:
@@ -24,41 +24,21 @@ spec:
         containers:
           app:
             image:
-              repository: registry.local.tam.land/wow/sylvtextthing
+              repository: registry.local.tam.land/anthonytam/small-indie-bot
               tag: latest
+            envFrom:
+              - secret: bot-configuration
     serviceAccount:
       create: true
-      name: sylvtextthing-app
-    service:
-      app:
-        enabled: true
-        controller: app
-        primary: true
-        ports:
-          http:
-            port: 80
-    ingress:
-      app:
-        enabled: true
-        hosts:
-          - host: sylv.tam.land
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-        tls:
-          - secretName: tamland-tls
-            hosts:
-              - sylv.tam.land
+      name: small-indie-bot-app
     persistence:
       config:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/other-webapps/sylvtextthing/app
+        path: /nfs-share/small-indie-bot/bot/config
         advancedMounts:
           app:
             app:
-              - path: /app/database
+              - path: /app
                 readOnly: false
