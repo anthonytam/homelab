@@ -1,0 +1,86 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: electrs
+  namespace: crypto
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 3.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    serviceAccount:
+      create: true
+      name: electrs-app
+    controllers:
+      app:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: registry.local.tam.land/anthonytam/electrs
+              tag: v0.10.5
+            env:
+              ELECTRS_DB_DIR: /app/data
+              ELECTRS_ELECTRUM_RPC_ADDR: 0.0.0.0:50001
+              ELECTRS_DAEMON_RPC_ADDR: bitcoind.local.tam.land:8332
+              ELECTRS_DAEMON_P2P_ADDR: bitcoind.local.tam.land:8333
+              ELECTRS_MONITORING_ADDR: 0.0.0.0:4224
+              ELECTRS_LOG_FILTERS: INFO
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        type: LoadBalancer
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.2
+          metallb.universe.tf/allow-shared-ip: "crypto-sharing"
+        ports:
+          rpc:
+            enabled: true
+            port: 50001
+            protocol: TCP
+      monitoring:
+        enabled: true
+        controller: app
+        ports:
+          monitoring:
+            enabled: true
+            port: 4224
+            protocol: TCP
+    persistence:
+      database:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/crypto/electrs
+        advancedMounts:
+          app:
+            app:
+              - path: /app/data
+      blockchain:
+        enabled: true
+        type: nfs
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/crypto/bitcoind
+        advancedMounts:
+          app:
+            app:
+              - path: /app/.bitcoin
