@@ -59,7 +59,7 @@ spec:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
-        path: /mnt/main-bay/k8s-data/bitcoind
+        path: /mnt/main-bay/k8s-data/crypto/bitcoind
         advancedMounts:
           app:
             app:
