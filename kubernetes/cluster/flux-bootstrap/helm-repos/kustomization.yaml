@@ -7,15 +7,13 @@ resources:
   - bitnami.yaml
   - bjw-s.yaml
   - blockchain-charts.yaml
-  - elastic-co.yaml
   - external-secrets.yaml
   - factorio-helm.yaml
+  - grafana.yaml
   - hashicorp.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
   - k8s-sigs.yaml
-  - nextcloud-helm.yaml
   - nvidia-device-plugin.yaml
   - sandermann.yaml
   - traefik.yaml
-  - vmware-tanzu.yaml
