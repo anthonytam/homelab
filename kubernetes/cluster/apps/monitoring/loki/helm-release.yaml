@@ -71,10 +71,20 @@ spec:
         storageClass: "loki-nfs-provisioner"
     read:
       replicas: 1
+      extraArgs:
+        - -validation.max-entries-limit=20000
+        - -querier.query-timeout=5m
+        - -server.http-read-timeout=5m
+        - -server.http-write-timeout=5m
     write:
       replicas: 3
       persistence:
         storageClass: "loki-nfs-provisioner"
+      extraArgs:
+        - -validation.max-entries-limit=20000
+        - -querier.query-timeout=5m
+        - -server.http-read-timeout=5m
+        - -server.http-write-timeout=5m
 
     # Use our own minio instance
     minio:
