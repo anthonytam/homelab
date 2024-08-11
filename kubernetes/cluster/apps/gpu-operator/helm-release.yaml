@@ -19,4 +19,8 @@ spec:
       interval: 5m
   values:
     driver:
-      enabled: false
+      enabled: true
+    nfd:
+      enabled: true
+    toolkit:
+      enabled: true
