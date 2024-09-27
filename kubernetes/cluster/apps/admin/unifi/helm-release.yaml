@@ -24,7 +24,7 @@ spec:
       name: unifi-app
     image:
       repository: jacobalberty/unifi
-      tag: v8.3.32
+      tag: v8.4.62
     env:
       TZ: America/Toronto
     service:
