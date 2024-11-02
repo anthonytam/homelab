@@ -28,10 +28,12 @@ spec:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.14.0-beta3
+              tag: 0.15.0-beta1
             resources:
               limits:
                 nvidia.com/gpu: 1
+            securityContext:
+              privileged: true
     ingress:
       app:
         enabled: true
@@ -73,6 +75,12 @@ spec:
         path: /mnt/main-bay/k8s-data/frigate
         globalMounts:
           - path: /media
+      usb:
+        type: hostPath
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+        globalMounts:
+          - path: /dev/bus/usb
       shm:
         type: emptyDir
         medium: Memory
