@@ -37,6 +37,13 @@ spec:
               tag: 16.4
             envFrom: 
               - secret: homeassistant-configuration
+      influxdb:
+        enabled: true
+        containers:
+          influxdb:
+            image:
+              repository: influxdb
+              tag: 2.7.10
     serviceAccount:
       name: homeassistant-app
       create: true
@@ -54,6 +61,12 @@ spec:
         ports:
           http:
             port: 5432
+      influxdb:
+        enabled: true
+        controller: influxdb
+        ports:
+          http:
+            port: 8086
     ingress:
       app:
         enabled: true
@@ -88,4 +101,24 @@ spec:
           postgres:
             postgres:
               - path: /var/lib/postgresql/data
+                readOnly: false
+      influxconfig:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/smart-home/influxdb/config
+        advancedMounts:
+          influxdb:
+            influxdb:
+              - path: /etc/influxdb2
+                readOnly: false
+      influxdata:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/smart-home/influxdb/data
+        advancedMounts:
+          influxdb:
+            influxdb:
+              - path: /var/lib/influxdb2
                 readOnly: false
