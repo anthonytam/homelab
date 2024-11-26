@@ -9,3 +9,4 @@ resources:
   - sylvtextthing
   - immich
   - paperless-ngx
+  - ollama
