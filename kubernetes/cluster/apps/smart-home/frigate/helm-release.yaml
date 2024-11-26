@@ -17,11 +17,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    defaultPodOptions:
-      tolerations:
-        - key: nvidia.com/gpu
-          operator: Exists
-          effect: NoSchedule
     controllers:
       app:
         containers:
@@ -29,12 +24,12 @@ spec:
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.15.0-beta1
-            resources:
-              limits:
-                nvidia.com/gpu: 1
             securityContext:
               privileged: true
+        env:
+          NVIDIA_VISIBLE_DEVICES: all
         pod:
+          runtimeClassName: nvidia
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
