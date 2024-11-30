@@ -26,8 +26,8 @@ spec:
               tag: 0.15.0-beta1
             securityContext:
               privileged: true
-        env:
-          NVIDIA_VISIBLE_DEVICES: all
+            env:
+              NVIDIA_VISIBLE_DEVICES: all
         pod:
           runtimeClassName: nvidia
           affinity:
