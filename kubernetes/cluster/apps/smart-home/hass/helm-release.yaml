@@ -35,7 +35,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 16.4
+              tag: 16.6
             envFrom: 
               - secret: homeassistant-configuration
       influxdb:
