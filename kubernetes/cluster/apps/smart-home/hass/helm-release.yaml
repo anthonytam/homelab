@@ -29,6 +29,13 @@ spec:
             env:
               TZ: America/Toronto
               PYTHONPATH: /config/deps
+#            Just gunna leave this here.
+#            If the module install failure bug pops up, uncomment this and remove PYTHONPATH
+#            https://github.com/home-assistant/core/issues/127966#issuecomment-2468391662
+#            lifecycle:
+#              postStart:
+#                exec:
+#                  command: ["touch", "/.dockerenv"]
       postgres:
         enabled: true
         containers:
