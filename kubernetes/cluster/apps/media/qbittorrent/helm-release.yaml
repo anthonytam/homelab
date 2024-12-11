@@ -1,0 +1,140 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+  namespace: media
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    defaultPodOptions:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+    controllers:
+      app:
+        enabled: true
+        initContainers:
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.7
+            restartPolicy: Always
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+          gluetun:
+            dependsOn: dnsdist
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.39.1
+            envFrom:
+              - secret: qbittorrent-configuration
+            restartPolicy: Always
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+        containers:
+          app:
+            image:
+              repository: linuxserver/qbittorrent
+              tag: 4.6.6
+            env:
+              PUID: 568
+              PGID: 568
+          port-forward:
+            image:
+              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
+              tag: 0.0.2
+            env:
+              GLUETUN_CONTROL_SERVER_HOST: localhost
+              GLUETUN_CONTROL_SERVER_PORT: 8000
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_WEBUI_PORT: 8080
+              CRON_ENABLED: true
+              CRON_SCHEDULE: "*/10 * * * *"
+              LOG_TIMESTAMP: false
+            securityContext:
+              runAsUser: 568
+              runAsGroup: 568
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+    serviceAccount:
+      create: true
+      name: qbittorrent-app
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 8080
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: qbittorrent.local.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: local-tamland-tls
+            hosts:
+              - qbittorrent.local.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/qbittorrent/config
+        advancedMounts:
+          app:
+            app:
+              - path: /config
+                readOnly: false
+      media:
+        enabled: true
+        type: nfs
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/media
+        advancedMounts:
+          app:
+            app:
+              - path: /media
+                readOnly: false
+      dnsdist:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/dnsdist
+        advancedMounts:
+          app:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.conf
+                subPath: dnsdist.conf
+                readOnly: true
+      port-forward-config:
+        type: emptyDir
+        advancedMounts:
+          app:
+            port-forward:
+              - path: /config

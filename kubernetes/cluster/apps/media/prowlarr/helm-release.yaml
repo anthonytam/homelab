@@ -1,0 +1,104 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prowlarr
+  namespace: media
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    defaultPodOptions:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+    controllers:
+      app:
+        enabled: true
+        initContainers:
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.7
+            restartPolicy: Always
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+          gluetun:
+            dependsOn: dnsdist
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.39.1
+            envFrom:
+              - secret: prowlarr-configuration
+            restartPolicy: Always
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+              allowPrivilegeEscalation: false
+        containers:
+          app:
+            image:
+              repository: linuxserver/prowlarr
+              tag: 1.27.0
+            env:
+              PUID: 568
+              PGID: 568
+    serviceAccount:
+      create: true
+      name: prowlarr-app
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 9696
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: prowlarr.local.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: local-tamland-tls
+            hosts:
+              - proawlarr.local.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/prowlarr/config
+        advancedMounts:
+          app:
+            app:
+              - path: /config
+                readOnly: false
+      dnsdist:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/dnsdist
+        advancedMounts:
+          app:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.conf
+                subPath: dnsdist.conf
+                readOnly: true
