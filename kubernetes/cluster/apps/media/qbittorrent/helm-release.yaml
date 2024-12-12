@@ -121,6 +121,15 @@ spec:
             app:
               - path: /media
                 readOnly: false
+      tun:
+        type: hostPath
+        hostPath: /dev/net
+        hostPathType: Directory
+        advancedMounts:
+          app:
+            gluetun:
+              - path: /dev/net/tun
+                subPath: tun
       dnsdist:
         enabled: true
         type: nfs
