@@ -49,8 +49,8 @@ spec:
         containers:
           app:
             image:
-              repository: linuxserver/qbittorrent
-              tag: 4.6.6
+              repository: lscr.io/linuxserver/qbittorrent
+              tag: 5.0.2
             env:
               PUID: 568
               PGID: 568

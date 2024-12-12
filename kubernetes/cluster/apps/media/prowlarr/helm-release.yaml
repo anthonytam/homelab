@@ -50,7 +50,7 @@ spec:
         containers:
           app:
             image:
-              repository: linuxserver/prowlarr
+              repository: lscr.io/linuxserver/prowlarr
               tag: 1.27.0
             env:
               PUID: 568

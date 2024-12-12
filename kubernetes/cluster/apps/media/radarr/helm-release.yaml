@@ -22,7 +22,7 @@ spec:
         containers:
           app:
             image:
-              repository: linuxserver/radarr
+              repository: lscr.io/linuxserver/radarr
               tag: 5.15.1
             env:
               PUID: 568
