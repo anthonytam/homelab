@@ -29,7 +29,7 @@ spec:
           dnsdist:
             image:
               repository: docker.io/powerdns/dnsdist-19
-              tag: 1.9.7
+              tag: 1.9.8
             restartPolicy: Always
             securityContext:
               runAsUser: 0
@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/qbittorrent
-              tag: 5.0.2
+              tag: 5.0.3
             env:
               PUID: 568
               PGID: 568
