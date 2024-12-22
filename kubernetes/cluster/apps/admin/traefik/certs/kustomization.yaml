@@ -6,3 +6,4 @@ resources:
   - homelandfarm.yaml
   - local-tamland.yaml
   - retrorepairwiki.yaml
+  - local-homerow.yaml
