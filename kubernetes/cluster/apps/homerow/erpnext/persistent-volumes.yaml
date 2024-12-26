@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: erpnext-worker-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    name: erpnext-worker-pvc
+    namespace: homerow
+  nfs:
+    path: "/nfs-share/homerow/erpnext/worker"
+    server: "nfs.local.tam.land"
+    readOnly: false
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: erpnext-worker-pvc
+  namespace: homerow
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: erpnext-worker-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: erpnext-mariadb-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    name: erpnext-mariadb-pvc
+    namespace: homerow
+  nfs:
+    path: "/nfs-share/homerow/erpnext/mariadb"
+    server: "nfs.local.tam.land"
+    readOnly: false
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: erpnext-mariadb-pvc
+  namespace: homerow
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: erpnext-mariadb-pv

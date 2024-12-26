@@ -9,6 +9,7 @@ resources:
   - blockchain-charts.yaml
   - external-secrets.yaml
   - factorio-helm.yaml
+  - frappe.yaml
   - grafana.yaml
   - hashicorp.yaml
   - jetstack.yaml

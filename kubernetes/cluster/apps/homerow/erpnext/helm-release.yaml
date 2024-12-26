@@ -1,0 +1,57 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: erpnext
+  namespace: homerow
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: erpnext
+      version: 7.0.146
+      sourceRef:
+        kind: HelmRepository
+        name: frappe
+        namespace: flux-system
+      interval: 5m
+  valuesFrom:
+    - kind: Secret
+      name: erpnext-values
+      valuesKey: mariadb_root_password
+      targetPath: mariadb.auth.rootPassword
+    - kind: Secret
+      name: erpnext-values
+      valuesKey: mariadb_user
+      targetPath: mariadb.auth.username
+    - kind: Secret
+      name: erpnext-values
+      valuesKey: mariadb_password
+      targetPath: mariadb.auth.password
+    - kind: Secret
+      name: erpnext-values
+      valuesKey: mariadb_replication_password
+      targetPath: mariadb.auth.replicationPassword
+  values:
+    image:
+      repository: frappe/erpnext
+      tag: v15.46.1
+    persistence:
+      worker:
+        existingClaim: erpnext-worker-pvc
+    ingress:
+      enabled: true
+      hosts:
+        - host: erp.local.homerow.ca
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: local-homerow-tls
+          hosts:
+            - erp.local.homerow.ca
+    mariadb:
+      primary:
+        persistence:
+          existingClaim: erpnext-mariadb-pvc
