@@ -1,0 +1,34 @@
+image:
+  repository: frappe/erpnext
+  tag: v15.46.1
+persistence:
+  worker:
+    existingClaim: erpnext-worker-pvc
+ingress:
+  enabled: true
+  hosts:
+    - host: erp.local.homerow.ca
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: local-homerow-tls
+      hosts:
+        - erp.local.homerow.ca
+mariadb:
+  auth:
+    rootPassword: #REDACTED
+    username: #REDACTED
+    password: #REDACTED
+    replicationPassword: #REDACTED
+  primary:
+    persistence:
+      existingClaim: erpnext-mariadb-pvc
+jobs:
+  createSite:
+    enabled: true
+    siteName: erp.local.homerow.ca
+    adminPassword: #REDACTED
+  dropSite:
+    enabled: true
+    siteName: erp.local.homerow.ca

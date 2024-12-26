@@ -1,0 +1,59 @@
+---
+# Source: erpnext/templates/job-drop-site.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: frappe-bench-erpnext-drop-site-20241222132320
+  namespace: homerow
+  labels:
+    helm.sh/chart: erpnext-7.0.146
+    app.kubernetes.io/name: erpnext
+    app.kubernetes.io/instance: frappe-bench
+    app.kubernetes.io/version: "v15.45.5"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      serviceAccountName: erpnext
+      securityContext:
+        supplementalGroups:
+        - 1000
+      containers:
+      - name: drop-site
+        image: "frappe/erpnext:v15.46.1"
+        imagePullPolicy: IfNotPresent
+        command: ["bash", "-c"]
+        args:
+          - bench drop-site
+            --root-login=$DB_ROOT_USER
+            --root-password=$DB_ROOT_PASSWORD
+            --archived-sites-path=archived_sites
+            --no-backup
+            $(SITE_NAME)
+        env:
+          - name: "SITE_NAME"
+            value: "erp.local.homerow.ca"
+          - name: "DB_ROOT_USER"
+            value: "root"
+          - name: "DB_ROOT_PASSWORD"
+            value: #REDACTED
+        resources:
+            {}
+        securityContext:
+            capabilities:
+              add:
+              - CAP_CHOWN
+        volumeMounts:
+          - name: sites-dir
+            mountPath: /home/frappe/frappe-bench/sites
+          - name: logs
+            mountPath: /home/frappe/frappe-bench/logs
+      restartPolicy: Never
+      volumes:
+        - name: sites-dir
+          persistentVolumeClaim:
+            claimName: erpnext-worker-pvc
+            readOnly: false
+        - name: logs
+          emptyDir: {}
