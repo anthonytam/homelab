@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.5.1
+      version: 3.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -38,7 +38,7 @@ spec:
             dependsOn: dnsdist
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: v3.39.1
+              tag: v3.40.0
             envFrom:
               - secret: qbittorrent-configuration
             restartPolicy: Always
