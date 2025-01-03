@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: frooodle/s-pdf
-              tag: 0.36.5
+              tag: 0.36.6
     serviceAccount:
       create: true
       name: stirlingpdf-app
