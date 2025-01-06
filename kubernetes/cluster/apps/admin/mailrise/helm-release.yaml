@@ -17,15 +17,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    defaultPodOptions:
-      annotations:
-        vault.hashicorp.com/agent-inject: 'true'
-        vault.hashicorp.com/role: 'mailrise-role'
-        vault.hashicorp.com/agent-inject-secret-mailrise.conf: 'secrets/admin/mailrise'
-        vault.hashicorp.com/agent-inject-template-mailrise.conf: |
-          {{- with secret "secrets/admin/mailrise" -}}
-          {{ .Data.data.config }}
-          {{- end -}}
     controllers:
       app:
         enabled: true
@@ -34,9 +25,6 @@ spec:
             image:
               repository: yoryan/mailrise
               tag: latest
-            command:
-              - 'mailrise'
-              - '/vault/secrets/mailrise.conf'
     serviceAccount:
       create: true
       name: mailrise-app
@@ -55,3 +43,15 @@ spec:
             primary: true
             port: 8025
             protocol: TCP
+    persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/admin/mailrise
+        advancedMounts:
+          app:
+            app:
+              - path: /etc/mailrise.conf
+                subPath: mailrise.conf
+    
