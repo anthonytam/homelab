@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ollama/ollama
-              tag: 0.5.4
+              tag: 0.5.5
             env:
               NVIDIA_VISIBLE_DEVICES: all
               OLLAMA_KEEP_ALIVE: 24h
