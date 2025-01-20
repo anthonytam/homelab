@@ -59,3 +59,12 @@ spec:
           app:
             app:
               - path: /config
+      data-files:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/3d-printing/orcaslicer/data-files
+        advancedMounts:
+          app:
+            app:
+              - path: /data-files
