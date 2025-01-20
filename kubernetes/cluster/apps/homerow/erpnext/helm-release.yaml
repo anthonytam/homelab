@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: erpnext
-      version: 7.0.150
+      version: 7.0.155
       sourceRef:
         kind: HelmRepository
         name: frappe
@@ -36,7 +36,7 @@ spec:
   values:
     image:
       repository: frappe/erpnext
-      tag: v15.47.4
+      tag: v15.48.3
     persistence:
       worker:
         existingClaim: erpnext-worker-pvc

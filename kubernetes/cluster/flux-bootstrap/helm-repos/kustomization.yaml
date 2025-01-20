@@ -17,5 +17,6 @@ resources:
   - k8s-sigs.yaml
   - nfs-provisioner.yaml
   - nvidia-device-plugin.yaml
+  - prometheus-community.yaml
   - sandermann.yaml
   - traefik.yaml
