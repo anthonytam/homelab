@@ -10,3 +10,4 @@ resources:
   - immich
   - paperless-ngx
   - ollama
+  - wallos
