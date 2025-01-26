@@ -1,0 +1,79 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: calibre-web-automated
+  namespace: media
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      app:
+        containers:
+          app:
+            image:
+              repository: crocodilestick/calibre-web-automated
+              tag: V2.1.2
+            env:
+              PUID: 33
+              PGID: 33
+              TZ: America/Toronto
+              DOCKER_MODS: lscr.io/linuxserver/mods:universal-calibre-v7.16.0
+    service:
+      app:
+        controller: app
+        ports:
+          http:
+            port: 8083
+    ingress:
+      gui:
+        enabled: true
+        hosts:
+          - host: books.local.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: local-tamland-tls
+            hosts:
+              - books.local.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/calibre-web-automated/config
+        advancedMounts:
+          app:
+            app:
+              - path: /config
+      ingest:
+        enabled: true
+        type: nfs
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/media/books/import
+        advancedMounts:
+          app:
+            app:
+              - path: /cwa-book-ingest
+      library:
+        enabled: true
+        type: nfs
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/media/books/library
+        advancedMounts:
+          app:
+            app:
+              - path: /calibre-library

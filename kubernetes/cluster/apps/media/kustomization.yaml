@@ -9,3 +9,6 @@ resources:
   - sonarr
   - radarr
   - plex
+  - calibre-web-automated
+  - calibre-web-automated-downloader
+  - jellyfin
