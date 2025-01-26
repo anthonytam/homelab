@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: bellamy/wallos
-              tag: 2.42.2
+              tag: 2.45.0
             env:
               TZ: America/Toronto
     serviceAccount:
