@@ -10,35 +10,96 @@ spec:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: unifi
-      version: 5.1.2
+      chart: app-template
+      version: 3.6.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
     serviceAccount:
       create: true
       name: unifi-app
-    image:
-      repository: jacobalberty/unifi
-      tag: v9.0.108
-    env:
-      TZ: America/Toronto
+    controllers:
+      app:
+        containers:
+          app:
+            image:
+              repository: lscr.io/linuxserver/unifi-network-application
+              tag: 9.0.18
+            envFrom: &envFrom
+              - secret: unifi-configuration
+            env:
+              PUID: 568
+              GUID: 568
+              TZ: America/Toronto
+          mongodb:
+            image:
+              repository: mongo
+              tag: 7.0.16
+            envFrom: *envFrom
     service:
-      main:
+      app:
         enabled: true
+        controller: app
+        primary: true
+        type: LoadBalancer
         annotations:
           metallb.universe.tf/loadBalancerIPs: 10.200.12.1
           metallb.universe.tf/allow-shared-ip: "misc-sharing"
-        type: LoadBalancer
-    persistence:
-      data:
+        ports:
+          stun:
+            port: 3478
+            protocol: UDP
+          device:
+            port: 8080
+            protocol: TCP
+          https:
+            port: 8443
+            protocol: HTTPS
+          discovery:
+            port: 10001
+            protocol: UDP
+    ingress:
+      app:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: nfs.local.tam.land
-            path: /nfs-share/unifi
+        hosts:
+          - host: unifi.local.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: local-tamland-tls
+            hosts:
+              - unifi.local.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/admin/unifi/config
+        advancedMounts:
+          app:
+            app:
+              - path: /config
+      mongodb:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/admin/unifi/mongodb
+        advancedMounts:
+          app:
+            mongodb:
+              - path: /data/db
+      mongodb-init:
+        enabled: true
+        type: configMap
+        name: unifi-init-mongo
+        advancedMounts:
+          app:
+            mongodb:
+              - path: /docker-entrypoint-initdb.d/init-mongo.sh
+                subPath: init-mongo.sh
