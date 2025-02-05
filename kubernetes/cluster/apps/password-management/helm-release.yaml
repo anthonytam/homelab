@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: vaultwarden/server
-      tag: 1.33.0
+      tag: 1.33.1
     service:
       main:
         ports:
