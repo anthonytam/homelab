@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: grafana/grafana-enterprise
-              tag: 11.4.0
+              tag: 11.5.1
     serviceAccount:
       create: true
       name: small-indie-bot-grafana-app
