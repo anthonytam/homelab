@@ -45,7 +45,7 @@ spec:
           webui:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: 0.5.7
+              tag: 0.5.10
             env:
               OLLAMA_BASE_URLS: http://ollama.other-webapps.svc.cluster.local:11434
     serviceAccount:
