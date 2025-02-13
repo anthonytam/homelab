@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.125.7
+              tag: v1.126.1
             envFrom: &envFrom
               - secret: immich-configuration
       machine-learning:
@@ -34,7 +34,7 @@ spec:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.125.7
+              tag: v1.126.1
             envFrom: *envFrom
       postgres:
         containers:
