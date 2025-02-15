@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - tamland.yaml
   - homelandfarm.yaml
+  - homerow.yaml
   - local-tamland.yaml
   - retrorepairwiki.yaml
   - local-homerow.yaml

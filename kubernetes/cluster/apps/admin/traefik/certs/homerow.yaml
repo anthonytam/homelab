@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: homerow-tls
+  namespace: admin
+type: Opaque
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "homerow-cert"
+  namespace: admin
+spec:
+  secretName: "homerow-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "homerow.ca"
+  dnsNames:
+    - "homerow.ca"
+    - "*.homerow.ca"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: homerow-tlsstore
+  namespace: admin
+spec:
+  defaultCertificate:
+    secretName: "homerow-tls"
