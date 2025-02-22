@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: jellyfin/jellyfin
-              tag: 10.10.5
+              tag: 10.10.6
             env:
               NVIDIA_VISIBLE_DEVICES: all
               TZ: America/Toronto
