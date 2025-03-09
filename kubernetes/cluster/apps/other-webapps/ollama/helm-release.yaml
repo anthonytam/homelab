@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ollama/ollama
-              tag: 0.5.12
+              tag: 0.5.13
             env:
               NVIDIA_VISIBLE_DEVICES: all
               OLLAMA_KEEP_ALIVE: 24h
@@ -45,7 +45,7 @@ spec:
           webui:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: 0.5.16
+              tag: 0.5.20
             env:
               OLLAMA_BASE_URLS: http://ollama.other-webapps.svc.cluster.local:11434
     serviceAccount:
