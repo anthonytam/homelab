@@ -22,16 +22,20 @@ spec:
     serviceAccount:
       name: traefik-app
     image:
-      name: traefik
-      tag: v2.5.5
+      tag: v3.1.3
     ingressRoute:
       dashboard:
         enabled: true
     ports:
       web:
-        redirectTo:
-          port: websecure
+        asDefault: false
+        redirections:
+          entrypoint:
+            to: websecure
+            scheme: https
+            peranent: true
       websecure:
+        asDefault: true
         tls:
           enabled: true
           options: "default"
@@ -42,3 +46,7 @@ spec:
     additionalArguments:
       - "--providers.file.filename=/etc/traefik/dynamic.yml"
       - "--providers.file.watch=true"
+    service:
+      spec:
+        externalTrafficPolicy: Cluster
+        loadBalancerIP: 10.200.12.0

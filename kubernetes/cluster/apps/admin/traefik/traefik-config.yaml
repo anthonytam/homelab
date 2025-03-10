@@ -8,9 +8,6 @@ data:
   dynamic.yml: |
     http:
       middlewares:
-        basic:
-          basicAuth:
-            users: [""]
         localOnly:
           ipWhiteList:
             sourceRange:
