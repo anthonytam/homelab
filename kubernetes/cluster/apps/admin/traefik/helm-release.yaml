@@ -22,7 +22,7 @@ spec:
     serviceAccount:
       name: traefik-app
     image:
-      tag: v3.1.3
+      tag: v3.3.4
     ingressRoute:
       dashboard:
         enabled: true
