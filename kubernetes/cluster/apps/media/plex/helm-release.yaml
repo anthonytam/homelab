@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/plex
-              tag: 1.41.4
+              tag: 1.41.5
             env:
               NVIDIA_VISIBLE_DEVICES: all
               PUID: 568
