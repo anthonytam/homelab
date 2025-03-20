@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
-              tag: "20250317"
+              tag: "20250320"
             env:
               CLOUDFLARE_PROXY_BYPASS: http://localhost:8000
               UID: 33
