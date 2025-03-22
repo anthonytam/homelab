@@ -21,7 +21,7 @@ spec:
         - 1000
       containers:
       - name: drop-site
-        image: "frappe/erpnext:v15.54.4"
+        image: "frappe/erpnext:v15.54.5"
         imagePullPolicy: IfNotPresent
         command: ["bash", "-c"]
         args:
