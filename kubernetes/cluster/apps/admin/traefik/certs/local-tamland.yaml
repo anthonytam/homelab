@@ -32,3 +32,14 @@ metadata:
 spec:
   defaultCertificate:
     secretName: "local-tamland-tls"
+---
+apiVersion: homerow.ca/v1
+kind: SyncSecret
+metadata:
+  name: local-tamland-tls-secret
+spec:
+  secret:
+    name: local-tamland-tls
+    namespace: admin
+  destinationNamespaces:
+    - other-webapps

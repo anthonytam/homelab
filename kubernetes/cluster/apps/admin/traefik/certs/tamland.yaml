@@ -29,3 +29,16 @@ metadata:
 spec:
   defaultCertificate:
     secretName: "tamland-tls"
+---
+apiVersion: homerow.ca/v1
+kind: SyncSecret
+metadata:
+  name: tamland-tls-secret
+spec:
+  secret:
+    name: tamland-tls
+    namespace: admin
+  destinationNamespaces:
+    - other-webapps
+    - password-management
+    - smart-home
