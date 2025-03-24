@@ -29,3 +29,14 @@ metadata:
 spec:
   defaultCertificate:
     secretName: "homerow-tls"
+---
+apiVersion: homerow.ca/v1
+kind: SyncSecret
+metadata:
+  name: homerow-tls-secret
+spec:
+  secret:
+    name: homerow-tls
+    namespace: admin
+  destinationNamespaces:
+    - homerow
