@@ -23,7 +23,7 @@ spec:
       name: registry-app
     image:
       repository: registry
-      tag: 2
+      tag: 3
     service:
       main:
         enabled: true
