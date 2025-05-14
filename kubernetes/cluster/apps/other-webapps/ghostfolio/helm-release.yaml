@@ -42,7 +42,7 @@ spec:
           redis:
             image:
               repository: redis
-              tag: 7.4.3
+              tag: 8.0.1
     serviceAccount:
       create: true
       name: ghostfolio-app
