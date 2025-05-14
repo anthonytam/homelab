@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.14.7
+              tag: 2.15.3
             envFrom: &envFrom
               - secret: paperless-configuration
       postgres:
@@ -35,14 +35,14 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 16.8
+              tag: 16.9
             envFrom: *envFrom
       redis:
         containers:
           app:
             image:
               repository: redis
-              tag: 7.4.2
+              tag: 7.4.3
     service:
       app:
         controller: app
