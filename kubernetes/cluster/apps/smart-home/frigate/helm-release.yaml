@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.15.0-beta1
+              tag: 0.16.0-beta1
             securityContext:
               privileged: true
             env:
