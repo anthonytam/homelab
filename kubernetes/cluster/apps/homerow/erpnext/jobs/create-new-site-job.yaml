@@ -22,7 +22,7 @@ spec:
         - 1000
       initContainers:
         - name: validate-config
-          image: "frappe/erpnext:v15.61.1"
+          image: "frappe/erpnext:v15.62.0"
           imagePullPolicy: IfNotPresent
           command: ["bash", "-c"]
           args:
@@ -60,7 +60,7 @@ spec:
               mountPath: /home/frappe/frappe-bench/sites
       containers:
       - name: create-site
-        image: "frappe/erpnext:v15.61.1"
+        image: "frappe/erpnext:v15.62.0"
         imagePullPolicy: IfNotPresent
         command: ["bash", "-c"]
         args:
