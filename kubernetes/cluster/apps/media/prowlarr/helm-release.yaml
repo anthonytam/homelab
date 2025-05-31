@@ -51,7 +51,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/prowlarr
-              tag: 1.35.1
+              tag: 1.36.3
             env:
               PUID: 568
               PGID: 568
