@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: topdecked-tls
+  namespace: admin
+type: Opaque
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "topdecked-cert"
+  namespace: admin
+spec:
+  secretName: "topdecked-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "topdecked.ca"
+  dnsNames:
+    - "topdecked.ca"
+    - "*.topdecked.ca"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: topdecked-tlsstore
+  namespace: admin
+spec:
+  defaultCertificate:
+    secretName: "topdecked-tls"
+---
+apiVersion: homerow.ca/v1
+kind: SyncSecret
+metadata:
+  name: topdecked-tls-secret
+spec:
+  secret:
+    name: topdecked-tls
+    namespace: admin
+  destinationNamespaces:
+    - homerow
