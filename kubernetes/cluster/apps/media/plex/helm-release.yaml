@@ -31,16 +31,13 @@ spec:
               PGID: 568
               TZ: America/Toronto
         pod:
-          runtimeClassName: nvidia
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
-                      - key: kubernetes.io/hostname
-                        operator: In
-                        values:
-                          - worker04
+                    - key: extensions.talos.dev/nonfree-kmod-nvidia-production
+                      operator: Exists
     serviceAccount:
       create: true
       name: plex-app
