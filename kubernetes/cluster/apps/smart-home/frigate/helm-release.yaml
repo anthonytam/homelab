@@ -17,25 +17,21 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    defaultPodOptions:
+      tolerations:
+        - key: node.kubernetes.io/assignment
+          operator: Equal
+          value: tpu
+          effect: NoSchedule
     controllers:
       app:
         containers:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.16.0-beta1
+              tag: 0.16.0-beta3
             securityContext:
               privileged: true
-            env:
-              NVIDIA_VISIBLE_DEVICES: all
-        pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                    - key: extensions.talos.dev/nonfree-kmod-nvidia-production
-                      operator: Exists
     ingress:
       app:
         enabled: true
@@ -83,10 +79,16 @@ spec:
         hostPathType: Directory
         globalMounts:
           - path: /dev/bus/usb
+      quicksync:
+        type: hostPath
+        hostPath: /dev/dri
+        hostPathType: Directory
+        globalMounts:
+          - path: /dev/dri
       shm:
         type: emptyDir
         medium: Memory
-        sizeLimit: 1Gi
+        sizeLimit: 2Gi
         globalMounts:
           - path: /dev/shm
       cache:
