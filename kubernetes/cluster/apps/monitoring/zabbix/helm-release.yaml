@@ -1,0 +1,90 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zabbix
+  namespace: monitoring
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: zabbix
+      version: 7.0.11
+      sourceRef:
+        kind: HelmRepository
+        name: zabbix-community
+        namespace: flux-system
+      interval: 5m
+  values:
+    zabbixImageTag: ubuntu-7.0.13
+    postgresAccess:
+      existingSecretName: "zabbix-postgres-configuration"
+      secretHostKey: HOSTNAME
+      secretPortKey: PORT
+      secretUserKey: USERNAME
+      secretPasswordKey: PASSWORD
+      secretDBKey: DATABASE
+      secretSchemaKey: ""
+    zabbixServer:
+      enabled: true
+      zabbixServerHA:
+        enabled: false
+      service:
+        type: LoadBalancer
+        # externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+    postgresql:
+      enabled: false
+    zabbixProxy:
+      enabled: false
+    zabbixAgent:
+      enabled: true
+      runAsSidecar: false
+      runAsDaemonSet: true
+      resources: {}
+      ZBX_SERVER_HOST: zabbix-zabbix-server.monitoring.svc.cluster.local
+      ZBX_SERVER_PORT: 10051
+      ZBX_PASSIVE_ALLOW: true
+      ZBX_PASSIVESERVERS: 10.200.11.0/24
+      ZBX_ACTIVE_ALLOW: true
+      ZBX_DEBUGLEVEL: 3
+      ZBX_TIMEOUT: 4
+      service:
+        type: ClusterIp
+        port: 10050
+      livenessProbe:
+        enabled: false
+    zabbixWeb:
+      enabled: true
+      port: 8080
+      service:
+        type: ClusterIP
+        port: 80
+    zabbixWebService:
+      enabled: true
+      service:
+        type: ClusterIP
+        port: 10053
+    zabbixJavaGateway:
+      enabled: false
+    ingress:
+      enabled: true
+      hosts:
+        - host: zabbix.local.tam.land
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: local-tamland-tls
+          hosts:
+            - zabbix.local.tam.land
+      ingressClassName: traefik
+      pathType: Prefix
+    serviceAccount:
+      create: true
+    rbac:
+      create: true
