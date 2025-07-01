@@ -18,21 +18,17 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    serviceAccount:
-      chia-app:
-        enabled: true
     controllers:
       app:
-        annotations:
-          vault.hashicorp.com/agent-inject: 'true'
-          vault.hashicorp.com/role: 'chia-role'
-          vault.hashicorp.com/agent-inject-secret-key.txt: 'secrets/crypto/chia'
-          vault.hashicorp.com/agent-inject-template-key.txt: |
-            {{`{{- with secret "secrets/crypto/chia" -}}
-            {{ .Data.data.key }}
-            {{- end -}}`}}`
-        serviceAccount:
-          identifier: chia-app
+        pod:
+          annotations:
+            vault.hashicorp.com/agent-inject: 'true'
+            vault.hashicorp.com/role: 'chia-role'
+            vault.hashicorp.com/agent-inject-secret-key.txt: 'secrets/crypto/chia'
+            vault.hashicorp.com/agent-inject-template-key.txt: |
+              {{- with secret "secrets/crypto/chia" -}}
+              {{ .Data.data.key }}
+              {{- end -}}
         containers:
           app:
             image:
