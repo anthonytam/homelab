@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vaultwarden
+  namespace: other-webapps
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      app:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: vaultwarden/server
+              tag: 1.34.1
+            env:
+              TZ: America/Toronto
+              SIGNUPS_ALLOWED: true
+              DOMAIN: "https://bw.tam.land"
+              ADMIN_TOKEN: ""
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 80
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: bw.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - bw.tam.land
+    persistence:
+      data:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/vaultwarden/data
+        advancedMounts:
+          app:
+            app:
+              - path: /data

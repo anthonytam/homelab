@@ -43,9 +43,6 @@ spec:
             image:
               repository: redis
               tag: 8.0.2
-    serviceAccount:
-      create: true
-      name: ghostfolio-app
     service:
       app:
         enabled: true
