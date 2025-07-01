@@ -9,7 +9,8 @@ spec:
   calicoNetwork:
     # Note: The ipPools section cannot be modified post-install.
     ipPools:
-    - blockSize: 24
+    - name: default-ipv4-ippool-tamland
+      blockSize: 24
       cidr: 10.201.0.0/16
       encapsulation: VXLANCrossSubnet
       natOutgoing: Enabled
@@ -22,3 +23,15 @@ kind: APIServer
 metadata:
   name: default
 spec: {}
+---
+# Configures the Calico Goldmane flow aggregator.
+apiVersion: operator.tigera.io/v1
+kind: Goldmane
+metadata:
+  name: default
+---
+# Configures the Calico Whisker observability UI.
+apiVersion: operator.tigera.io/v1
+kind: Whisker
+metadata:
+  name: default
