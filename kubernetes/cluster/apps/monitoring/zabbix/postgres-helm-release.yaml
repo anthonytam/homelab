@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: postgres
-              tag: 16.9
+              tag: 17.5
             envFrom: 
               - secret: zabbix-postgres-configuration
     serviceAccount:
