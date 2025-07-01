@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.2/charts/library/common/values.schema.json
+
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.1.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -28,9 +28,6 @@ spec:
               tag: latest
             envFrom:
               - secret: bot-configuration
-    serviceAccount:
-      create: true
-      name: small-indie-bot-app
     persistence:
       config:
         enabled: true
