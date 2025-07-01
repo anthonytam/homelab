@@ -28,9 +28,6 @@ spec:
               tag: v1.4.7
             envFrom:
               - secret: lubelog-configuration
-    serviceAccount:
-      create: true
-      name: lubelog-app
     service:
       app:
         enabled: true

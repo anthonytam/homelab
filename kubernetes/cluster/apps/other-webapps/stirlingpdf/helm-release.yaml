@@ -25,9 +25,6 @@ spec:
             image:
               repository: frooodle/s-pdf
               tag: 0.46.2
-    serviceAccount:
-      create: true
-      name: stirlingpdf-app
     service:
       app:
         enabled: true
