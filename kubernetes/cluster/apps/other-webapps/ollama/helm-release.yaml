@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.1.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -45,9 +45,6 @@ spec:
               tag: v0.6.10
             env:
               OLLAMA_BASE_URLS: http://ollama.other-webapps.svc.cluster.local:11434
-    serviceAccount:
-      create: true
-      name: ollama-app
     service:
       app:
         enabled: true

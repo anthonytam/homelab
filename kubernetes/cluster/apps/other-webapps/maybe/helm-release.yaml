@@ -20,8 +20,6 @@ spec:
     controllers:
       app:
         enabled: true
-        serviceAccount:
-          identifier: maybe-app
         containers:
           app:
             image: &image
@@ -51,8 +49,6 @@ spec:
             image:
               repository: redis
               tag: 8.0.1
-    serviceAccount:
-      maybe-app: {}
     service:
       app:
         enabled: true
