@@ -10,54 +10,69 @@ spec:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://anthonytam.github.io/blockchain-helm-charts/helm
-      chart: chia-blockchain
-      version: 0.1.2
+      chart: app-template
+      version: 4.1.2
       sourceRef:
         kind: HelmRepository
-        name: blockchain-charts
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
-    podAnnotations:
-      vault.hashicorp.com/agent-inject: 'true'
-      vault.hashicorp.com/role: 'chia-role'
-      vault.hashicorp.com/agent-inject-secret-key.txt: 'secrets/crypto/chia'
-      vault.hashicorp.com/agent-inject-template-key.txt: |
-        {{- with secret "secrets/crypto/chia" -}}
-        {{ .Data.data.key }}
-        {{- end -}}
     serviceAccount:
-      create: true
-      name: chia-app
-    image:
-      repository: ghcr.io/chia-network/chia
-      tag: 2.5.3
-    env:
-      TZ: America/Toronto
-      keys: /vault/secrets/key.txt
+      chia-app:
+        enabled: true
+    controllers:
+      app:
+        annotations:
+          vault.hashicorp.com/agent-inject: 'true'
+          vault.hashicorp.com/role: 'chia-role'
+          vault.hashicorp.com/agent-inject-secret-key.txt: 'secrets/crypto/chia'
+          vault.hashicorp.com/agent-inject-template-key.txt: |
+            {{- with secret "secrets/crypto/chia" -}}
+            {{ .Data.data.key }}
+            {{- end -}}
+        serviceAccount:
+          selector: chia-app
+        containers:
+          app:
+            image:
+              repository: ghcr.io/chia-network/chia
+              tag: 2.5.3
+            env:
+              TZ: America/Toronto
+              keys: /vault/secrets/key.txt
     service:
-      main:
+      app:
+        controller: app
+        type: LoadBalancer
         annotations:
           metallb.universe.tf/loadBalancerIPs: 10.200.12.2
           metallb.universe.tf/allow-shared-ip: "crypto-sharing"
-        type: LoadBalancer
+        ports:
+          p2p:  
+            enabled: true
+            port: 8444
+            protocol: TCP
+          farmer:
+            enabled: true
+            port: 8447
+            protocol: TCP
     persistence:
-      key:
-        enabled: false
       blockchain:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: nfs.local.tam.land
-            path: /nfs-share/chia
-        mountPath: /root/.chia
-      plots:
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/crypto/chia/blockchain
+        advancedMounts:
+          app:
+            app:
+              - path: /root/.chia
+      plots: 
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: truenas.local.tam.land
-            path: /mnt/main-bay/k8s-data/chia-plots
-
+        type: nfs
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/chia-plots
+        advancedMounts:
+          app:
+            app:
+              - path: /plots
