@@ -11,23 +11,20 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.1.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
-    serviceAccount:
-      create: true
-      name: unifi-app
     controllers:
       app:
         containers:
           app:
             image:
               repository: lscr.io/linuxserver/unifi-network-application
-              tag: 9.1.120
+              tag: 9.2.87
             envFrom: &envFrom
               - secret: unifi-configuration
             env:
@@ -37,7 +34,7 @@ spec:
           mongodb:
             image:
               repository: mongo
-              tag: 7.0.20
+              tag: 7.0.21
             envFrom: *envFrom
     service:
       app:

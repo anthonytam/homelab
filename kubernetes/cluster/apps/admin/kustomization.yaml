@@ -5,8 +5,5 @@ resources:
   - namespace.yaml
   - traefik
   - unifi
-  - netboot
   - registry
-  - nfs-provisioner
-  - minio
   - mailrise
