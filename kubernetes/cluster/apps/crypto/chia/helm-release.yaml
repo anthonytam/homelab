@@ -28,11 +28,11 @@ spec:
           vault.hashicorp.com/role: 'chia-role'
           vault.hashicorp.com/agent-inject-secret-key.txt: 'secrets/crypto/chia'
           vault.hashicorp.com/agent-inject-template-key.txt: |
-            {{- with secret "secrets/crypto/chia" -}}
+            {{`{{- with secret "secrets/crypto/chia" -}}
             {{ .Data.data.key }}
-            {{- end -}}
+            {{- end -}}`}}`
         serviceAccount:
-          selector: chia-app
+          identifier: chia-app
         containers:
           app:
             image:
