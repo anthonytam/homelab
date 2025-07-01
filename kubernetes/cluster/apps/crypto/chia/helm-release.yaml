@@ -18,6 +18,8 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    serviceAccount:
+      chia-blockchain: {}
     controllers:
       app:
         pod:
@@ -29,11 +31,13 @@ spec:
               {{- with secret "secrets/crypto/chia" -}}
               {{ .Data.data.key }}
               {{- end -}}
+        serviceAccount:
+          identifier: chia-blockchain
         containers:
           app:
             image:
               repository: ghcr.io/chia-network/chia
-              tag: 2.5.3
+              tag: 2.5.4
             env:
               TZ: America/Toronto
               keys: /vault/secrets/key.txt

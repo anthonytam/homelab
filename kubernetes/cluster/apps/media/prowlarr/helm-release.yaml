@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.1.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -51,13 +51,10 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/prowlarr
-              tag: 1.35.1
+              tag: 1.37.0
             env:
               PUID: 568
               PGID: 568
-    serviceAccount:
-      create: true
-      name: prowlarr-app
     service:
       app:
         enabled: true

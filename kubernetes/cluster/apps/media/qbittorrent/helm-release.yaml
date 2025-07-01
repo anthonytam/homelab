@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/qbittorrent
-              tag: 5.1.0
+              tag: 5.1.1
             env:
               PUID: 568
               PGID: 568
@@ -75,9 +75,6 @@ spec:
               capabilities:
                 drop:
                   - ALL
-    serviceAccount:
-      create: true
-      name: qbittorrent-app
     service:
       app:
         enabled: true

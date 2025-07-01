@@ -46,7 +46,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 17.3
+              tag: 17.5
             envFrom:
               - secret: medusajs-backend-postgres-configuration
       redis:

@@ -6,10 +6,8 @@ metadata:
   name: frappe-bench-erpnext-new-site-20241222011247
   namespace: homerow
   labels:
-    helm.sh/chart: erpnext-7.0.146
     app.kubernetes.io/name: erpnext
     app.kubernetes.io/instance: frappe-bench
-    app.kubernetes.io/version: "v15.45.5"
     app.kubernetes.io/managed-by: Helm
   annotations:
 spec:
@@ -22,7 +20,7 @@ spec:
         - 1000
       initContainers:
         - name: validate-config
-          image: "frappe/erpnext:v15.62.0"
+          image: "frappe/erpnext:v15.66.1"
           imagePullPolicy: IfNotPresent
           command: ["bash", "-c"]
           args:
