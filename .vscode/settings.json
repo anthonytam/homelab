@@ -1,5 +1,5 @@
 {
     "yaml.schemas": {
-        "https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.2/charts/library/common/values.schema.json": "helm-release.yaml"
+        "https://raw.githubusercontent.com/bjw-s/helm-charts/common-4.1.2/charts/library/common/values.schema.json": "helm-release.yaml"
     }
 }
