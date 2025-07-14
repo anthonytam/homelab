@@ -25,7 +25,7 @@ spec:
               repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
               # Note to self, this is in quotes for a reason...
               # couldn't parse image name "ghcr.io/calibrain/calibre-web-automated-book-downloader:2.0250615e+07"
-              tag: "20250615"
+              tag: "20250714"
             env:
               CLOUDFLARE_PROXY_BYPASS: http://localhost:8000
               UID: 33
