@@ -38,15 +38,16 @@ spec:
 #              postStart:
 #                exec:
 #                  command: ["touch", "/.dockerenv"]
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: kubernetes.io/hostname
-                      operator: In
-                      values:
-                        - talos-sy8-h5l
+        pod:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - talos-sy8-h5l
       postgres:
         enabled: true
         containers:
