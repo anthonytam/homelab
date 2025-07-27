@@ -20,6 +20,8 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    defaultPodOptions:
+      hostNetwork: true
     controllers:
       app:
         enabled: true
@@ -75,20 +77,11 @@ spec:
       sip:
         enabled: true
         controller: app
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.3
-          metallb.universe.tf/allow-shared-ip: "hass-sip"
         ports:
           sip-udp:
             enabled: true
             port: 5060
             protocol: UDP
-          sip-tcp:
-            enabled: true
-            port: 5060
-            protocol: TCP
       postgres:
         enabled: true
         controller: postgres
