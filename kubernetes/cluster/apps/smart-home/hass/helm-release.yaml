@@ -40,16 +40,6 @@ spec:
 #              postStart:
 #                exec:
 #                  command: ["touch", "/.dockerenv"]
-        pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: kubernetes.io/hostname
-                        operator: In
-                        values:
-                          - talos-sy8-h5l
       postgres:
         enabled: true
         containers:
@@ -74,14 +64,6 @@ spec:
         ports:
           http:
             port: 8123
-      sip:
-        enabled: true
-        controller: app
-        ports:
-          sip-udp:
-            enabled: true
-            port: 5060
-            protocol: UDP
       postgres:
         enabled: true
         controller: postgres
