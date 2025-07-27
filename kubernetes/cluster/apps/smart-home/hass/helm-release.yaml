@@ -60,6 +60,22 @@ spec:
         ports:
           http:
             port: 8123
+      sip:
+        enabled: true
+        controller: app
+        type: LoadBalancer
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
+          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+        ports:
+          sip-udp:
+            enabled: true
+            port: 5060
+            protocol: UDP
+          sip-tcp:
+            enabled: true
+            port: 5060
+            protocol: TCP
       postgres:
         enabled: true
         controller: postgres
