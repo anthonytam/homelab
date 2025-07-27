@@ -6,6 +6,8 @@ metadata:
   namespace: smart-home
 spec:
   interval: 5m
+  driftDetection:
+    mode: enabled
   upgrade:
     force: true
   chart:
@@ -36,6 +38,15 @@ spec:
 #              postStart:
 #                exec:
 #                  command: ["touch", "/.dockerenv"]
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                        - talos-sy8-h5l
       postgres:
         enabled: true
         containers:
