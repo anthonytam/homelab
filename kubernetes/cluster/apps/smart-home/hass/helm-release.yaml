@@ -64,9 +64,10 @@ spec:
         enabled: true
         controller: app
         type: LoadBalancer
+        externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
-          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.3
+          metallb.universe.tf/allow-shared-ip: "hass-sip"
         ports:
           sip-udp:
             enabled: true
