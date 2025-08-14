@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.1.2
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -24,7 +24,7 @@ spec:
           app:
             image: &image
               repository: ghcr.io/maybe-finance/maybe
-              tag: 0.5.0
+              tag: 0.6.0
             envFrom: &envFrom
               - secret: maybe-configuration
       worker:
@@ -48,7 +48,7 @@ spec:
           redis:
             image:
               repository: redis
-              tag: 8.0.3
+              tag: 8.2.0
     service:
       app:
         enabled: true
