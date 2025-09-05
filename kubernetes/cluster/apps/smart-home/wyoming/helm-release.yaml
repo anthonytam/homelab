@@ -89,6 +89,6 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/smart-home/wyoming/piper
         advancedMounts:
-          whisper:
+          piper:
             app:
               - path: /config
