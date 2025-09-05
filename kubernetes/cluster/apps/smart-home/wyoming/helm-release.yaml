@@ -78,7 +78,7 @@ spec:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/other-webapps/wyoming/whisper
+        path: /nfs-share/smart-home/wyoming/whisper
         advancedMounts:
           whisper:
             app:
@@ -87,7 +87,7 @@ spec:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/other-webapps/wyoming/piper
+        path: /nfs-share/smart-home/wyoming/piper
         advancedMounts:
           whisper:
             app:
