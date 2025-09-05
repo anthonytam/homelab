@@ -11,3 +11,5 @@ resources:
   - ollama
   - wallos
   - vaultwarden
+  - paperless-ngx
+  - wyoming
