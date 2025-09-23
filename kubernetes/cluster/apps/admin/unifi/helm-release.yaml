@@ -34,7 +34,7 @@ spec:
           mongodb:
             image:
               repository: mongo
-              tag: 7.0.21
+              tag: 8.0.14
             envFrom: *envFrom
     service:
       app:
