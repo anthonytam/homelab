@@ -37,16 +37,18 @@ spec:
         containers:
           postgres:
             image:
-              repository: tensorchord/pgvecto-rs
-              tag: pg16-v0.2.0
+              repository: ghcr.io/immich-app/postgres
+              tag: 16-vectorchord0.4.3-pgvectors0.2.0
             envFrom:
               - secret: immich-postgres-configuration
+            env:
+              DB_STORAGE_TYPE: HDD
       redis:
         containers:
           redis:
             image:
               repository: redis
-              tag: 8.0.3
+              tag: 8.2.0
     service:
       app:
         enabled: true
