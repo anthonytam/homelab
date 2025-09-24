@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: sparkison/m3u-editor
-              tag: 0.6.18
+              tag: 0.7.10
             envFrom: &envFrom
               - secret: m3u-editor-configuration
       postgres:
@@ -39,7 +39,7 @@ spec:
           redis:
             image:
               repository: redis
-              tag: 8.0.3
+              tag: 8.2.1
     service:
       app:
         enabled: true
