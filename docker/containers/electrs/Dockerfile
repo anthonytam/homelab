@@ -10,9 +10,11 @@ RUN wget https://github.com/romanz/electrs/archive/refs/tags/v${VERSION}.tar.gz 
  && cd electrs-${VERSION} \
  && cargo build --locked --release
 
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 ARG VERSION
-RUN adduser --disabled-password --uid 1000 --home /app electrs
+RUN apt update \
+ && apt install -y adduser \
+ && adduser --disabled-password --uid 1000 --home /app electrs
 USER electrs
 WORKDIR /app
 COPY --from=build /build/electrs-${VERSION}/target/release/electrs /app/electrs
