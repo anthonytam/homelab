@@ -12,3 +12,4 @@ resources:
   - calibre-web-automated
   - calibre-web-automated-downloader
   - jellyfin
+  - m3u-editor

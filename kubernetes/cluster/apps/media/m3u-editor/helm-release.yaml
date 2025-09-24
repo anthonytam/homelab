@@ -1,0 +1,115 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: m3u-editor
+  namespace: media
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      app:
+        containers:
+          app:
+            image:
+              repository: sparkison/m3u-editor
+              tag: 0.6.18
+            envFrom: &envFrom
+              - secret: m3u-editor-configuration
+      postgres:
+        containers:
+          postgres:
+            image:
+              repository: postgres
+              tag: 16.9
+            envFrom:
+              - secret: m3u-editor-configuration
+      redis:
+        containers:
+          redis:
+            image:
+              repository: redis
+              tag: 8.0.3
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 36400
+      app-ws:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 36800
+      postgres:
+        enabled: true
+        controller: postgres
+        ports:
+          http:
+            port: 5432
+      redis:
+        enabled: true
+        controller: redis
+        ports:
+          http:
+            port: 6379
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: m3u.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - m3u.tam.land
+      app-ws:
+        enabled: true
+        hosts:
+          - host: m3u-ws.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app-ws
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - m3u-ws.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/m3u-editor/config
+        advancedMounts:
+          app:
+            app:
+              - path: /var/www/config
+      pgdata:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/m3u-editor/database
+        advancedMounts:
+          postgres:
+            postgres:
+              - path: /var/lib/postgresql/data
