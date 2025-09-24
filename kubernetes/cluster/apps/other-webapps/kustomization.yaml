@@ -6,7 +6,6 @@ resources:
   - lubelog
   - stirlingpdf
   - ghostfolio
-  - sylvtextthing
   - immich
   - ollama
   - wallos
