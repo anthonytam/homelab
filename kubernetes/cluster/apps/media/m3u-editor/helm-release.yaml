@@ -31,7 +31,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 16.9
+              tag: 17.6
             envFrom:
               - secret: m3u-editor-configuration
       redis:
