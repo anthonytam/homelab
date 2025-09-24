@@ -18,14 +18,17 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    defaultPodOptions:
+      imagePullSecrets:
+       - name: ghcr-image-pull-secret
     controllers:
       app:
         enabled: true
         containers:
           app:
             image:
-              repository: registry.local.tam.land/anthonytam/bitcoind
-              tag: v27.1
+              repository: ghcr.io/anthonytam/bitcoind
+              tag: v29.1
             probes:
               liveness:
                 enabled: false

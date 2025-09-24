@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t "registry.local.tam.land/anthonytam/electrs:v$1" --build-arg VERSION=$1 .
+docker build -t "ghcr.io/anthonytam/electrs:v$1" --build-arg VERSION=$1 .

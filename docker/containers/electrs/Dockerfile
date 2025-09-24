@@ -1,6 +1,6 @@
 ARG VERSION=0.10.5
 
-FROM rust:1.77.1 AS build
+FROM rust:1.90.0 AS build
 ARG VERSION
 WORKDIR /build
 RUN apt-get update && apt-get install -y wget clang libsnappy-dev
