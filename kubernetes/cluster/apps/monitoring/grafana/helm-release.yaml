@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: grafana/grafana-enterprise
-              tag: 11.4.0
+              tag: 12.2.0
     serviceAccount:
       create: true
       name: grafana-app
