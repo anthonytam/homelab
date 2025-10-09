@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.2/charts/library/common/values.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      app:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: grafana/grafana-enterprise
+              tag: 11.4.0
+    serviceAccount:
+      create: true
+      name: grafana-app
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 3000
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: grafana.local.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: local-tamland-tls
+            hosts:
+              - grafana.local.tam.land
+    persistence:
+      data:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/monitoring/grafana/data
+        advancedMounts:
+          app:
+            app:
+              - path: /var/lib/grafana
