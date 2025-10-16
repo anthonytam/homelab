@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-server-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    name: prometheus-server-pvc
+    namespace: monitoring
+  storageClassName: prometheus-server-nfs-manual
+  nfs:
+    path: "/nfs-share/monitoring/prometheus/server"
+    server: "nfs.local.tam.land"
+    readOnly: false
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prometheus-server-pvc
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: prometheus-server-nfs-manual
+  volumeName: prometheus-server-pv

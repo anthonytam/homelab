@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.1.2
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: bellamy/wallos
-              tag: 3.3.0
+              tag: 4.3.0
             env:
               TZ: America/Toronto
     service:

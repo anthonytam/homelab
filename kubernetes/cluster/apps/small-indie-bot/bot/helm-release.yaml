@@ -11,23 +11,54 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.1.2
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
+    defaultPodOptions:
+      imagePullSecrets:
+       - name: ghcr-image-pull-secret
     controllers:
       app:
         enabled: true
         containers:
           app:
             image:
-              repository: registry.local.tam.land/anthonytam/small-indie-bot
+              repository: ghcr.io/anthonytam/small-indie-bot
               tag: latest
-            envFrom:
+            envFrom: &envFrom
               - secret: bot-configuration
+      postgres:
+        enabled: true
+        containers:
+          postgres:
+            image:
+              repository: postgres
+              tag: 17.6
+            envFrom: *envFrom
+      influxdb:
+        enabled: true
+        containers:
+          influxdb:
+            image:
+              repository: influxdb
+              tag: 2.7.12
+    service:
+      postgres:
+        enabled: true
+        controller: postgres
+        ports:
+          http:
+            port: 5432
+      influxdb:
+        enabled: true
+        controller: app
+        ports:
+          http:
+            port: 8086
     persistence:
       config:
         enabled: true
@@ -38,4 +69,21 @@ spec:
           app:
             app:
               - path: /app
-                readOnly: false
+      pgdata:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/small-indie-bot/bot/postgres
+        advancedMounts:
+          postgres:
+            postgres:
+              - path: /var/lib/postgresql/data
+      influxdb-data:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/small-indie-bot/bot/influxdb
+        advancedMounts:
+          influxdb:
+            influxdb:
+              - path: /var/lib/influxdb2

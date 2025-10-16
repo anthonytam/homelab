@@ -11,21 +11,24 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.1.2
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
+    defaultPodOptions:
+      imagePullSecrets:
+       - name: ghcr-image-pull-secret
     controllers:
       app:
         enabled: true
         containers:
           app:
             image:
-              repository: registry.local.tam.land/anthonytam/electrs
-              tag: v0.10.5
+              repository: ghcr.io/anthonytam/electrs
+              tag: v0.10.10
             env:
               ELECTRS_DB_DIR: /app/data
               ELECTRS_ELECTRUM_RPC_ADDR: 0.0.0.0:50001

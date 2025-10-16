@@ -1,8 +1,9 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.0.2/charts/library/common/values.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sylv-text-thing
-  namespace: other-webapps
+  name: grafana
+  namespace: monitoring
 spec:
   interval: 5m
   upgrade:
@@ -10,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.1.2
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -23,8 +24,11 @@ spec:
         containers:
           app:
             image:
-              repository: registry.local.tam.land/wow/sylvtextthing
-              tag: latest
+              repository: grafana/grafana-enterprise
+              tag: 12.2.0
+    serviceAccount:
+      create: true
+      name: grafana-app
     service:
       app:
         enabled: true
@@ -32,29 +36,28 @@ spec:
         primary: true
         ports:
           http:
-            port: 80
+            port: 3000
     ingress:
       app:
         enabled: true
         hosts:
-          - host: sylv.tam.land
+          - host: grafana.local.tam.land
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: app
         tls:
-          - secretName: tamland-tls
+          - secretName: local-tamland-tls
             hosts:
-              - sylv.tam.land
+              - grafana.local.tam.land
     persistence:
-      config:
+      data:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
-        path: /nfs-share/other-webapps/sylvtextthing/app
+        path: /nfs-share/monitoring/grafana/data
         advancedMounts:
           app:
             app:
-              - path: /app/database
-                readOnly: false
+              - path: /var/lib/grafana

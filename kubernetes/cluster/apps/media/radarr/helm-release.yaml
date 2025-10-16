@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.1.2
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/radarr
-              tag: 5.26.2
+              tag: 5.27.5
             env:
               PUID: 568
               PGID: 568
