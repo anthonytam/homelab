@@ -52,6 +52,13 @@ spec:
       masquerade: true
     nodePort:
       enabled: true
+    # devices:
+    #   - ens18
+    #   - ens19
+    daemon:
+      enableSourceIPVerification: false
+    extraConfig:
+      egress-multi-home-ip-rule-compat: "true"
     egressGateway:
       enabled: true
     securityContext:

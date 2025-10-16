@@ -18,10 +18,12 @@ spec:
       interval: 5m
   values:
     defaultPodOptions:
-      dnsConfig:
-        options:
-          - name: ndots
-            value: "1"
+      labels:
+        egress-gw: vpn
+      # dnsConfig:
+      #   options:
+      #     - name: ndots
+      #       value: "1"
     controllers:
       app:
         enabled: true
@@ -34,19 +36,6 @@ spec:
             securityContext:
               runAsUser: 0
               runAsGroup: 0
-          gluetun:
-            dependsOn: dnsdist
-            image:
-              repository: ghcr.io/qdm12/gluetun
-              tag: v3.40.0
-            envFrom:
-              - secret: prowlarr-configuration
-            restartPolicy: Always
-            securityContext:
-              capabilities:
-                add:
-                  - NET_ADMIN
-              allowPrivilegeEscalation: false
         containers:
           app:
             image:
