@@ -94,7 +94,7 @@ spec:
                 set -eu
                 ln -sf /vault/secrets/config.yaml /app/config.yaml
                 chmod 0400 /vault/secrets/config.yaml || true
-                exec /app/homerow
+                exec /app/homerow --tracing-level "DEBUG"
       postgres:
         enabled: true
         containers:
