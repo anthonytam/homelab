@@ -1,0 +1,26 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: homerow-infra-repo
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: master
+  secretRef:
+    name: homerow
+  timeout: 60s
+  url: ssh://git@github.com/homerow-ca/infra-ops
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: homerow
+  namespace: flux-system
+spec:
+  interval: 5m0s
+  path: ./core
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: homerow-infra-repo
