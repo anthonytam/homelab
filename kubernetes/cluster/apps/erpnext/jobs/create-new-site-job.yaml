@@ -4,7 +4,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: frappe-bench-erpnext-new-site-20241222011247
-  namespace: homerow
+  namespace: erpnext
   labels:
     app.kubernetes.io/name: erpnext
     app.kubernetes.io/instance: frappe-bench

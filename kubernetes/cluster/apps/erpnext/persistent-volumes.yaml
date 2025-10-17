@@ -20,7 +20,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: erpnext-worker-pvc
-  namespace: homerow
+  namespace: erpnext
 spec:
   accessModes:
     - ReadWriteMany
@@ -41,7 +41,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     name: erpnext-mariadb-pvc
-    namespace: homerow
+    namespace: erpnext
   nfs:
     path: "/nfs-share/homerow/erpnext/mariadb"
     server: "nfs.local.tam.land"
@@ -51,7 +51,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: erpnext-mariadb-pvc
-  namespace: homerow
+  namespace: erpnext
 spec:
   accessModes:
     - ReadWriteMany
