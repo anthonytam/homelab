@@ -6,14 +6,20 @@ metadata:
 data:
   config.alloy: |
     // Loki Cluster
-    loki.write "tamland" {
+    loki.write "tamland_loki" {
       endpoint {
         url = "http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
       }
     }
+    // Prom Cluster
+    prometheus.remote_write "tamland_prom" {
+      endpoint {
+        url = "http://prometheus-server.monitoring.svc.cluster.local:80/api/prom/push"
+      }
+    }
 
-    // Pod log retreival
-    discovery.kubernetes "k8s_pods" {
+    // K8S Discovery
+    discovery.kubernetes "log_pods" {
       role = "pod"
       namespaces {
         own_namespace = false
@@ -24,9 +30,42 @@ data:
         field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
       }
     }
+    discovery.kubernetes "metrics_pods" {
+      role = "pod"
+      namespaces {
+        own_namespace = true
+        names = ["3d-printing", "admin", "cert-manager", "games", "homerow", "media", "other-webapps", "secrets", "small-indie-bot", "smart-home"]
+      }
+      selectors {
+        role = "pod"
+        field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
+      }
+    }
+    discovery.kubernetes "metrics_svc" {
+      role = "service"
+      namespaces {
+        own_namespace = true
+        names = ["3d-printing", "admin", "cert-manager", "games", "homerow", "media", "other-webapps", "secrets", "small-indie-bot", "smart-home"]
+      }
+      selectors {
+        role = "pod"
+        field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
+      }
+    }
 
+    // Metrics handling to Prom
+    prometheus.scrape "pod_metrics" {
+      targets    = discovery.kubernetes.metrics_pods.targets
+      forward_to = [prometheus.remote_write.tamland_prom.receiver]
+    }
+    prometheus.scrape "svc_metrics" {
+      targets    = discovery.kubernetes.metrics_svc.targets
+      forward_to = [prometheus.remote_write.tamland_prom.receiver]
+    }
+
+    // Log handling to Loki
     discovery.relabel "pod_logs" {
-      targets = discovery.kubernetes.k8s_pods.targets
+      targets = discovery.kubernetes.log_pods.targets
 
       // Label creation - "namespace" field from "__meta_kubernetes_namespace"
       rule {
@@ -88,5 +127,5 @@ data:
 
     loki.source.kubernetes "pod_logs" {
       targets    = discovery.relabel.pod_logs.output
-      forward_to = [loki.write.tamland.receiver]
+      forward_to = [loki.write.tamland_loki.receiver]
     }
