@@ -11,12 +11,6 @@ data:
         url = "http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
       }
     }
-    // Prom Cluster
-    prometheus.remote_write "tamland_prom" {
-      endpoint {
-        url = "http://prometheus-server.monitoring.svc.cluster.local:80/api/prom/push"
-      }
-    }
 
     // K8S Discovery
     discovery.kubernetes "log_pods" {
@@ -29,38 +23,6 @@ data:
         role = "pod"
         field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
       }
-    }
-    discovery.kubernetes "metrics_pods" {
-      role = "pod"
-      namespaces {
-        own_namespace = true
-        names = ["3d-printing", "admin", "cert-manager", "games", "homerow", "media", "other-webapps", "secrets", "small-indie-bot", "smart-home"]
-      }
-      selectors {
-        role = "pod"
-        field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
-      }
-    }
-    discovery.kubernetes "metrics_svc" {
-      role = "service"
-      namespaces {
-        own_namespace = true
-        names = ["3d-printing", "admin", "cert-manager", "games", "homerow", "media", "other-webapps", "secrets", "small-indie-bot", "smart-home"]
-      }
-      selectors {
-        role = "pod"
-        field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
-      }
-    }
-
-    // Metrics handling to Prom
-    prometheus.scrape "pod_metrics" {
-      targets    = discovery.kubernetes.metrics_pods.targets
-      forward_to = [prometheus.remote_write.tamland_prom.receiver]
-    }
-    prometheus.scrape "svc_metrics" {
-      targets    = discovery.kubernetes.metrics_svc.targets
-      forward_to = [prometheus.remote_write.tamland_prom.receiver]
     }
 
     // Log handling to Loki
