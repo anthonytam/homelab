@@ -40,7 +40,7 @@ spec:
     cluster:
       name: "tamland-prd"
       id: 1
-    mtu: 1450
+    MTU: 1450
     hubble:
       enabled: true
       relay:
