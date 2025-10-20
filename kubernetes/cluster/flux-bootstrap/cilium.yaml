@@ -40,6 +40,8 @@ spec:
     cluster:
       name: "tamland-prd"
       id: 1
+    pmtuDiscovery:
+      enabled: true
     hubble:
       enabled: true
       relay:
@@ -52,9 +54,6 @@ spec:
       masquerade: true
     nodePort:
       enabled: true
-    # devices:
-    #   - ens18
-    #   - ens19
     daemon:
       enableSourceIPVerification: false
     extraConfig:
