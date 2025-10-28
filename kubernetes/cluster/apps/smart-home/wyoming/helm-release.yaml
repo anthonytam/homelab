@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: rhasspy/wyoming-openwakeword
-              tag: 1.10.0
+              tag: 2.1.0
     service:
       whisper:
         enabled: true
