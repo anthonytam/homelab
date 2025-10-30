@@ -48,6 +48,17 @@ spec:
             hosts:
               - grafana.tam.land
     persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/monitoring/grafana/config
+        advancedMounts:
+          app:
+            app:
+              - path: /etc/grafana/custom.ini
+                subPath: custom.ini
+                readOnly: true
       data:
         enabled: true
         type: nfs
