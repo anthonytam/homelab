@@ -56,8 +56,8 @@ spec:
         advancedMounts:
           app:
             app:
-              - path: /etc/grafana/custom.ini
-                subPath: custom.ini
+              - path: /etc/grafana/grafana.ini
+                subPath: grafana.ini
                 readOnly: true
       data:
         enabled: true
