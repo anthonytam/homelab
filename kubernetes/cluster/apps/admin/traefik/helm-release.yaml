@@ -48,5 +48,5 @@ spec:
       - "--providers.file.watch=true"
     service:
       spec:
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local
         loadBalancerIP: 10.200.12.0

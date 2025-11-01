@@ -31,6 +31,7 @@ spec:
         controller: app
         primary: true
         type: LoadBalancer
+        externalTrafficPolicy: Local
         annotations:
           metallb.universe.tf/loadBalancerIPs: 10.200.12.3
         ports:
