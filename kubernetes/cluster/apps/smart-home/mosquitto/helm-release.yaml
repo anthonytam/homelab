@@ -32,8 +32,7 @@ spec:
         primary: true
         type: LoadBalancer
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
-          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.3
         ports:
           mqtt:
             enabled: true
