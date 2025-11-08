@@ -38,7 +38,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/piper
-              tag: 1.6.3
+              tag: 2.1.2
             env:
               PUID: 568
               GUID: 568
