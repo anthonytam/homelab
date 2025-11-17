@@ -17,6 +17,9 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    defaultPodOptions:
+      labels:
+        egress-gw: vpn
     controllers:
       app:
         containers:
