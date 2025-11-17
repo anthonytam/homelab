@@ -5,8 +5,8 @@ resources:
   - namespace.yaml
   - garage
   - mailrise
+  - newt
   - nfs-provisioner
   - registry
   - traefik
   - unifi
-

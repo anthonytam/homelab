@@ -33,7 +33,7 @@ spec:
               repository: postgres
               tag: 16.9
             envFrom:
-              - secret: m3u-editor-configuration
+              - secret: *envFrom
       redis:
         containers:
           redis:
@@ -48,13 +48,6 @@ spec:
         ports:
           http:
             port: 36400
-      app-ws:
-        enabled: true
-        controller: app
-        primary: true
-        ports:
-          http:
-            port: 36800
       postgres:
         enabled: true
         controller: postgres

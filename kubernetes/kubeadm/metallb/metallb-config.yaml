@@ -25,4 +25,4 @@ metadata:
 spec:
   ipAddressPools:
   - default
-  aggregationLength: 27
+  aggregationLength: 32
