@@ -35,8 +35,7 @@ spec:
             image:
               repository: postgres
               tag: 16.9
-            envFrom:
-              - secret: *envFrom
+            envFrom: *envFrom
       redis:
         containers:
           redis:
