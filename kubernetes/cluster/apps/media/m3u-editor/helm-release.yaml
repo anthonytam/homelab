@@ -76,19 +76,6 @@ spec:
           - secretName: tamland-tls
             hosts:
               - m3u.tam.land
-      app-ws:
-        enabled: true
-        hosts:
-          - host: m3u-ws.tam.land
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app-ws
-        tls:
-          - secretName: tamland-tls
-            hosts:
-              - m3u-ws.tam.land
     persistence:
       config:
         enabled: true
