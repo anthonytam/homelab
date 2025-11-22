@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.3.0
+      version: 4.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -24,7 +24,7 @@ spec:
           main:
             image:
               repository: flaresolverr/flaresolverr
-              tag: v3.4.1
+              tag: v3.4.5
     service:
       main:
         controller: main
