@@ -99,6 +99,14 @@ spec:
             app:
               - path: /config
                 readOnly: false
+      llmvision:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          app:
+            app:
+              - path: /media/llmvision
+                readOnly: false
       pgdata:
         enabled: true
         type: nfs
