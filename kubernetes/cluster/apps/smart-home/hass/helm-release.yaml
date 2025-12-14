@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: homeassistant/home-assistant
-              tag: "2025.11.3"
+              tag: "2025.12.3"
             env:
               TZ: America/Toronto
               PYTHONPATH: /config/deps
