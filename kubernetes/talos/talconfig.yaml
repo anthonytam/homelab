@@ -1,0 +1,163 @@
+---
+clusterName: tam.land
+talosVersion: v1.11.5
+kubernetesVersion: v1.33.5
+endpoint: https://kube.local.tam.land:6443
+additionalApiServerCertSans:
+  - kubeapi.local.tam.land
+clusterPodNets:
+  - 10.201.0.0/16
+clusterSvcNets:
+  - 10.202.0.0/16
+controlPlane:
+  patches:
+    - |-
+      cluster:
+        etcd:
+          advertisedSubnets:
+            - 10.200.11.0/24
+patches:
+  - |-
+    machine:
+      sysctls:
+        net.ipv6.conf.all.disable_ipv6: 1
+        net.ipv6.conf.default.disable_ipv6: 1
+        net.ipv6.conf.lo.disable_ipv6: 1
+  - |-
+    machine:
+      time:
+        disabled: false
+        servers:
+          - pf01.local.tam.land
+  - |-
+    apiVersion: v1alpha1
+    kind: VolumeConfig
+    name: STATE
+    encryption:
+      provider: luks2
+      keys:
+        - nodeID: {}
+          slot: 0
+    ---
+    apiVersion: v1alpha1
+    kind: VolumeConfig
+    name: EPHEMERAL
+    encryption:
+      provider: luks2
+      keys:
+        - nodeID: {}
+          slot: 0
+nodes:
+  - hostname: controlplane01
+    ipAddress: 10.200.11.100
+    controlPlane: true
+    installDiskSelector:
+      wwid: naa.50026b7283163177
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+    networkInterfaces:
+      - interface: ens18
+        routes:
+          - network: 10.200.12.0/24
+            gateway: 10.200.11.1
+  - hostname: controlplane02
+    ipAddress: 10.200.11.101
+    controlPlane: true
+    installDiskSelector:
+      wwid: naa.500a0751033dad68
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+    networkInterfaces:
+      - interface: ens18
+        routes:
+          - network: 10.200.12.0/24
+            gateway: 10.200.11.1
+  - hostname: controlplane03
+    ipAddress: 10.200.11.102
+    controlPlane: true
+    installDisk: /dev/sda
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/qemu-guest-agent
+    networkInterfaces:
+      - interface: ens18
+        routes:
+          - network: 10.200.12.0/24
+            gateway: 10.200.11.1
+  - hostname: worker01
+    ipAddress: 10.200.11.110
+    installDisk: /dev/sda
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/qemu-guest-agent
+  - hostname: worker02
+    ipAddress: 10.200.11.111
+    installDisk: /dev/sda
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/qemu-guest-agent
+  - hostname: worker03
+    ipAddress: 10.200.11.112
+    installDisk: /dev/sda
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/qemu-guest-agent
+  - hostname: worker04
+    ipAddress: 10.200.11.113
+    installDisk: /dev/sda
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/qemu-guest-agent
+  - hostname: worker05
+    ipAddress: 10.200.11.114
+    installDisk: /dev/sda
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/qemu-guest-agent
+  # - hostname: gpu-worker01
+  #   ipAddress: 10.200.11.115
+  #   installDisk: /dev/sda
+  #   nodeLabels:
+  #     nvidia.com/gpu.present: 'true'
+  #   patches:
+  #     - |-
+  #       machine:
+  #         kubelet:
+  #           extraConfig:
+  #             registerWithTaints:
+  #               - effect: NoSchedule
+  #                 key: gpu
+  #                 value: 'yes'
+  #     - |-
+  #       machine:
+  #         sysctls:
+  #           net.core.bpf_jit_harden: 1
+  #   kernelModules:
+  #     - name: nvidia
+  #     - name: nvidia_uvm
+  #     - name: nvidia_drm
+  #     - name: nvidia_modeset
+  #   schematic:
+  #     customization:
+  #       systemExtensions:
+  #         officialExtensions:
+  #           - siderolabs/nonfree-kmod-nvidia-production
+  #           - siderolabs/nvidia-container-toolkit-production
