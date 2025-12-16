@@ -17,14 +17,11 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    defaultPodOptions:
-      tolerations:
-        - key: node.kubernetes.io/assignment
-          operator: Equal
-          value: tpu
-          effect: NoSchedule
     controllers:
       app:
+        pod:
+          nodeSelector:
+            "tam.land/tpu.present": "true"
         containers:
           app:
             image:
@@ -72,13 +69,13 @@ spec:
         path: /mnt/main-bay/k8s-data/frigate
         globalMounts:
           - path: /media
-      usb:
+      tpu:
         type: hostPath
-        hostPath: /dev/bus/usb
-        hostPathType: Directory
+        hostPath: /dev/apex_0
+        hostPathType: CharDevice
         globalMounts:
-          - path: /dev/bus/usb
-      quicksync:
+          - path: /dev/apex_0
+      videoaccel:
         type: hostPath
         hostPath: /dev/dri
         hostPathType: Directory
