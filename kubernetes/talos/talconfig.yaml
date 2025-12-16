@@ -28,8 +28,6 @@ worker:
       machine:
         sysctls:
           net.ipv4.conf.all.rp_filter: 0
-          net.ipv4.conf.eno1.rp_filter: 0
-          net.ipv4.conf.eno1.42.rp_filter: 0
 patches:
   - |-
     machine:
