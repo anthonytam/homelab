@@ -20,13 +20,16 @@ spec:
     controllers:
       app:
         pod:
+          runtimeClassName: nvidia
           nodeSelector:
             "tam.land/tpu.present": "true"
         containers:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.16.0-beta3
+              tag: 0.17.0-beta1
+            env:
+              NVIDIA_VISIBLE_DEVICES: all
             securityContext:
               privileged: true
     ingress:
@@ -75,12 +78,6 @@ spec:
         hostPathType: CharDevice
         globalMounts:
           - path: /dev/apex_0
-      videoaccel:
-        type: hostPath
-        hostPath: /dev/dri
-        hostPathType: Directory
-        globalMounts:
-          - path: /dev/dri
       shm:
         type: emptyDir
         medium: Memory
