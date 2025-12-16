@@ -10,12 +10,26 @@ clusterPodNets:
 clusterSvcNets:
   - 10.202.0.0/16
 controlPlane:
+  machineSpec:
+    secureboot: true
+    useUKI: true
   patches:
     - |-
       cluster:
         etcd:
           advertisedSubnets:
             - 10.200.11.0/24
+worker:
+  machineSpec:
+    secureboot: true
+    useUKI: true
+  patches:
+    - |-
+      machine:
+        sysctls:
+          net.ipv4.conf.all.rp_filter: 0
+          net.ipv4.conf.eno1.rp_filter: 0
+          net.ipv4.conf.eno1.42.rp_filter: 0
 patches:
   - |-
     machine:
@@ -60,7 +74,8 @@ nodes:
             - siderolabs/intel-ucode
     networkInterfaces:
       - interface: ens18
-        routes:
+        dhcp: true
+        routes: &bgp_route
           - network: 10.200.12.0/24
             gateway: 10.200.11.1
   - hostname: controlplane02
@@ -75,9 +90,8 @@ nodes:
             - siderolabs/intel-ucode
     networkInterfaces:
       - interface: ens18
-        routes:
-          - network: 10.200.12.0/24
-            gateway: 10.200.11.1
+        dhcp: true
+        routes: *bgp_route
   - hostname: controlplane03
     ipAddress: 10.200.11.102
     controlPlane: true
@@ -89,9 +103,8 @@ nodes:
             - siderolabs/qemu-guest-agent
     networkInterfaces:
       - interface: ens18
-        routes:
-          - network: 10.200.12.0/24
-            gateway: 10.200.11.1
+        dhcp: true
+        routes: *bgp_route
   - hostname: worker01
     ipAddress: 10.200.11.110
     installDisk: /dev/sda
@@ -100,6 +113,12 @@ nodes:
         systemExtensions:
           officialExtensions:
             - siderolabs/qemu-guest-agent
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        routes: *bgp_route
+      - interface: ens19
+        dhcp: true
   - hostname: worker02
     ipAddress: 10.200.11.111
     installDisk: /dev/sda
@@ -108,6 +127,12 @@ nodes:
         systemExtensions:
           officialExtensions:
             - siderolabs/qemu-guest-agent
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        routes: *bgp_route
+      - interface: ens19
+        dhcp: true
   - hostname: worker03
     ipAddress: 10.200.11.112
     installDisk: /dev/sda
@@ -116,6 +141,12 @@ nodes:
         systemExtensions:
           officialExtensions:
             - siderolabs/qemu-guest-agent
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        routes: *bgp_route
+      - interface: ens19
+        dhcp: true
   - hostname: worker04
     ipAddress: 10.200.11.113
     installDisk: /dev/sda
@@ -124,6 +155,12 @@ nodes:
         systemExtensions:
           officialExtensions:
             - siderolabs/qemu-guest-agent
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        routes: *bgp_route
+      - interface: ens19
+        dhcp: true
   - hostname: worker05
     ipAddress: 10.200.11.114
     installDisk: /dev/sda
@@ -132,32 +169,73 @@ nodes:
         systemExtensions:
           officialExtensions:
             - siderolabs/qemu-guest-agent
-  # - hostname: gpu-worker01
-  #   ipAddress: 10.200.11.115
-  #   installDisk: /dev/sda
-  #   nodeLabels:
-  #     nvidia.com/gpu.present: 'true'
-  #   patches:
-  #     - |-
-  #       machine:
-  #         kubelet:
-  #           extraConfig:
-  #             registerWithTaints:
-  #               - effect: NoSchedule
-  #                 key: gpu
-  #                 value: 'yes'
-  #     - |-
-  #       machine:
-  #         sysctls:
-  #           net.core.bpf_jit_harden: 1
-  #   kernelModules:
-  #     - name: nvidia
-  #     - name: nvidia_uvm
-  #     - name: nvidia_drm
-  #     - name: nvidia_modeset
-  #   schematic:
-  #     customization:
-  #       systemExtensions:
-  #         officialExtensions:
-  #           - siderolabs/nonfree-kmod-nvidia-production
-  #           - siderolabs/nvidia-container-toolkit-production
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        routes: *bgp_route
+      - interface: ens19
+        dhcp: true
+  - hostname: worker06
+    ipAddress: 10.200.11.115
+    installDiskSelector:
+      wwid: nvme.126f-504c3232303831325343423531324730373932-54696d65746563204d533039-00000001
+    nodeLabels:
+      tam.land/tpu.present: "true"
+      tam.land/gpu.present: "true"
+      tam.land/modem.present: "true"
+      tam.land/ups.present: "true"
+      tam.land/local-storage: "true"
+      tam.land/local-fast-960: "true"
+      tam.land/local-fast-240: "true"
+    patches:
+      - |-
+        machine:
+          sysctls:
+            net.core.bpf_jit_harden: 1
+    networkInterfaces:
+      - interface: eno1
+        dhcp: true
+        routes: *bgp_route
+        vlans:
+          - vlanId: 42
+            dhcp: true
+    userVolumes:
+      - name: fast-960
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.50026b7784ba9668"
+          maxSize: 960GiB
+        filesystem:
+          type: xfs
+        encryption:
+          provider: luks2
+          keys:
+            - nodeID: {}
+              slot: 0
+      - name: fast-240
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.50026b728316f000"
+          maxSize: 240GiB
+        filesystem:
+          type: xfs
+        encryption:
+          provider: luks2
+          keys:
+            - nodeID: {}
+              slot: 0
+    kernelModules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+      - name: gasket
+      - name: apex
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/amd-ucode
+            - siderolabs/nvidia-open-gpu-kernel-modules-production
+            - siderolabs/nvidia-container-toolkit-production
+            - siderolabs/gasket-driver
