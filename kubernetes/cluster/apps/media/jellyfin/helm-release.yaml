@@ -29,13 +29,9 @@ spec:
               NVIDIA_VISIBLE_DEVICES: all
               TZ: America/Toronto
         pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                    - key: extensions.talos.dev/nonfree-kmod-nvidia-lts
-                      operator: Exists
+          runtimeClassName: nvidia
+          nodeSelector:
+            "tam.land/gpu.present": "true"
     service:
       app:
         enabled: true
