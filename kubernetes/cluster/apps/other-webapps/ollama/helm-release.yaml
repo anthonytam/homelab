@@ -24,18 +24,14 @@ spec:
           app:
             image:
               repository: ollama/ollama
-              tag: 0.13.0
+              tag: 0.13.4
             env:
               NVIDIA_VISIBLE_DEVICES: all
               OLLAMA_KEEP_ALIVE: 24h
         pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                    - key: extensions.talos.dev/nonfree-kmod-nvidia-lts
-                      operator: Exists
+          runtimeClassName: nvidia
+          nodeSelector:
+            "tam.land/gpu.present": "true"
       webui:
         enabled: true
         containers:
