@@ -1,0 +1,6 @@
+creation_rules:
+  - path_regex: cluster/.*\.sops\.yaml
+    encrypted_regex: ^(data|stringData)$
+    pgp: 910E6AB3B6B93104BC0D0F5AD48349BEF211483F
+  - path_regex: talos/.*\.sops\.yaml
+    pgp: F0FBDC26B39154C2

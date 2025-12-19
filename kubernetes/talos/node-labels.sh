@@ -1,0 +1,12 @@
+k label nodes worker01 topology.kubernetes.io/region=TamLand
+k label nodes worker01 topology.kubernetes.io/zone=hype01
+k label nodes worker02 topology.kubernetes.io/region=TamLand
+k label nodes worker02 topology.kubernetes.io/zone=hype01
+k label nodes worker03 topology.kubernetes.io/region=TamLand
+k label nodes worker03 topology.kubernetes.io/zone=hype01
+k label nodes worker04 topology.kubernetes.io/region=TamLand
+k label nodes worker04 topology.kubernetes.io/zone=hype01
+k label nodes worker05 topology.kubernetes.io/region=TamLand
+k label nodes worker05 topology.kubernetes.io/zone=hype01
+k label nodes controlplane03 topology.kubernetes.io/region=TamLand
+k label nodes controlplane03 topology.kubernetes.io/zone=hype01

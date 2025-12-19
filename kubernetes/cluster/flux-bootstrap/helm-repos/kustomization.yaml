@@ -17,6 +17,7 @@ resources:
   - nfs-provisioner.yaml
   - nvidia-k8s-device-plugin.yaml
   - prometheus-community.yaml
+  - proxmox-csi-plugin.yaml
   - sandermann.yaml
   - traefik.yaml
   - zabbix-community.yaml

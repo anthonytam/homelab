@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: proxmox-csi-plugin
+  namespace: infra
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: proxmox-csi-plugin
+      version: 0.5.3
+      sourceRef:
+        kind: OCIRepository
+        name: proxmox-csi-plugin
+        namespace: flux-system
+      interval: 5m
+  values:
+    config:
+      clusters:
+        - url: https://${proxmox_tamland_hostname}:8006/api2/json
+          insecure: true
+          token_id: ${proxmox_tamland_token_id}
+          token_secret: ${proxmox_tamland_token_secret}
+          region: TamLand
+    node:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: extensions.talos.dev/qemu-guest-agent
+                    operator: Exists
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+    storageClass:
+      - name: proxmox-data-lvm-thin
+        storage: data
+        reclaimPolicy: Delete
+        fstype: xfs
+        ssd: true
