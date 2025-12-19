@@ -7,15 +7,10 @@ spec:
   interval: 5m
   upgrade:
     force: true
-  chart:
-    spec:
-      chart: proxmox-csi-plugin
-      version: 0.5.3
-      sourceRef:
-        kind: OCIRepository
-        name: proxmox-csi-plugin
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+      name: proxmox-csi-plugin
+      namespace: flux-system
+      kind: OCIRepository
   values:
     config:
       clusters:
