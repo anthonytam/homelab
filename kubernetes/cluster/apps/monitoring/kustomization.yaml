@@ -8,4 +8,5 @@ resources:
   - kube-state-metrics
   - loki
   - prometheus
+  - tempo
   - zabbix
