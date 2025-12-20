@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - runtime-class.yaml
-  - device-plugin.yaml
+  - device-plugin
