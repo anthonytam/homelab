@@ -71,8 +71,8 @@ spec:
         server: nfs.local.tam.land
         path: /nfs-share/other-webapps/wedding/wp
         advancedMounts:
-          wordpress:
-            wordpress:
+          app:
+            app:
               - path: /var/www/html
       mariadb-data:
         enabled: true
