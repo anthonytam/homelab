@@ -36,5 +36,5 @@ spec:
       - name: proxmox-data-ssd-array
         storage: SSD-Array
         reclaimPolicy: Delete
-        fstype: zfs
+        fstype: ext4
         ssd: true
