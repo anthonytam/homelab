@@ -2,6 +2,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - wedding-mariadb-secrets.yaml
-  - wedding-wp-secrets.yaml
+  - wedding-mariadb-secrets.sops.yaml
+  - wedding-wp-secrets.sops.yaml
   - helm-release.yaml
