@@ -29,3 +29,14 @@ metadata:
 spec:
   defaultCertificate:
     secretName: "anthonyandjessielove-tls"
+---
+apiVersion: homerow.ca/v1
+kind: SyncSecret
+metadata:
+  name: anthonyandjessielove-tls-secret
+spec:
+  secret:
+    name: anthonyandjessielove-tls
+    namespace: admin
+  destinationNamespaces:
+    - other-webapps
