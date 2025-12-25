@@ -89,7 +89,7 @@ spec:
               - path: /config
       ssd:
         type: persistentVolumeClaim
-        claimName: frigate-cache
+        existingClaim: frigate-cache
         advancedMounts:
           app:
             mergerfs:
