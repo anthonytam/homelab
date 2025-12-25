@@ -19,6 +19,25 @@ spec:
   values:
     controllers:
       app:
+        initContainers:
+          mergerfs:
+            image:
+              repository: ghcr.io/hotio/mergerfs
+              tag: release-2.41.1
+            restartPolicy: Always
+            securityContext:
+              privileged: true
+              runAsUser: 0
+              runAsGroup: 0
+            command:
+              - /bin/sh
+              - -ec
+            args:
+              - |
+                mergerfs \
+                  -o allow_other,use_ino,category.create=ff,moveonenospc=true,fsname=frigate-media \
+                  /mnt/ssd:/mnt/nfs \
+                  /media
         pod:
           runtimeClassName: nvidia
           nodeSelector:
@@ -64,29 +83,66 @@ spec:
         type: nfs
         server: nfs.local.tam.land
         path: /nfs-share/smart-home/frigate/config
-        globalMounts:
-          - path: /config
-      media:
+        advancedMounts:
+          app:
+            app:
+              - path: /config
+      ssd:
+        type: persistentVolumeClaim
+        claimName: frigate-cache
+        advancedMounts:
+          app:
+            mergerfs:
+              - path: /ssd
+            movejob:
+              - path: /ssd
+      nfs:
         type: nfs
         server: truenas.local.tam.land
         path: /mnt/main-bay/k8s-data/frigate
-        globalMounts:
-          - path: /media
+        advancedMounts:
+          app:
+            mergerfs:
+              - path: /nfs
+            movejob:
+              - path: /nfs
+      merged:
+        type: emptyDir
+        advancedMounts:
+          app:
+            app:
+              - path: /media
+            mergerfs:
+              - path: /media
       tpu:
         type: hostPath
         hostPath: /dev/apex_0
         hostPathType: CharDevice
-        globalMounts:
-          - path: /dev/apex_0
+        advancedMounts:
+          app:
+            app:
+              - path: /dev/apex_0
       shm:
         type: emptyDir
         medium: Memory
         sizeLimit: 2Gi
-        globalMounts:
-          - path: /dev/shm
+        advancedMounts:
+          app:
+            app:
+              - path: /dev/shm
       cache:
         type: emptyDir
         medium: Memory
         sizeLimit: 1Gi
-        globalMounts:
-          - path: /tmp/cache
+        advancedMounts:
+          app:
+            app:
+              - path: /tmp/cache
+      fuse:
+        type: hostPath
+        hostPath: /dev/fuse
+        hostPathType: CharDevice
+        advancedMounts:
+          app:
+            mergerfs:
+              - path: /dev/fuse
