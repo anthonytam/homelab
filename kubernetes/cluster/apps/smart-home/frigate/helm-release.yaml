@@ -80,7 +80,7 @@ spec:
                 cd /ssd
                 find frigate -type f -mmin +10 -print0 \
                 | rsync -av --no-owner --no-group \
-                    --bwlimit=6104
+                    --bwlimit=6104 \
                     --remove-source-files --prune-empty-dirs --ignore-existing \
                     --from0 --files-from=- \
                     ./ /nfs/
