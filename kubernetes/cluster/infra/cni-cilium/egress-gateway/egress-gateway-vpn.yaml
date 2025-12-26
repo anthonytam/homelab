@@ -17,7 +17,6 @@ spec:
   egressGateway:
     nodeSelector:
       matchLabels:
-        egress-gw-vpn: "true"
         egress-gw-vpn-if: ens19
     interface: ens19
 ---
@@ -39,6 +38,5 @@ spec:
   egressGateway:
     nodeSelector:
       matchLabels:
-        egress-gw-vpn: "true"
         egress-gw-vpn-if: eno1.42
     interface: eno1.42
