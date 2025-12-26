@@ -6,7 +6,6 @@ resources:
   - calibre-web-automated
   - calibre-web-automated-downloader
   - dispacharr
-  - egress-gateway
   - flaresolverr
   - jellyfin
   - m3u-editor

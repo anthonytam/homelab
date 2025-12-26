@@ -1,0 +1,44 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: vpn-egress-ens19
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          egress-gw: vpn
+  destinationCIDRs:
+    - "0.0.0.0/0"
+  excludedCIDRs:
+    - "10.200.0.0/16"
+    - "10.201.0.0/16"
+    - "10.202.0.0/16"
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        egress-gw-vpn: "true"
+        egress-gw-vpn-if: ens19
+    interface: ens19
+---
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: vpn-egress-eno1
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          egress-gw: vpn
+  destinationCIDRs:
+    - "0.0.0.0/0"
+  excludedCIDRs:
+    - "10.200.0.0/16"
+    - "10.201.0.0/16"
+    - "10.202.0.0/16"
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        egress-gw-vpn: "true"
+        egress-gw-vpn-if: eno1
+    interface: eno1
