@@ -24,7 +24,7 @@ spec:
 apiVersion: cilium.io/v2
 kind: CiliumEgressGatewayPolicy
 metadata:
-  name: vpn-egress-eno1
+  name: vpn-egress-eno1-42
 spec:
   selectors:
     - podSelector:
@@ -40,5 +40,5 @@ spec:
     nodeSelector:
       matchLabels:
         egress-gw-vpn: "true"
-        egress-gw-vpn-if: eno1
-    interface: eno1
+        egress-gw-vpn-if: eno1.42
+    interface: eno1.42
