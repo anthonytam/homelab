@@ -1,7 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - cni-cilium
-  - csi-local-storage
-  - csi-proxmox
-  - nvidia
+  - local-storage.yaml
+  - storage-class.yaml
