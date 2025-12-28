@@ -54,7 +54,7 @@ spec:
               repository: postgres
               tag: 18.1
             envFrom: 
-              - secret: homeassistant-sops-secret
+              - secret: homeassistant-postgres-sops-secret
       influxdb:
         enabled: true
         containers:
