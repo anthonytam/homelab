@@ -124,7 +124,7 @@ spec:
         advancedMounts:
           postgres:
             postgres:
-              - path: /var/lib/postgresql/data
+              - path: /var/lib/postgresql/18/docker
                 readOnly: false
       influxconfig:
         enabled: true
