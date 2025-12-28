@@ -29,6 +29,6 @@ spec:
     nodePathMap:
       - node: worker06
         paths:
-          - /var/mnt/fast-960/local-path
+          - /var/mnt/fast-960
       - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
         paths: []
