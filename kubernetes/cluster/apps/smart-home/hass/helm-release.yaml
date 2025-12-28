@@ -53,7 +53,9 @@ spec:
             image:
               repository: postgres
               tag: 18.1
-            envFrom: 
+            env:
+              PGDATA: /var/lib/postgresql/18/docker/pgdata
+            envFrom:
               - secret: homeassistant-postgres-sops-secret
       influxdb:
         enabled: true
