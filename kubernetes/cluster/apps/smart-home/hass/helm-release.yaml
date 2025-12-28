@@ -40,13 +40,21 @@ spec:
 #                  command: ["touch", "/.dockerenv"]
       postgres:
         enabled: true
+        pod:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: extensions.talos.dev/qemu-guest-agent
+                        operator: Exists
         containers:
           postgres:
             image:
               repository: postgres
-              tag: 16.11
+              tag: 18.1
             envFrom: 
-              - secret: homeassistant-configuration
+              - secret: homeassistant-sops-secret
       influxdb:
         enabled: true
         containers:
@@ -109,9 +117,10 @@ spec:
                 readOnly: false
       pgdata:
         enabled: true
-        type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/smart-home/home-assistant/postgres
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 50Gi
+        storageClass: proxmox-data-ssd-array
         advancedMounts:
           postgres:
             postgres:
