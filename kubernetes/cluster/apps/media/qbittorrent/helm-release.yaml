@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.4.0
+      version: 4.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -20,10 +20,6 @@ spec:
     defaultPodOptions:
       labels:
         egress-gw: vpn
-    #   dnsConfig:
-    #     options:
-    #       - name: ndots
-    #         value: "1"
     controllers:
       app:
         enabled: true
@@ -40,7 +36,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/qbittorrent
-              tag: 5.1.2
+              tag: 5.1.4
             env:
               PUID: 568
               PGID: 568

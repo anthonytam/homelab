@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -11,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.4.0
+      version: 4.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -24,7 +23,7 @@ spec:
           main:
             image:
               repository: flaresolverr/flaresolverr
-              tag: v3.4.5
+              tag: v3.4.6
     service:
       main:
         controller: main

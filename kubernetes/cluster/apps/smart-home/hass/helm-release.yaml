@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.4.0
+      version: 4.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: homeassistant/home-assistant
-              tag: "2025.12.3"
+              tag: "2025.12.4"
             env:
               TZ: America/Toronto
               PYTHONPATH: /config/deps
@@ -53,7 +53,7 @@ spec:
           influxdb:
             image:
               repository: influxdb
-              tag: 2.7.12
+              tag: 2.8.0
     service:
       app:
         enabled: true
