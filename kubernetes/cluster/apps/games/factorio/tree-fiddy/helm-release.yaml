@@ -1,0 +1,91 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: factorio-treefiddy
+  namespace: games
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: factorio-server-charts
+      version: 2.5.2
+      sourceRef:
+        kind: HelmRepository
+        name: factorio-helm
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: "factoriotools/factorio"
+      tag: 2.0.72
+    service:
+      type: LoadBalancer
+      port: 34197
+      externalTrafficPolicy: Local
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: 10.200.12.4
+        metallb.universe.tf/allow-shared-ip: "misc-sharing"
+    strategy:
+      type: Recreate
+    persistence:
+      enabled: true
+      dataDir:
+        Size: "20Gi"
+      storageClassName: proxmox-data-ssd-array
+    mods:
+      enabled: true
+      portal:
+        - aai-containers
+        - bobinserters
+        - BottleneckLite
+        - DiscoScience
+        - even-distribution
+        - flib
+        - FNEI
+        - informatron
+        - Orphan Finder
+        - pickitup
+        - squeak-through-2
+        - VehicleSnap
+    factorioServer:
+      save_name: TreeFiddy
+      generate_new_save: true
+      update_mods_on_start: true
+      load_latest_save: true
+      enable_space_age: false
+    import_save:
+      enabled: true
+      source_url: http://netboot.local.tam.land/treefiddy/treefiddy.zip
+    account:
+      accountSecret: factorio-sops-secret
+    serverPassword:
+      passwordSecret: factorio-sops-secret
+    server_settings:
+      name: TreeFiddy
+      description: "Factorio Game"
+      max_players: 0
+      visibility:
+        public: false
+        lan: true
+      require_user_verification: true
+      max_upload_in_kilobytes_per_second: 0
+      max_upload_slots: 5
+      minimum_latency_in_ticks: 0
+      ignore_player_limit_for_returning_players: false
+      allow_commands: admins-only
+      autosave_interval: 5
+      autosave_slots: 20
+      afk_autokick_interval: 15
+      auto_pause: true
+      only_admins_can_pause_the_game: false
+      autosave_only_on_server: true
+      non_blocking_saving: true
+      minimum_segment_size: 25
+      minimum_segment_size_peer_count: 20
+      maximum_segment_size: 100
+      maximum_segment_size_peer_count: 10
+    rcon:
+      external: false
