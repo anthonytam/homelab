@@ -38,18 +38,30 @@ spec:
     mods:
       enabled: true
       portal:
-        - aai-containers
-        - bobinserters
-        - BottleneckLite
-        - DiscoScience
-        - even-distribution
-        - flib
-        - FNEI
-        - informatron
-        - Orphan Finder
-        - pickitup
-        - squeak-through-2
-        - VehicleSnap
+        - name: aai-containers
+          version: 0.3.2
+        - name: bobinserters
+          version: 2.0.1
+        - name: BottleneckLite
+          version: 1.3.4
+        - name: DiscoScience
+          version: 2.0.1
+        - name: even-distribution
+          version: 2.0.1
+        - name: flib
+          version: 0.16.5
+        - name: FNEI
+          version: 0.4.6
+        - name: informatron
+          version: 0.4.0
+        - name: Orphan Finder
+          version: 1.2.2
+        - name: pickitup
+          version: 2.0.3
+        - name: squeak-through-2
+          version: 0.1.2
+        - name: VehicleSnap
+          version: 2.0.3
     factorioServer:
       save_name: TreeFiddy
       generate_new_save: true
