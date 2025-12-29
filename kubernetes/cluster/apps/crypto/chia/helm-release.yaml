@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -11,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.4.0
+      version: 4.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -61,8 +60,8 @@ spec:
       blockchain:
         enabled: true
         type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/crypto/chia/blockchain
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/crypto/chia/blockchain
         advancedMounts:
           app:
             app:
@@ -71,7 +70,7 @@ spec:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
-        path: /mnt/main-bay/k8s-data/chia-plots
+        path: /mnt/main-bay/k8s-data/crypto/chia/plots
         advancedMounts:
           app:
             app:
