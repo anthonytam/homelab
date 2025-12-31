@@ -19,6 +19,11 @@ spec:
   values:
     nodeSelector:
       kubernetes.io/hostname: worker06
+    tolerations:
+      - key: "tam.land/peripheralNode"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
     storageClass:
       create: true
       name: local-fast-960-worker06

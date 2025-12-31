@@ -43,6 +43,11 @@ spec:
           runtimeClassName: nvidia
           nodeSelector:
             "tam.land/tpu.present": "true"
+          tolerations:
+            - key: "tam.land/peripheralNode"
+              operator: "Equal"
+              value: "true"
+              effect: "NoSchedule"
         containers:
           app:
             image:
@@ -63,6 +68,11 @@ spec:
         pod:
           nodeSelector:
             "tam.land/tpu.present": "true"
+          tolerations:
+            - key: "tam.land/peripheralNode"
+              operator: "Equal"
+              value: "true"
+              effect: "NoSchedule"
         containers:
           mover:
             image:

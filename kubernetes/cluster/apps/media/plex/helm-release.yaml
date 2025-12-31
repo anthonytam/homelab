@@ -34,6 +34,11 @@ spec:
           runtimeClassName: nvidia
           nodeSelector:
             "tam.land/gpu.present": "true"
+          tolerations:
+            - key: "tam.land/peripheralNode"
+              operator: "Equal"
+              value: "true"
+              effect: "NoSchedule"
     service:
       app:
         enabled: true
