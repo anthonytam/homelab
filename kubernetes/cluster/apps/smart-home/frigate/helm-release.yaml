@@ -34,11 +34,21 @@ spec:
               - -ec
             args:
               - |
-                mergerfs \
-                  -f \
-                  -o allow_other,use_ino,category.create=ff,moveonenospc=true,fsname=frigate-media \
-                  /ssd:/nfs \
-                  /media
+                echo "Starting mergerfs run loop"
+                while true; do
+                  umount -l /media 2>/dev/null || true
+                  rm -f /media/error 2>/dev/null || true
+
+                  echo "Creating mergerfs mountpoint on $(date)"
+                  mergerfs \
+                    -f \
+                    -o allow_other,use_ino,category.create=ff,moveonenospc=true,fsname=frigate-media \
+                    /ssd:/nfs \
+                    /media
+                  result=$?
+                  echo "Mergerfs exited with code rc=${result} on $(date)"
+                  sleep 1
+                done
         pod:
           runtimeClassName: nvidia
           nodeSelector:
@@ -81,8 +91,6 @@ spec:
             command:
               - /bin/sh
               - -ec
-            # TODO: We can probably just make our own container for this instead of installing
-            # deps every time the job runs.
             args:
               - |
                 apk add --no-cache rsync findutils coreutils
