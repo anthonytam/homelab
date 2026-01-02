@@ -1,7 +1,7 @@
 ---
 clusterName: tam.land
-talosVersion: v1.11.6
-kubernetesVersion: v1.33.5
+talosVersion: v1.12.0
+kubernetesVersion: v1.35.0
 endpoint: https://kube.local.tam.land:6443
 additionalApiServerCertSans:
   - kubeapi.local.tam.land
@@ -28,6 +28,10 @@ worker:
       machine:
         sysctls:
           net.ipv4.conf.all.rp_filter: 0
+    - |-
+      machine:
+        sysctls:
+          vm.max_map_count: 838860
 patches:
   - |-
     machine:
@@ -185,6 +189,8 @@ nodes:
       tam.land/local-storage: "true"
       tam.land/local-fast-960: "true"
       tam.land/local-fast-240: "true"
+    nodeTaints:
+      tam.land/peripheralNode: true:NoSchedule
     patches:
       - |-
         machine:
