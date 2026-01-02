@@ -19,36 +19,6 @@ spec:
   values:
     controllers:
       app:
-        initContainers:
-          mergerfs:
-            image:
-              repository: ghcr.io/hotio/mergerfs
-              tag: release-2.41.1
-            restartPolicy: Always
-            securityContext:
-              privileged: true
-              runAsUser: 0
-              runAsGroup: 0
-            command:
-              - /bin/sh
-              - -ec
-            args:
-              - |
-                echo "Starting mergerfs run loop"
-                while true; do
-                  umount -l /media 2>/dev/null || true
-                  rm -f /media/error 2>/dev/null || true
-
-                  echo "Creating mergerfs mountpoint on $(date)"
-                  mergerfs \
-                    -f \
-                    -o allow_other,use_ino,category.create=ff,moveonenospc=true,fsname=frigate-media \
-                    /ssd:/nfs \
-                    /media
-                  result=$?
-                  echo "Mergerfs exited with code rc=${result} on $(date)"
-                  sleep 1
-                done
         pod:
           runtimeClassName: nvidia
           nodeSelector:
@@ -67,42 +37,6 @@ spec:
               NVIDIA_VISIBLE_DEVICES: all
             securityContext:
               privileged: true
-      mover:
-        type: cronjob
-        cronjob:
-          schedule: "0 * * * *"
-          concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
-          failedJobsHistory: 3
-          startingDeadlineSeconds: 300
-        pod:
-          nodeSelector:
-            "tam.land/tpu.present": "true"
-          tolerations:
-            - key: "tam.land/peripheralNode"
-              operator: "Equal"
-              value: "true"
-              effect: "NoSchedule"
-        containers:
-          mover:
-            image:
-              repository: alpine
-              tag: 3.23.2
-            command:
-              - /bin/sh
-              - -ec
-            args:
-              - |
-                apk add --no-cache rsync findutils coreutils
-
-                cd /ssd
-                find frigate -type f -mmin +10 -print0 \
-                | rsync -av --no-owner --no-group \
-                    --bwlimit=7935 \
-                    --remove-source-files --prune-empty-dirs --ignore-existing \
-                    --from0 --files-from=- \
-                    ./ /nfs/
-                find /ssd -type d -empty -delete || true
     ingress:
       app:
         enabled: true
@@ -139,37 +73,14 @@ spec:
           app:
             app:
               - path: /config
-      ssd:
-        type: persistentVolumeClaim
-        existingClaim: frigate-cache
-        advancedMounts:
-          app:
-            mergerfs:
-              - path: /ssd
-          mover:
-            mover:
-              - path: /ssd
       nfs:
         type: nfs
         server: truenas.local.tam.land
         path: /mnt/main-bay/k8s-data/frigate
         advancedMounts:
           app:
-            mergerfs:
-              - path: /nfs
-          mover:
-            mover:
-              - path: /nfs
-      merged:
-        type: emptyDir
-        advancedMounts:
-          app:
             app:
               - path: /media
-                mountPropagation: Bidirectional
-            mergerfs:
-              - path: /media
-                mountPropagation: Bidirectional
       tpu:
         type: hostPath
         hostPath: /dev/apex_0
@@ -194,11 +105,3 @@ spec:
           app:
             app:
               - path: /tmp/cache
-      fuse:
-        type: hostPath
-        hostPath: /dev/fuse
-        hostPathType: CharDevice
-        advancedMounts:
-          app:
-            mergerfs:
-              - path: /dev/fuse
