@@ -2,5 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - init-mongo-cm.yaml
-  - unifi-configuration-secret.yaml
+  - unifi-configuration-secret.sops.yaml
   - helm-release.yaml
