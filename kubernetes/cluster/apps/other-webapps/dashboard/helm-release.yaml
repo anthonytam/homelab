@@ -1,0 +1,75 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+  namespace: other-webapps
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: homepage
+      version: 2.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: jameswynn
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/gethomepage/homepage
+      tage: v1.8.0
+    enableRbac: true
+    serviceAccount:
+      name: homepage-app
+      create: true
+    ingress:
+      main:
+        enabled: true
+      hosts:
+        - host: home.tam.land
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - home.tam.land
+    config:
+      bookmarks:
+        - Social:
+          - Reddit:
+            - abbr: Reddit
+              href: https://reddit.com
+        - Dev:
+          - Github:
+            - abbr: GH
+              href: https://github.com/
+      widgets:
+        - resources:
+            backend: kubernetes
+            expanded: true
+            cpu: true
+            memory: true
+        - search:
+            provider: google
+            target: _self
+        - kubernetes:
+            cluster:
+              show: true
+              cpu: true
+              memory: true
+              showLabel: true
+              label: "Tam Land Cluster"
+            nodes:
+              show: true
+              cpu: true
+              memory: true
+              showLabel: true
+    kubernetes:
+      mode: cluster
+    env:
+      - name: HOMEPAGE_ALLOWED_HOSTS
+        value: home.tam.land
+      - name: TZ
+        value: America/Toronto

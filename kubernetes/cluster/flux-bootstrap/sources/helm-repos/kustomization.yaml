@@ -10,6 +10,7 @@ resources:
   - frappe.yaml
   - grafana.yaml
   - hashicorp.yaml
+  - jameswynn.yaml
   - jetstack.yaml
   - k8s-sigs.yaml
   - mss.yaml
