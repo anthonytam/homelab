@@ -1,13 +1,15 @@
----
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: secrets
+  name: platform
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./kubernetes/cluster/apps/secrets
+  path: ./kubernetes/cluster/platform
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+  dependsOn:
+    - name: infra
+      namespace: flux-system

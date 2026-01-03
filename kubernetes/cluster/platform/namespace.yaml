@@ -1,0 +1,20 @@
+# TODO: Old namespace name, get this ported to platform at some point.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: admin
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: secrets
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager

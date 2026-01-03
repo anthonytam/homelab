@@ -14,7 +14,7 @@ data:
               - 10.200.0.0/24
       routers:
         api:
-          rule: "Host(`traefik.tam.land`)"
+          rule: "Host(`traefik.local.tam.land`)"
           entrypoints: ["websecure"]
           service: "api@internal"
           middlewares:
