@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -10,7 +9,6 @@ spec:
     force: true
   chart:
     spec:
-      # renovate: registryUrl=https://helm.releases.hashicorp.com/
       chart: vault
       version: 0.31.0
       sourceRef:
@@ -27,10 +25,10 @@ spec:
         enabled: false
       extraSecretEnvironmentVars:
         - envName: AWS_ACCESS_KEY_ID
-          secretName: vault-access-key
+          secretName: vault-access-key-secret
           secretKey: AWS_ACCESS_KEY_ID
         - envName: AWS_SECRET_ACCESS_KEY
-          secretName: vault-access-key
+          secretName: vault-access-key-secret
           secretKey: AWS_SECRET_ACCESS_KEY 
       standalone:
         enabled: true

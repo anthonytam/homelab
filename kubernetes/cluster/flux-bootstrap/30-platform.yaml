@@ -13,3 +13,7 @@ spec:
   dependsOn:
     - name: infra
       namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
