@@ -1,0 +1,82 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: media
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 4.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      app:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: lscr.io/linuxserver/plex
+              tag: 1.42.2
+            env:
+              NVIDIA_VISIBLE_DEVICES: all
+              PUID: 568
+              PGID: 568
+              TZ: America/Toronto
+        pod:
+          runtimeClassName: nvidia
+          nodeSelector:
+            "tam.land/gpu.present": "true"
+          tolerations:
+            - key: "tam.land/peripheralNode"
+              operator: "Equal"
+              value: "true"
+              effect: "NoSchedule"
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 32400
+    ingress:
+      api:
+        enabled: true
+        hosts:
+          - host: plex.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - plex.tam.land
+    persistence:
+      config:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/plex/config
+        advancedMounts:
+          app:
+            app:
+              - path: /config
+      media:
+        enabled: true
+        type: nfs
+        server: truenas.local.tam.land
+        path: /mnt/main-bay/k8s-data/media
+        advancedMounts:
+          app:
+            app:
+              - path: /media
