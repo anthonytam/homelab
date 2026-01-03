@@ -27,14 +27,15 @@ spec:
     ingress:
       main:
         enabled: true
-      hosts:
-        - host: home.tam.land
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - home.tam.land
+        hosts:
+          - host: home.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - home.tam.land
     config:
       bookmarks:
         - Social:
