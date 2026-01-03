@@ -11,14 +11,11 @@ spec:
       name: proxmox-csi-plugin
       namespace: flux-system
       kind: OCIRepository
+  valuesFrom:
+    - kind: Secret
+      name: proxmox-csi-sops-secrets
+      valuesKey: values.yaml
   values:
-    config:
-      clusters:
-        - url: https://${proxmox_tamland_hostname}:8006/api2/json
-          insecure: true
-          token_id: ${proxmox_tamland_token_id}
-          token_secret: ${proxmox_tamland_token_secret}
-          region: TamLand
     node:
       affinity:
         nodeAffinity:

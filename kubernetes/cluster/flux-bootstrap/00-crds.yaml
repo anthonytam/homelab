@@ -7,7 +7,8 @@ metadata:
 spec:
   interval: 10m0s
   path: ./kubernetes/cluster/crds
-  prune: true
+  prune: false
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system

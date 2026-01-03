@@ -10,8 +10,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  postBuild:
-    substitute: {}
-    substituteFrom:
-      - kind: Secret
-        name: infra-sops-secrets
+  dependsOn:
+    - name: sources
+      namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
