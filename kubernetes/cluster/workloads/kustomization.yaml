@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - 3d-printing
   - crypto
+  - games
   - media
   - other-webapps
   - small-indie-bot
+  - smart-home
