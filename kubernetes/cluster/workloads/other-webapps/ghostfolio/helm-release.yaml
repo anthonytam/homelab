@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghostfolio/ghostfolio
-              tag: 2.224.2
+              tag: 2.228.0
             envFrom: &envFrom
               - secret: ghostfolio-configuration
       postgres:
