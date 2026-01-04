@@ -119,9 +119,7 @@ spec:
       pgdata:
         enabled: true
         type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 50Gi
-        storageClass: proxmox-data-ssd-array
+        existingClaim: homeassistant-postgres
         advancedMounts:
           postgres:
             postgres:

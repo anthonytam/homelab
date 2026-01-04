@@ -4,5 +4,6 @@ resources:
   - namespace.yaml
   - esphome
   - frigate
+  - hass
   - mosquitto
   - wyoming
