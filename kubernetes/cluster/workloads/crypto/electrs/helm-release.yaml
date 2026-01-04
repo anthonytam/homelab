@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: electrs
-  namespace: crypto
+  namespace: bitcoin
 spec:
   interval: 5m
   upgrade:
@@ -48,9 +48,9 @@ spec:
         controller: app
         primary: true
         type: LoadBalancer
+        externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.2
-          metallb.universe.tf/allow-shared-ip: "crypto-sharing"
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.6
         ports:
           rpc:
             enabled: true

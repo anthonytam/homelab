@@ -1,4 +1,10 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: crypto
+  name: bitcoin
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chia

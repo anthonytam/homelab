@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: bitcoind
-  namespace: crypto
+  namespace: bitcoin
 spec:
   interval: 5m
   upgrade:
@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/anthonytam/bitcoind
-              tag: v29.1
+              tag: v30.1
             probes:
               liveness:
                 enabled: false
@@ -41,9 +41,9 @@ spec:
         controller: app
         primary: true
         type: LoadBalancer
+        externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.2
-          metallb.universe.tf/allow-shared-ip: "crypto-sharing"
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.5
         ports:
           p2p:
             enabled: true
