@@ -39,6 +39,7 @@ spec:
     name: tamland-tls
     namespace: admin
   destinationNamespaces:
+    - media
+    - monitoring
     - other-webapps
-    - password-management
     - smart-home

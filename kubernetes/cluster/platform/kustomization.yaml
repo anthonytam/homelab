@@ -10,6 +10,7 @@ resources:
   - newt
   - registry
   - secret-sync
+  - secrets
   - traefik
   - unifi
   - vault

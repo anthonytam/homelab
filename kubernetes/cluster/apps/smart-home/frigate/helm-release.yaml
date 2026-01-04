@@ -53,6 +53,11 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: go2rtc
+        tls:
+          - secretName: local-tamland-tls
+            hosts:
+                - frigate.local.tam.land
+                - go2rtc.local.tam.land
     service:
       app:
         controller: app

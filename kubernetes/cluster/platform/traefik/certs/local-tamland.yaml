@@ -42,4 +42,9 @@ spec:
     name: local-tamland-tls
     namespace: admin
   destinationNamespaces:
+    - 3d-printing
+    - media
+    - monitoring
     - other-webapps
+    - platform
+    - smart-home
