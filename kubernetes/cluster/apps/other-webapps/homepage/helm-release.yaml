@@ -40,7 +40,7 @@ spec:
       bookmarks:
         - Social:
           - Reddit:
-            - abbr: Reddit
+            - abbr: RDT
               href: https://reddit.com
         - Dev:
           - Github:
