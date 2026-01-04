@@ -3,7 +3,10 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - ghostfolio
+  - homepage
+  - immich
   - lubelog
+  - ollama
   - stirlingpdf
   - vaultwarden
   - wallos
