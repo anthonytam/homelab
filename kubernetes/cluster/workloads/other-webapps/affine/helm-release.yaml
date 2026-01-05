@@ -27,11 +27,7 @@ spec:
           affine-migration:
             image:
               repository: ghcr.io/toeverything/affine
-              tag: stable
-            env:
-              REDIS_SERVER_HOST: redis
-              AFFINE_INDEXER_ENABLED: "false"
-              DATABASE_URL: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@postgres:5432/$(DB_DATABASE)"
+              tag: 0.25.7
             envFrom:
               - secret: affine-configuration
             command:
@@ -42,7 +38,7 @@ spec:
           app:
             image:
               repository: ghcr.io/toeverything/affine
-              tag: stable
+              tag: 0.25.7
             envFrom:
               - secret: affine-configuration
     service:
