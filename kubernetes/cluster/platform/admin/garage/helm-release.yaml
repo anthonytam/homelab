@@ -42,7 +42,8 @@ spec:
     persistence:
       config:
         enabled: true
-        secret: garage-configuration
+        type: secret
+        name: garage-configuration
         advancedMounts:
           app:
             app:
