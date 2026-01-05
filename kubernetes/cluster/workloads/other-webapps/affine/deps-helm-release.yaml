@@ -25,25 +25,8 @@ spec:
             image:
               repository: pgvector/pgvector
               tag: 0.8.1-pg16
-            envFron:
+            envFrom:
               - secret: affine-postgres-configuration
-            probes:
-                readiness:
-                  enabled: true
-                  type: exec
-                  command: ["sh", "-c", "pg_isready -U \"$DB_USERNAME\" -d \"$DB_DATABASE\""]
-                  initialDelaySeconds: 5
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 6
-                liveness:
-                  enabled: true
-                  type: exec
-                  command: ["sh", "-c", "pg_isready -U \"$DB_USERNAME\" -d \"$DB_DATABASE\""]
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 6
       redis:
         enabled: true
         containers:
@@ -51,23 +34,6 @@ spec:
             image:
               repository: redis
               tag: 8.4.0
-            probes:
-              readiness:
-                enabled: true
-                type: exec
-                command: ["sh", "-c", "redis-cli --raw incr ping >/dev/null"]
-                initialDelaySeconds: 5
-                periodSeconds: 10
-                timeoutSeconds: 5
-                failureThreshold: 6
-              liveness:
-                enabled: true
-                type: exec
-                command: ["sh", "-c", "redis-cli --raw incr ping >/dev/null"]
-                initialDelaySeconds: 10
-                periodSeconds: 10
-                timeoutSeconds: 5
-                failureThreshold: 6
     service:
       postgres:
         enabled: true
