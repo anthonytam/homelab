@@ -33,8 +33,7 @@ spec:
               AFFINE_INDEXER_ENABLED: "false"
               DATABASE_URL: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@postgres:5432/$(DB_DATABASE)"
             envFrom:
-              - secretRef:
-                  name: affine-env
+              - secret: affine-configuration
             command:
               - sh
               - -c
