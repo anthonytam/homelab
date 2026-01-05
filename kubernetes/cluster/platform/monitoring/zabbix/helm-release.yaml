@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -33,10 +32,9 @@ spec:
         enabled: false
       service:
         type: LoadBalancer
-        # externalTrafficPolicy: Local
+        externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 10.200.12.1
-          metallb.universe.tf/allow-shared-ip: "misc-sharing"
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.7
     postgresql:
       enabled: false
     zabbixProxy:

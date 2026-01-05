@@ -16,6 +16,15 @@ spec:
         name: grafana
         namespace: flux-system
       interval: 5m
+  valuesFrom:
+    - kind: Secret
+      name: loki-configuration
+      valuesKey: accessKeyId
+      targetPath: loki.storage.s3.accessKeyId
+    - kind: Secret
+      name: loki-configuration
+      valuesKey: secretAccessKey
+      targetPath: loki.storage.s3.secretAccessKey
   values:
     loki:
       auth_enabled: false
@@ -45,8 +54,6 @@ spec:
         s3:
           endpoint: http://garage-s3.admin.svc.cluster.local:3900
           region: garage
-          secretAccessKey: fa53d7ae11f7216a0984f5f8fc7b0abfdb1f4bd3f0901642808e5dda62e46793
-          accessKeyId: GK3c39be717f8bd0fadf0a3463
           signatureVersion: v4
           s3ForcePathStyle: true
           insecure: true
