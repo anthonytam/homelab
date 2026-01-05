@@ -39,46 +39,27 @@ spec:
         ports:
           web:
             port: 3902
-    ingress:
-      app:
-        enabled: true
-        hosts:
-          - host: garages3.local.tam.land
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-        tls:
-          - secretName: local-tamland-tls
-            hosts:
-              - garages3.local.tam.land
     persistence:
       config:
         enabled: true
-        type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/admin/garage/config
+        secret: garage-configuration
         advancedMounts:
           app:
             app:
               - path: /etc/garage.toml
-                readOnly: false
                 subPath: garage.toml
       meta:
         enabled: true
-        type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/admin/garage/meta
+        type: persistentVolumeClaim
+        existingClaim: garage-meta
         advancedMounts:
           app:
             app:
               - path: /var/lib/garage/meta
       data:
         enabled: true
-        type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/admin/garage/data
+        type: persistentVolumeClaim
+        existingClaim: garage-data
         advancedMounts:
           app:
             app:
