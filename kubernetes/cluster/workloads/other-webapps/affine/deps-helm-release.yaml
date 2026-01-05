@@ -1,0 +1,93 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: affine-deps
+  namespace: other-webapps
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 4.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      postgres:
+        enabled: true
+        containers:
+          postgres:
+            image:
+              repository: pgvector/pgvector
+              tag: 0.8.1-pg16
+            envFron:
+              - secret: affine-postgres-configuration
+            probes:
+                readiness:
+                  enabled: true
+                  type: exec
+                  command: ["sh", "-c", "pg_isready -U \"$DB_USERNAME\" -d \"$DB_DATABASE\""]
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+                liveness:
+                  enabled: true
+                  type: exec
+                  command: ["sh", "-c", "pg_isready -U \"$DB_USERNAME\" -d \"$DB_DATABASE\""]
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+      redis:
+        enabled: true
+        containers:
+          redis:
+            image:
+              repository: redis
+              tag: 8.4.0
+            probes:
+              readiness:
+                enabled: true
+                type: exec
+                command: ["sh", "-c", "redis-cli --raw incr ping >/dev/null"]
+                initialDelaySeconds: 5
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 6
+              liveness:
+                enabled: true
+                type: exec
+                command: ["sh", "-c", "redis-cli --raw incr ping >/dev/null"]
+                initialDelaySeconds: 10
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 6
+    service:
+      postgres:
+        enabled: true
+        controller: postgres
+        ports:
+          psql:
+            port: 5432
+      redis:
+        enabled: true
+        controller: redis
+        ports:
+          resp:
+            port: 6379
+    persistence:
+      pgdata:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: affine-postgres
+        advancedMounts:
+          postgres:
+            postgres:
+              - path: /var/lib/postgresql/data
+                readOnly: false
