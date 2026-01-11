@@ -44,7 +44,7 @@ spec:
       masquerade: true
     bpf:
       masquerade: true
-    enableMasqueradeToRouteSource: true
+    egressMasqueradeInterfaces: "ens19 eno1.42"
     nodePort:
       enabled: true
     daemon:
