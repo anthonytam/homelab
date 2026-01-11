@@ -17,13 +17,21 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    defaultPodOptions:
-      labels:
-        egress-gw: vpn
     controllers:
       app:
         enabled: true
         initContainers:
+          gluetun:
+            image:
+              repository: qmcgaw/gluetun
+              tag: v3.41.0
+            restartPolicy: Always
+            securityContext:
+              capabilities:
+                add: [ "NET_ADMIN" ] 
+            envFrom:
+              - secret: gluetun-wg
+              - secret: qbittorrent-gluetun
           dnsdist:
             image:
               repository: docker.io/powerdns/dnsdist-19
