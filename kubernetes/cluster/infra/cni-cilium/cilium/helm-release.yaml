@@ -44,7 +44,8 @@ spec:
       masquerade: true
     bpf:
       masquerade: true
-    egressMasqueradeInterfaces: "ens19 eno1.42"
+    devices: "ens18 eno1 ens19 eno1.42"
+    enableIPv6Masquerade: false
     nodePort:
       enabled: true
     daemon:
