@@ -13,6 +13,11 @@ spec:
     - "10.200.0.0/16"
     - "10.201.0.0/16"
     - "10.202.0.0/16"
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        egress-gw-vpn-if: "ens19"
+    interface: ens19
   egressGateways:
     - nodeSelector:
         matchLabels:
