@@ -10,10 +10,3 @@ kubectl label nodes worker04 topology.kubernetes.io/region=TamLand
 kubectl label nodes worker04 topology.kubernetes.io/zone=hype01
 kubectl label nodes worker05 topology.kubernetes.io/region=TamLand
 kubectl label nodes worker05 topology.kubernetes.io/zone=hype01
-
-kubectl label nodes worker01 egress-gw-vpn-if=ens19
-kubectl label nodes worker02 egress-gw-vpn-if=ens19
-kubectl label nodes worker03 egress-gw-vpn-if=ens19
-kubectl label nodes worker04 egress-gw-vpn-if=ens19
-kubectl label nodes worker05 egress-gw-vpn-if=ens19
-kubectl label nodes worker06 egress-gw-vpn-if=eno1.42

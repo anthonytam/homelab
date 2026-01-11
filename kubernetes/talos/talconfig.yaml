@@ -27,13 +27,6 @@ worker:
     - |-
       machine:
         sysctls:
-          net.ipv4.ip_forward: "1"
-          net.ipv4.conf.all.rp_filter: 0
-          net.ipv4.conf.ens19.rp_filter: "0"
-          net.ipv4.conf.eno1.42.rp_filter: "0"
-    - |-
-      machine:
-        sysctls:
           vm.max_map_count: 838860
 patches:
   - |-
@@ -122,8 +115,6 @@ nodes:
       - interface: ens18
         dhcp: true
         routes: *bgp_route
-      - interface: ens19
-        dhcp: true
   - hostname: worker02
     ipAddress: 10.200.11.111
     installDisk: /dev/sda
@@ -136,8 +127,6 @@ nodes:
       - interface: ens18
         dhcp: true
         routes: *bgp_route
-      - interface: ens19
-        dhcp: true
   - hostname: worker03
     ipAddress: 10.200.11.112
     installDisk: /dev/sda
@@ -150,8 +139,6 @@ nodes:
       - interface: ens18
         dhcp: true
         routes: *bgp_route
-      - interface: ens19
-        dhcp: true
   - hostname: worker04
     ipAddress: 10.200.11.113
     installDisk: /dev/sda
@@ -164,8 +151,6 @@ nodes:
       - interface: ens18
         dhcp: true
         routes: *bgp_route
-      - interface: ens19
-        dhcp: true
   - hostname: worker05
     ipAddress: 10.200.11.114
     installDisk: /dev/sda
@@ -178,8 +163,6 @@ nodes:
       - interface: ens18
         dhcp: true
         routes: *bgp_route
-      - interface: ens19
-        dhcp: true
   - hostname: worker06
     ipAddress: 10.200.11.115
     installDiskSelector:
@@ -203,9 +186,6 @@ nodes:
       - interface: eno1
         dhcp: true
         routes: *bgp_route
-        vlans:
-          - vlanId: 42
-            dhcp: true
     userVolumes:
       - name: fast-960
         provisioning:

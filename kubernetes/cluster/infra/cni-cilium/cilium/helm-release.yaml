@@ -43,16 +43,8 @@ spec:
     ipv4:
       masquerade: true
     bpf:
-      masquerade: false
-    egressMasqueradeInterfaces: "ens19,eno1.42"
-    enableIPv6Masquerade: false
+      masquerade: true
     nodePort:
-      enabled: true
-    daemon:
-      enableSourceIPVerification: false
-    extraConfig:
-      egress-multi-home-ip-rule-compat: "true"
-    egressGateway:
       enabled: true
     securityContext:
       capabilities:
