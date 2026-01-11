@@ -44,13 +44,13 @@ spec:
       masquerade: true
     bpf:
       masquerade: true
+    enableMasqueradeToRouteSource: true
     nodePort:
       enabled: true
     daemon:
       enableSourceIPVerification: false
     extraConfig:
       egress-multi-home-ip-rule-compat: "true"
-      enable-masquerade-to-route-source: "true"
     egressGateway:
       enabled: true
     securityContext:
