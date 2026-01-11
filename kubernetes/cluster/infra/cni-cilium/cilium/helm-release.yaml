@@ -43,8 +43,8 @@ spec:
     ipv4:
       masquerade: true
     bpf:
-      masquerade: true
-    devices: "ens18 eno1 ens19 eno1.42"
+      masquerade: false
+    egressMasqueradeInterfaces: "ens19,eno1.42"
     enableIPv6Masquerade: false
     nodePort:
       enabled: true
