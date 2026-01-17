@@ -36,7 +36,7 @@ spec:
   values:
     image:
       repository: frappe/erpnext
-      tag: v15.89.2
+      tag: v15.94.3
     persistence:
       worker:
         existingClaim: erpnext-worker-pvc

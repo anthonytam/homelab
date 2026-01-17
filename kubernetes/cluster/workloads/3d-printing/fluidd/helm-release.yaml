@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.5.0
+      version: 4.6.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: ghcr.io/fluidd-core/fluidd
-              tag: v1.36.1
+              tag: v1.36.2
     service:
       app:
         controller: app
