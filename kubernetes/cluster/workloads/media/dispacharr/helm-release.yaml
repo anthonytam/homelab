@@ -31,6 +31,14 @@ spec:
             envFrom:
               - secret: gluetun-wg
               - secret: dispacharr-gluetun
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.11
+            restartPolicy: Always
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
         containers:
           app:
             image:
@@ -80,3 +88,14 @@ spec:
           app:
             app:
               - path: /tmp
+      dnsdist:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/media/dnsdist
+        advancedMounts:
+          app:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.conf
+                subPath: dnsdist.conf
+                readOnly: true
