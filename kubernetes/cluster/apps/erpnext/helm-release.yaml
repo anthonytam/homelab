@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: erpnext
-      version: 7.0.261
+      version: 8.0.19
       sourceRef:
         kind: HelmRepository
         name: frappe
