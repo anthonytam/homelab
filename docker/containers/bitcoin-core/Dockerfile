@@ -44,7 +44,8 @@ RUN apt-get update && \
       libboost-thread1.83.0 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m -u 1000 -s /usr/sbin/nologin bitcoin
+RUN groupadd -g 10001 bitcoin && \
+    useradd -m -u 10001 -g 10001 -s /usr/sbin/nologin bitcoin
 
 WORKDIR /app
 COPY --from=build /src/bitcoin/build/bin/bitcoind /app/bitcoind
