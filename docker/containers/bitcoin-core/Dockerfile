@@ -1,23 +1,58 @@
-ARG VERSION=27.1
+ARG VERSION=v27.1
 
-FROM debian:trixie-slim
+FROM ubuntu:24.04 AS build
 ARG VERSION
-WORKDIR /app
-RUN apt update \
- && apt install -y adduser git build-essential cmake pkgconf python3 libevent-dev libboost-dev libcapnp-dev capnproto libzmq3-dev systemtap-sdt-dev  \
- && chown 1000 /app
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN adduser --disabled-password --uid 1000 --home /app bitcoin
+WORKDIR /src
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      ca-certificates \
+      git \
+      build-essential \
+      cmake \
+      pkg-config \
+      python3 \
+      libevent-dev \
+      libboost-dev \
+      libcapnp-dev \
+      capnproto \
+      libzmq3-dev \
+      systemtap-sdt-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --branch "${VERSION}" --depth 1 --single-branch https://github.com/bitcoin/bitcoin.git
+WORKDIR /src/bitcoin
+RUN cmake -S . -B build -DENABLE_WALLET=OFF && \
+    cmake --build build -j "$(nproc)"
+
+
+FROM ubuntu:24.04 AS runtime
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      ca-certificates \
+      libevent-2.1-7t64 \
+      libzmq5 \
+      libboost-chrono1.83.0 \
+      libboost-filesystem1.83.0 \
+      libboost-program-options1.83.0 \
+      libboost-system1.83.0 \
+      libboost-thread1.83.0 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN useradd -m -u 1000 -s /usr/sbin/nologin bitcoin
+
+WORKDIR /app
+COPY --from=build /src/bitcoin/build/bin/bitcoind /app/bitcoind
+COPY --from=build /src/bitcoin/build/bin/bitcoin-cli /app/bitcoin-cli
+
+RUN mkdir -p /data && chown -R bitcoin:bitcoin /data /app
 USER bitcoin
 
-RUN git clone https://github.com/bitcoin/bitcoin.git \
- && cd bitcoin \
- && cmake -B build -DENABLE_WALLET=OFF \
- && cmake --build build -j $(nproc --all)
-
-# RPC
-EXPOSE 8332
-# P2P
-EXPOSE 8333
-
-CMD ["/app/bitcoin/build/bin/bitcoind"]
+EXPOSE 8332 8333
+VOLUME ["/data"]
+CMD ["/app/bitcoind", "-datadir=/data"]

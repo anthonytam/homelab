@@ -1,0 +1,95 @@
+name: build-upstream-release-images
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: build-upstream-release-images
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: bitcoind
+            image_name: bitcoind
+            dockerfile: docker/containers/bitcoin-core/Dockerfile
+            context: docker/containers/bitcoin-core
+            upstream_owner: bitcoin
+            upstream_repo: bitcoin
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get latest upstream release tag
+        id: upstream
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = `${{ matrix.upstream_owner }}`;
+            const repo  = `${{ matrix.upstream_repo }}`;
+
+            const rel = await github.rest.repos.getLatestRelease({ owner, repo });
+            const tag = rel.data.tag_name;
+            const version = tag;
+
+            core.info(`[${{ matrix.id }}] Upstream release tag: ${tag}`);
+            core.setOutput("tag", tag);
+            core.setOutput("version", version);
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Decide whether image tag already exists
+        id: exists
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          OWNER_LC="$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
+          TAG="${{ steps.upstream.outputs.tag }}"
+          IMAGE="${{ env.REGISTRY }}/${OWNER_LC}/${{ matrix.image_name }}:${TAG}"
+
+          echo "[${{ matrix.id }}] Checking: ${IMAGE}"
+          if docker manifest inspect "${IMAGE}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "[${{ matrix.id }}] Exists (${TAG}); skipping."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "[${{ matrix.id }}] Missing (${TAG}); will build."
+          fi
+
+      - name: Set up Docker Buildx
+        if: steps.exists.outputs.exists != 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        if: steps.exists.outputs.exists != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+
+          build-args: |
+            VERSION=${{ steps.upstream.outputs.version }}
+
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.image_name }}:${{ steps.upstream.outputs.tag }}
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.image_name }}:latest
+
+          cache-from: type=gha,scope=${{ matrix.id }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.id }}
