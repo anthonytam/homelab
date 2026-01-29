@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 30m
   ref:
-    tag: v0.0.33
+    tag: v0.0.34
   timeout: 60s
   url: https://github.com/rancher/local-path-provisioner
   ignore: |
