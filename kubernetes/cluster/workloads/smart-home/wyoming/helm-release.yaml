@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.5.0
+      version: 4.6.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/faster-whisper
-              tag: 3.0.2
+              tag: 3.1.0
             env:
               PUID: 568
               GUID: 568
@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/piper
-              tag: 2.1.2
+              tag: 2.2.1
             env:
               PUID: 568
               GUID: 568

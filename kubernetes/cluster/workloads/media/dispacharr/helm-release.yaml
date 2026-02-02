@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.5.0
+      version: 4.6.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -43,7 +43,7 @@ spec:
           app:
             image:
               repository: ghcr.io/dispatcharr/dispatcharr
-              tag: 0.15.1
+              tag: 0.18.1
             env:
               CELERY_BROKER_URL: redis://localhost:6379/0
               DISPATCHARR_ENV: aio
