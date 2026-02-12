@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/unifi-network-application
-              tag: 10.0.162
+              tag: 10.1.84
             envFrom: &envFrom
               - secret: unifi-configuration
             env:
@@ -33,7 +33,7 @@ spec:
           mongodb:
             image:
               repository: mongo
-              tag: 8.2.4
+              tag: 8.2.5
             envFrom: *envFrom
     service:
       app:
