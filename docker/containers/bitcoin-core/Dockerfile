@@ -35,7 +35,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       ca-certificates \
-      libevent-2.1-7t64 \
+      libevent-core-2.1-7t64 \
+      libevent-extra-2.1-7t64 \
+      libevent-pthreads-2.1-7t64 \
       libzmq5 \
       libboost-chrono1.83.0 \
       libboost-filesystem1.83.0 \
