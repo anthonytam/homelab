@@ -1,6 +1,6 @@
 services:
   bitcoind:
-    image: ghcr.io/anthonytam/bitcoind:v27.1
+    image: ghcr.io/anthonytam/bitcoind:latest
     container_name: bitcoind
     ports:
       - 8332:8332

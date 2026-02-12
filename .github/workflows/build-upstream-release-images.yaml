@@ -29,9 +29,17 @@ jobs:
             context: docker/containers/bitcoin-core
             upstream_owner: bitcoin
             upstream_repo: bitcoin
+          - id: electrs
+            image_name: electrs
+            dockerfile: docker/containers/electrs/Dockerfile
+            context: docker/containers/electrs
+            upstream_owner: romanz
+            upstream_repo: electrs
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Get latest upstream release tag
         id: upstream
         uses: actions/github-script@v7
@@ -42,17 +50,21 @@ jobs:
 
             const rel = await github.rest.repos.getLatestRelease({ owner, repo });
             const tag = rel.data.tag_name;
-            const version = tag;
+            const version = tag.startsWith("v") ? tag.slice(1) : tag;
 
             core.info(`[${{ matrix.id }}] Upstream release tag: ${tag}`);
+            core.info(`[${{ matrix.id }}] Build VERSION arg: ${version}`);
+
             core.setOutput("tag", tag);
             core.setOutput("version", version);
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Decide whether image tag already exists
         id: exists
         shell: bash
@@ -83,13 +95,12 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
-
           build-args: |
             VERSION=${{ steps.upstream.outputs.version }}
-
+            UID=10001
+            GID=10001
           tags: |
             ghcr.io/${{ github.repository_owner }}/${{ matrix.image_name }}:${{ steps.upstream.outputs.tag }}
             ghcr.io/${{ github.repository_owner }}/${{ matrix.image_name }}:latest
-
           cache-from: type=gha,scope=${{ matrix.id }}
           cache-to: type=gha,mode=max,scope=${{ matrix.id }}
