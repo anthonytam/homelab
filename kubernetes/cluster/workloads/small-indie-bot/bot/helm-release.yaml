@@ -37,7 +37,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 17.7
+              tag: 18.2
             envFrom: *envFrom
       influxdb:
         enabled: true
