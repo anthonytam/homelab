@@ -8,7 +8,7 @@ spec:
   url: oci://ghcr.io/sergelogvinov/charts/proxmox-csi-plugin
   timeout: 3m
   ref:
-    tag: 0.5.3
+    tag: 0.5.5
   layerSelector:
     mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
     operation: copy
