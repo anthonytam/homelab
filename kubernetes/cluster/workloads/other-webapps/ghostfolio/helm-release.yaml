@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghostfolio/ghostfolio
-              tag: 2.237.0
+              tag: 2.241.0
             envFrom: &envFrom
               - secret: ghostfolio-configuration
       postgres:
@@ -33,7 +33,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 16.11
+              tag: 16.12
             envFrom: *envFrom
       redis:
         enabled: true
@@ -41,7 +41,7 @@ spec:
           redis:
             image:
               repository: redis
-              tag: 8.4.0
+              tag: 8.6.0
     service:
       app:
         enabled: true

@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.5.0
+      version: 4.6.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: sparkison/m3u-editor
-              tag: 0.7.11
+              tag: 0.8.39
             envFrom: &envFrom
               - secret: m3u-editor-configuration
       postgres:
@@ -34,14 +34,14 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 16.11
+              tag: 16.12
             envFrom: *envFrom
       redis:
         containers:
           redis:
             image:
               repository: redis
-              tag: 8.4.0
+              tag: 8.6.0
     service:
       app:
         enabled: true
