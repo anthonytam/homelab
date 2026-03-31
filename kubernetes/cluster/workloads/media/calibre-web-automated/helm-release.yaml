@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: crocodilestick/calibre-web-automated
-              tag: V2.1.2
+              tag: v4.0.6
             env:
               PUID: 33
               PGID: 33
