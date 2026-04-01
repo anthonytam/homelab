@@ -155,7 +155,7 @@
         "ghcr.io/immich-app/immich-machine-learning",
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/sergelogvinov/charts/proxmox-csi-plugin",
-        "ghcr.io/toeverything/affine"
+        "ghcr.io/toeverything/affine",
         "homeassistant/home-assistant",
         "fluxcd/flux2",
       ],
