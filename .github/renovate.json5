@@ -8,21 +8,16 @@
   ],
   rebaseWhen: 'conflicted',
   includePaths: [
-    'kubernetes/**',
+    'kubernetes/cluster/**',
   ],
-  helmv3: {
-    managerFilePatterns: [
-      '/charts/.+/Chart\\.ya?ml$/',
-    ],
-  },
   'helm-values': {
     managerFilePatterns: [
-      '/kubernetes/.+/helm-release\\.ya?ml$/',
+      '/kubernetes/cluster/.+/helm-release\\.ya?ml$/',
     ],
   },
   kubernetes: {
     managerFilePatterns: [
-      '/kubernetes/.+\\.ya?ml$/',
+      '/kubernetes/cluster/.+\\.ya?ml$/',
     ],
     ignorePaths: [
       'kubernetes/cluster/flux-bootstrap/',
@@ -30,31 +25,9 @@
   },
   flux: {
     managerFilePatterns: [
-      '/kubernetes/.+\\.ya?ml$/',
+      '/kubernetes/cluster/.+\\.ya?ml$/',
     ],
   },
-  customManagers: [
-    {
-      customType: 'regex',
-      managerFilePatterns: [
-        '/kubernetes/crds/cert-manager/.+\\.ya?ml$/',
-      ],
-      matchStrings: [
-        'registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/',
-      ],
-      datasourceTemplate: 'helm',
-    },
-    {
-      customType: 'regex',
-      managerFilePatterns: [
-        '/kubernetes/crds/traefik/.+\\.ya?ml$/',
-      ],
-      matchStrings: [
-        'registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n *tag: v(?<currentValue>.*)\n',
-      ],
-      datasourceTemplate: 'helm',
-    },
-  ],
   packageRules: [
     {
       matchDatasources: [
@@ -147,6 +120,27 @@
         'renovate/helm',
         'dep/patch',
       ],
+    },
+    {
+      matchUpdateTypes: ["patch"],
+      automerge: true,
+      automergeType: "pr",
+      minimumReleaseAge: "7 days"
+    },
+    {
+      matchUpdateTypes: ["minor"],
+      matchPackageNames: [
+        "*",
+        !"postgres",
+        !"pgvector/pgvector",
+        !"ghcr.io/immich-app/immich-machine-learning",
+        !"ghcr.io/immich-app/immich-server",
+        !"ghcr.io/sergelogvinov/charts/proxmox-csi-plugin",
+        !"ghcr.io/toeverything/affine"
+      ],
+      automerge: true,
+      automergeType: "pr",
+      minimumReleaseAge: "7 days"
     },
     {
       matchUpdateTypes: [
