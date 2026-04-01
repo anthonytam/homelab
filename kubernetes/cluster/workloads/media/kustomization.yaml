@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - calibre-web-automated
-  - calibre-web-automated-downloader
   - dispacharr
   - flaresolverr
   - jellyfin
@@ -13,4 +12,5 @@ resources:
   - prowlarr
   - qbittorrent
   - radarr
+  - shelfmark
   - sonarr
