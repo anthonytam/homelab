@@ -41,7 +41,7 @@ spec:
           redis:
             image:
               repository: redis
-              tag: 8.4.0
+              tag: 8.6.2
     service:
       app:
         enabled: true
