@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: grafana/grafana-enterprise
-              tag: 12.3.2
+              tag: 12.4.2
     service:
       app:
         enabled: true
