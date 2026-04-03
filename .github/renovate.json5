@@ -2,6 +2,8 @@
   enabled: true,
   platformAutomerge: false,
   timezone: 'America/Toronto',
+  internalChecksFilter: 'none',
+  minimumReleaseAgeBehaviour: 'timestamp-optional',
   semanticCommits: 'enabled',
   dependencyDashboard: true,
   dependencyDashboardTitle: 'Renovate Dashboard',
