@@ -1,6 +1,6 @@
 {
   enabled: true,
-  platformAutomere: false,
+  platformAutomerge: false,
   timezone: 'America/Toronto',
   semanticCommits: 'enabled',
   dependencyDashboard: true,
