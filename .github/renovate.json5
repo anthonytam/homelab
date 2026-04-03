@@ -1,5 +1,7 @@
 {
   enabled: true,
+  platformAutomere: false,
+  timezone: 'America/Toronto',
   semanticCommits: 'enabled',
   dependencyDashboard: true,
   dependencyDashboardTitle: 'Renovate Dashboard',
