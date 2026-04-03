@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: sparkison/m3u-editor
-              tag: 0.7.11
+              tag: 0.10.23
             envFrom: &envFrom
               - secret: m3u-editor-configuration
       postgres:
