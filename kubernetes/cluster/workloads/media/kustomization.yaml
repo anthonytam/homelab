@@ -7,7 +7,6 @@ resources:
   - dispacharr
   - flaresolverr
   - jellyfin
-  - m3u-editor
   - plex
   - prowlarr
   - qbittorrent
