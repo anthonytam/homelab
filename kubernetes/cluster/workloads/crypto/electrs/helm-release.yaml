@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/anthonytam/electrs
-              tag: v0.11.0
+              tag: v0.11.1
             env:
               ELECTRS_DB_DIR: /app/data
               ELECTRS_ELECTRUM_RPC_ADDR: 0.0.0.0:50001
