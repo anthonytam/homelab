@@ -9,5 +9,6 @@ resources:
   - lubelog
   - ollama
   - radicale
+  - simhammer
   - stirlingpdf
   - vaultwarden

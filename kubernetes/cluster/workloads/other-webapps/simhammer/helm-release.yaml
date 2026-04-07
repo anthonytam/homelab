@@ -1,0 +1,86 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: simhammer
+  namespace: other-webapps
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      app:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: ghcr.io/sortbek/simcraft
+              tag: 3.0.0
+    service:
+      app:
+        enabled: true
+        controller: app
+        primary: true
+        ports:
+          http:
+            port: 8000
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: simhammer.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - simhammer.tam.land
+    persistence:
+      data:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/simhammer/data
+        advancedMounts:
+          app:
+            app:
+              - path: /app/resources/data
+      data_full:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/simhammer/data_full
+        advancedMounts:
+          app:
+            app:
+              - path: /app/resources/data_full
+      simc:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/simhammer/simc
+        advancedMounts:
+          app:
+            app:
+              - path: /app/resources/simc
+      database:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/simhammer/database
+        advancedMounts:
+          app:
+            app:
+              - path: /app/db
