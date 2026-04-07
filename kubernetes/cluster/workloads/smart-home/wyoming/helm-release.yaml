@@ -55,20 +55,26 @@ spec:
         enabled: true
         controller: whisper
         primary: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.8
         ports:
           http:
             port: 10300
       piper:
         enabled: true
         controller: piper
-        primary: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.9
         ports:
           http:
             port: 10200
       openwakeword:
         enabled: true
         controller: openwakeword
-        primary: true
         ports:
           http:
             port: 10400
