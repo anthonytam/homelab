@@ -57,7 +57,7 @@ spec:
           app:
             app:
               - path: /app/resources/data
-      data_full:
+      data-full:
         enabled: true
         type: nfs
         server: nfs.local.tam.land
