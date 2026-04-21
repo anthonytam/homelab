@@ -5,6 +5,7 @@ resources:
   - crypto
   - games
   - media
+  - miscellaneous
   - other-webapps
   - small-indie-bot
   - smart-home
