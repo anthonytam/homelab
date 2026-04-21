@@ -1,0 +1,59 @@
+name: build-monthly-images
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "7 4 9 * *"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: build-monthly-images
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: nextcloud-sync
+            image_name: nextcloud-sync
+            dockerfile: docker/containers/nextcloud-sync/Dockerfile
+            context: docker/containers/nextcloud-sync
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Get build date
+        id: date
+        run: echo "BUILD_DATE=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.image_name }}:${{ steps.date.outputs.BUILD_DATE }}
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.image_name }}:latest
+          cache-from: type=gha,scope=${{ matrix.id }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.id }}
