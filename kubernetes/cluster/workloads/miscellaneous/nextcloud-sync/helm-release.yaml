@@ -28,6 +28,9 @@ spec:
             image:
               repository: ghcr.io/anthonytam/nextcloud-sync
               tag: "20260421"
+            env:
+              MY_UID: 33
+              MY_GID: 33
             envFrom:
               - secret: nextcloud-sync-configuration
             probes:
