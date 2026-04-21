@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: frooodle/s-pdf
-              tag: 2.8.0
+              tag: 2.9.2
     service:
       app:
         enabled: true
