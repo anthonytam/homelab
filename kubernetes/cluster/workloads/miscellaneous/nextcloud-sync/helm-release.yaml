@@ -23,6 +23,9 @@ spec:
     controllers:
       dmc:
         enabled: true
+        type: cronjob
+        cronjob:
+          schedule: "3 3 * * *"
         containers:
           dmc:
             image:
