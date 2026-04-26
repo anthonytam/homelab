@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v2.4.1
+              tag: v2.7.5
             envFrom: &envFrom
               - secret: immich-configuration
       machine-learning:
@@ -31,8 +31,26 @@ spec:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.4.1
+              tag: v2.7.5
             envFrom: *envFrom
+      machine-learning-cuda:
+        containers:
+          machine-learning-cuda:
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v2.7.5-cuda
+            env:
+              NVIDIA_VISIBLE_DEVICES: all
+            envFrom: *envFrom
+            pod:
+              runtimeClassName: nvidia
+              nodeSelector:
+                "tam.land/gpu.present": "true"
+              tolerations:
+                - key: "tam.land/peripheralNode"
+                  operator: "Equal"
+                  value: "true"
+                  effect: "NoSchedule"
       postgres:
         containers:
           postgres:
@@ -63,6 +81,12 @@ spec:
         ports:
           http:
             port: 3003
+      machine-learning-cuda:
+        enabled: true
+        controller: machine-learning-cuda
+        ports:
+          http:
+            port: 3003
       postgres:
         enabled: true
         controller: postgres
@@ -75,7 +99,6 @@ spec:
         ports:
           http:
             port: 6379
-
     ingress:
       app:
         enabled: true
