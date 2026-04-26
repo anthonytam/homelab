@@ -7,10 +7,15 @@ spec:
   interval: 5m
   upgrade:
     force: true
-  chartRef:
-      name: csi-driver-smb
-      namespace: flux-system
-      kind: OCIRepository
+  chart:
+    spec:
+      chart: csi-driver-smb
+      version: 1.20.1
+      sourceRef:
+        kind: HelmRepository
+        name: csi-driver-smb
+        namespace: flux-system
+      interval: 5m
   values:
     image:
       smb:
