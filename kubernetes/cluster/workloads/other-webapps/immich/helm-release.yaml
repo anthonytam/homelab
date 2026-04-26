@@ -42,15 +42,15 @@ spec:
             env:
               NVIDIA_VISIBLE_DEVICES: all
             envFrom: *envFrom
-            pod:
-              runtimeClassName: nvidia
-              nodeSelector:
-                "tam.land/gpu.present": "true"
-              tolerations:
-                - key: "tam.land/peripheralNode"
-                  operator: "Equal"
-                  value: "true"
-                  effect: "NoSchedule"
+        pod:
+          runtimeClassName: nvidia
+          nodeSelector:
+            "tam.land/gpu.present": "true"
+          tolerations:
+            - key: "tam.land/peripheralNode"
+              operator: "Equal"
+              value: "true"
+              effect: "NoSchedule"
       postgres:
         containers:
           postgres:
