@@ -1,0 +1,68 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: csi-driver-smb
+  namespace: csi-smb
+spec:
+  interval: 5m
+  upgrade:
+    force: true
+  chartRef:
+      name: csi-driver-smb
+      namespace: flux-system
+      kind: OCIRepository
+  values:
+    image:
+      smb:
+        repository: registry.k8s.io/sig-storage/smbplugin
+        tag: v1.20.1
+        pullPolicy: IfNotPresent
+
+    serviceAccount:
+      create: true
+      controller: csi-smb-controller-sa
+      node: csi-smb-node-sa
+
+    rbac:
+      create: true
+      name: smb
+
+    driver:
+      name: smb.csi.k8s.io
+
+    controller:
+      name: csi-smb-controller
+      replicas: 1
+      dnsPolicy: ClusterFirstWithHostNet
+      logLevel: 3
+      workingMountDir: "/tmp"
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+
+    node:
+      maxUnavailable: 1
+      logLevel: 3
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 30
+        timeoutSeconds: 10
+        periodSeconds: 20
+        failureThreshold: 3
+
+    linux:
+      enabled: true
+      dsName: csi-smb-node
+      dnsPolicy: ClusterFirstWithHostNet
+      kubelet: /var/lib/kubelet
+      tolerations:
+        - operator: "Exists"
+
+    windows:
+      enabled: false
+
+    priorityClassName: system-cluster-critical
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault

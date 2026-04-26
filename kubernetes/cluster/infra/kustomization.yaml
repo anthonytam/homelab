@@ -4,5 +4,6 @@ resources:
   - cni-cilium
   - csi-local-storage
   - csi-proxmox
+  - csi-smb
   - nfs-provisioner
   - nvidia
