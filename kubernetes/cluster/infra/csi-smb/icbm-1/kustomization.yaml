@@ -1,0 +1,7 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - icbm-1-csi-secret.sops.yaml
+  - icbm-1-phone-pictures-pv.yaml
+  - icbm-1-pictures-pv.yaml

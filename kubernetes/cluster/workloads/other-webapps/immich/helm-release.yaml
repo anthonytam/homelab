@@ -97,9 +97,29 @@ spec:
         type: nfs
         server: truenas.local.tam.land
         path: /mnt/main-bay/k8s-data/immich/data
-        globalMounts:
-          - path: /usr/src/app/upload
-            readOnly: false
+        advancedMounts:
+          app:
+            app:
+              - path: /usr/src/app/upload
+                readOnly: false
+      icbm-1-pictures:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: icbm-1-pictures
+        advancedMounts:
+          app:
+            app:
+              - path: /icbm-1-pictures
+                readOnly: true
+      icbm-1-phone-pictures:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: icbm-1-phone-pictures
+        advancedMounts:
+          app:
+            app:
+              - path: /icbm-1-phone-pictures
+                readOnly: false
       pgdata:
         enabled: true
         type: nfs

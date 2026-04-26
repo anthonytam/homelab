@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - csi-driver-smb
+  - icbm-1

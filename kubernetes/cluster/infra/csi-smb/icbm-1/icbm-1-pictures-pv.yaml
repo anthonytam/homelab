@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: icbm-1-pictures
+spec:
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - dir_mode=0555
+    - file_mode=0444
+    - noperm
+    - mfsymlinks
+    - cache=strict
+    - noserverino
+    - ro
+  csi:
+    driver: smb.csi.k8s.io
+    readOnly: true
+    volumeHandle: icbm-1-pictures
+    volumeAttributes:
+      source: "//icbm-1.bombshelter.lan/e/Pictures"
+    nodeStageSecretRef:
+      name: icbm-1-csi-secret
+      namespace: csi-smb

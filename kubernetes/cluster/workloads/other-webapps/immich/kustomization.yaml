@@ -2,5 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - helm-release.yaml
+  - icbm-1-pvc.yaml
   - immich-configuration-secret.sops.yaml
   - immich-postgres-configuration-secret.sops.yaml
