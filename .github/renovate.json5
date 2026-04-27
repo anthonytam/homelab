@@ -161,7 +161,6 @@
         "ghcr.io/sergelogvinov/charts/proxmox-csi-plugin",
         "ghcr.io/toeverything/affine",
         "homeassistant/home-assistant",
-        "fluxcd/flux2",
       ],
     },
   ],
