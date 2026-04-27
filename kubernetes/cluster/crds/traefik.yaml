@@ -8,7 +8,7 @@ spec:
   interval: 30m
   url: https://github.com/traefik/traefik-helm-chart.git
   ref:
-    tag: v39.0.6
+    tag: v39.0.8
   ignore: |
     # exclude all
     /*
