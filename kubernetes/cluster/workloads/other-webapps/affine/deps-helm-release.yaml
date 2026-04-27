@@ -24,7 +24,7 @@ spec:
           postgres:
             image:
               repository: pgvector/pgvector
-              tag: 0.8.1-pg16
+              tag: 0.8.2-pg16
             envFrom:
               - secret: affine-postgres-configuration
       redis:
