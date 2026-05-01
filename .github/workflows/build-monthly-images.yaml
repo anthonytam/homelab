@@ -27,6 +27,10 @@ jobs:
             image_name: nextcloud-sync
             dockerfile: docker/containers/nextcloud-sync/Dockerfile
             context: docker/containers/nextcloud-sync
+          - id: fr24-mqtt-bridge
+            image_name: fr24-mqtt-bridge
+            dockerfile: docker/containers/fr24-mqtt-bridge/Dockerfile
+            context: docker/containers/fr24-mqtt-bridge
 
     steps:
       - name: Checkout

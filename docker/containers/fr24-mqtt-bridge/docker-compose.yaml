@@ -1,0 +1,23 @@
+services:
+  fr24-mqtt:
+    build: .
+    container_name: fr24-mqtt-bridge
+    restart: unless-stopped
+    environment:
+      # FR24 feeder stats endpoint
+      FR24_URL: "http://fr24-bridge:8754/monitor.json"
+
+      # MQTT broker — point to your HA MQTT broker
+      MQTT_HOST: "mqtt.smart-home.svc.cluster.local"
+      MQTT_PORT: "1883"
+      MQTT_USER: ""
+      MQTT_PASS: ""
+      POLL_INTERVAL: "15"
+
+      DISCOVERY_PREFIX: "homeassistant"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
