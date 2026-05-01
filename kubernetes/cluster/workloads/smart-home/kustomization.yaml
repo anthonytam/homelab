@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - esphome
+  - fr24-mqtt-bridge
   - frigate
   - hass
   - mosquitto
