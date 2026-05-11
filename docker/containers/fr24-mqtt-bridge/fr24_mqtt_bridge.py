@@ -442,7 +442,11 @@ def fetch_fr24():
 
 
 def main():
-    client = mqtt.Client(client_id="fr24_mqtt_bridge", clean_session=True)
+    client = mqtt.Client(
+        callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
+        client_id="fr24_mqtt_bridge",
+        clean_session=True,
+    )
     client.will_set(AVAILABILITY_TOPIC, payload="offline", retain=True)
 
     if MQTT_USER:
