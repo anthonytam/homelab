@@ -1,9 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: nvidia-k8s-device-plugin
+  name: nvidia-gpu-cloud
   namespace: flux-system
 spec:
   interval: 15m
-  url: https://nvidia.github.io/k8s-device-plugin
+  url: https://helm.ngc.nvidia.com/nvidia
   timeout: 3m
