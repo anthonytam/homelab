@@ -6,6 +6,7 @@ resources:
   - games
   - media
   - miscellaneous
+  - openclaw
   - other-webapps
   - small-indie-bot
   - smart-home
