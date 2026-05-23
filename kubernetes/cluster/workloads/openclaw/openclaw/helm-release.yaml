@@ -27,6 +27,10 @@ spec:
               tag: 2026.5.20
             envFrom:
               - secret: openclaw-configuration
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
     service:
       app:
         enabled: true
@@ -50,6 +54,14 @@ spec:
             hosts:
               - openclaw.local.tam.land
     persistence:
+      gateway-config:
+        enabled: true
+        type: secret
+        existingSecret: openclaw-configuration
+        advancedMounts:
+          app:
+            app:
+              - path: /home/node/.openclaw/openclaw.json
       workspace:
         enabled: true
         type: persistentVolumeClaim
