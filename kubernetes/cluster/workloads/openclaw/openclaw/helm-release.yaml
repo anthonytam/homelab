@@ -23,7 +23,7 @@ spec:
         containers:
           app:
             image:
-              repository: openclaw/openclaw
+              repository: ghcr.io/openclaw/openclaw
               tag: 2026.5.20
             envFrom:
               - secret: openclaw-configuration
