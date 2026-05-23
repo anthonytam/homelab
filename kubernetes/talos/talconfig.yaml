@@ -1,7 +1,7 @@
 ---
 clusterName: tam.land
-talosVersion: v1.12.1
-kubernetesVersion: v1.35.0
+talosVersion: v1.13.2
+kubernetesVersion: v1.36.1
 endpoint: https://kube.local.tam.land:6443
 additionalApiServerCertSans:
   - kubeapi.local.tam.land
@@ -94,6 +94,9 @@ nodes:
     ipAddress: 10.200.11.102
     controlPlane: true
     installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: TamLand
+      topology.kubernetes.io/zone: hype01
     schematic:
       customization:
         systemExtensions:
@@ -106,6 +109,9 @@ nodes:
   - hostname: worker01
     ipAddress: 10.200.11.110
     installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: TamLand
+      topology.kubernetes.io/zone: hype01
     schematic:
       customization:
         systemExtensions:
@@ -118,6 +124,9 @@ nodes:
   - hostname: worker02
     ipAddress: 10.200.11.111
     installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: TamLand
+      topology.kubernetes.io/zone: hype01
     schematic:
       customization:
         systemExtensions:
@@ -130,6 +139,9 @@ nodes:
   - hostname: worker03
     ipAddress: 10.200.11.112
     installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: TamLand
+      topology.kubernetes.io/zone: hype01
     schematic:
       customization:
         systemExtensions:
@@ -142,6 +154,9 @@ nodes:
   - hostname: worker04
     ipAddress: 10.200.11.113
     installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: TamLand
+      topology.kubernetes.io/zone: hype01
     schematic:
       customization:
         systemExtensions:
@@ -154,6 +169,9 @@ nodes:
   - hostname: worker05
     ipAddress: 10.200.11.114
     installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: TamLand
+      topology.kubernetes.io/zone: hype01
     schematic:
       customization:
         systemExtensions:
@@ -216,13 +234,11 @@ nodes:
       - name: nvidia_uvm
       - name: nvidia_drm
       - name: nvidia_modeset
-      - name: gasket
-      - name: apex
     schematic:
       customization:
         systemExtensions:
           officialExtensions:
             - siderolabs/amd-ucode
-            - siderolabs/nvidia-open-gpu-kernel-modules-production
-            - siderolabs/nvidia-container-toolkit-production
             - siderolabs/gasket-driver
+            - siderolabs/nonfree-kmod-nvidia-lts
+            - siderolabs/nvidia-container-toolkit-lts
