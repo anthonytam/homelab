@@ -57,11 +57,12 @@ spec:
       gateway-config:
         enabled: true
         type: secret
-        existingSecret: openclaw-configuration
+        existingSecret: openclaw-gateway-config
         advancedMounts:
           app:
             app:
               - path: /home/node/.openclaw/openclaw.json
+                subPath: openclaw.json
       workspace:
         enabled: true
         type: persistentVolumeClaim
