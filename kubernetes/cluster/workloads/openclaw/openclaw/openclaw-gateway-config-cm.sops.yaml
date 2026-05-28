@@ -1,6 +1,6 @@
 apiVersion: v1
-stringData:
-    openclaw.json: ENC[AES256_GCM,data:KFaryOQLoMfE+QA3c/hwKFsjoO1ifLVJwAUsfYo82UYJDWl7+FQw/WGwR5ekt6BRfBP9GQkXTTPOjOD/hdKVpV8IhbxoJrlLRbdv,iv:HLhandXaSbQq7fznpaGqI9qi0AuJmVIXEeklv9Zqc1s=,tag:KOSjPKioU9b4cnBUvOLE/g==,type:str]
+data:
+    openclaw.json: ENC[AES256_GCM,data:0zEMHSSeLTqZIQWvgFGoTC5pjWiybIt1hLZt1dSAo1Hk/6X/FHPsGLuDe8Uyc3jxoLnuoR+3yvIrYI/fpOFmimphBafSf9R6jkAS,iv:8fODco9KOs6vTYoq8b4jJ9DIv2sIuhjoARPNMjT+Nzo=,tag:sM7f+zVEhSOZjXOB4F/VAA==,type:str]
 kind: ConfigMap
 metadata:
     creationTimestamp: null
@@ -10,8 +10,8 @@ metadata:
         reconcile.fluxcd.io/watch: Enabled
 sops:
     encrypted_regex: ^(data|stringData)$
-    lastmodified: "2026-05-28T06:16:08Z"
-    mac: ENC[AES256_GCM,data:LgCKjBchhXX/o1wQXnOdbUYN2BoDUwkb0QbZrHyQbQSZpX4b4DI9eP5fye1ppQ/Nigbbx2TgqX74KpWJJMMp3FDp7O4807oFkJG2QCq/NkU0HFxj7r0IvghRo+WEFDsy8uQr/WtIHIMD3X9HbiOfMTwHdZ/SZ/IzN5iWRHW6BfI=,iv:jVU0Iu7TscsHszMAWlth9pF5WkSREuvVVLlfn5TryBg=,tag:DbdSmuLzoAJ3JAHRAHoYLA==,type:str]
+    lastmodified: "2026-05-28T06:36:22Z"
+    mac: ENC[AES256_GCM,data:EDla+ETdmOjhroKiEYdoXfxiywFP5sUIwHjbwVipMiglQK/wCDF8NilDuhl5AxyROPC9ytelyj5UQH0hxBUUjIqGqFMB2wZtIYeFRDi4Qsfu2PctBShIaCCK/NNwQSnqhdl6It18Ng3jK3AefNd4JJQQ9Y2Abl5LzGlb1jz6FL8=,iv:8JEbuA98u9Mum7//lh51X73qA7FmH0Rk2a4umS4HBb8=,tag:YiQ6WjY1BOMZz705l8qOnw==,type:str]
     pgp:
         - created_at: "2025-12-19T04:32:28Z"
           enc: |-
