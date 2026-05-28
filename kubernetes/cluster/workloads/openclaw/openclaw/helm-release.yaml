@@ -27,10 +27,10 @@ spec:
               tag: 2026.5.27
             envFrom:
               - secret: openclaw-configuration
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          fsGroup: 1000
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
     service:
       app:
         enabled: true
