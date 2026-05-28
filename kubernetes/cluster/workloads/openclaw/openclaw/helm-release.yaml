@@ -56,8 +56,8 @@ spec:
     persistence:
       gateway-config:
         enabled: true
-        type: secret
-        existingSecret: openclaw-gateway-config
+        type: configMap
+        name: openclaw-gateway-config
         advancedMounts:
           app:
             app:
