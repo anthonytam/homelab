@@ -3,6 +3,5 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - openclaw-configuration-secret.sops.yaml
-  - openclaw-gateway-config-cm.sops.yaml
   - persistence.yaml
 

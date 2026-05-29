@@ -56,13 +56,15 @@ spec:
     persistence:
       gateway-config:
         enabled: true
-        type: configMap
-        name: openclaw-gateway-config
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/openclaw/openclaw/config
         advancedMounts:
           app:
             app:
               - path: /home/node/.openclaw/openclaw.json
                 subPath: openclaw.json
+                readOnly: false
       workspace:
         enabled: true
         type: persistentVolumeClaim
