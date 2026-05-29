@@ -62,8 +62,7 @@ spec:
         advancedMounts:
           app:
             app:
-              - path: /home/node/.openclaw/openclaw.json
-                subPath: openclaw.json
+              - path: /home/node/.openclaw
                 readOnly: false
       workspace:
         enabled: true
