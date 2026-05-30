@@ -30,7 +30,7 @@ spec:
           dmc:
             image:
               repository: ghcr.io/anthonytam/nextcloud-sync
-              tag: "20260421"
+              tag: "20260509"
             env:
               MY_UID: 33
               MY_GID: 33
