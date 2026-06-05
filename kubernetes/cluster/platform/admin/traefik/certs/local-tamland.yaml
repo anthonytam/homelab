@@ -45,6 +45,7 @@ spec:
     - 3d-printing
     - media
     - monitoring
+    - openclaw
     - other-webapps
     - platform
     - smart-home
