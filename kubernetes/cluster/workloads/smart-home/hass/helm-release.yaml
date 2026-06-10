@@ -62,7 +62,7 @@ spec:
           influxdb:
             image:
               repository: influxdb
-              tag: 2.8.0
+              tag: 2.9.1
     service:
       app:
         enabled: true
