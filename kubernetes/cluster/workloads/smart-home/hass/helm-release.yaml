@@ -51,7 +51,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 18.1
+              tag: 18.3
             env:
               PGDATA: /var/lib/postgresql/18/docker/pgdata
             envFrom:
