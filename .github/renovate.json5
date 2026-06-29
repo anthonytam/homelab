@@ -1,6 +1,6 @@
 {
   enabled: true,
-  platformAutomerge: false,
+  platformAutomerge: true,
   timezone: 'America/Toronto',
   internalChecksFilter: 'none',
   minimumReleaseAgeBehaviour: 'timestamp-optional',
