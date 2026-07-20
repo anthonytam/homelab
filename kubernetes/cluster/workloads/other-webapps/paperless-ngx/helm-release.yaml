@@ -41,7 +41,7 @@ spec:
           redis:
             image:
               repository: redis
-              tag: 8.6.2
+              tag: 8.8.0
       ai:
         enabled: true
         containers:
