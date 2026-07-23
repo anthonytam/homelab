@@ -12,6 +12,7 @@
         ../../modules/home/home.nix
         ../../modules/home/profiles/desktop.nix
     ];
+    
     services.xserver.videoDrivers = [ "amdgpu" ];
 
     system.stateVersion = "26.05";
