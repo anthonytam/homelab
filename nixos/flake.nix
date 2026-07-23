@@ -60,8 +60,9 @@
     in
     {
       nixosConfigurations = {
-        desktop = mkHost {
+        TDC-NixOS = mkHost {
           hostname = "TDC-NixOS";
+          system = "x86_64-linux";
           users = [ "atam" ];
         };
       };
