@@ -9,6 +9,7 @@
 
     networking.networkmanager.enable = true;
 
+    nixpkgs.config.allowUnfree = true;
     environment.systemPackages = with pkgs; [
         htop
         git
@@ -16,5 +17,6 @@
         vim
         zsh
         tmux
-    ]
+    ];
+    programs.zsh.enable = true;
 }

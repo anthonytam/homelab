@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
 	users.users.atam = {
@@ -9,6 +9,6 @@
 			"wheel"
             "docker"
 		];
-        shell = pkgs.zsh
+		shell = pkgs.zsh;
 	};
 }
