@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/faster-whisper
-              tag: 3.1.0
+              tag: 3.5.0
             env:
               PUID: 568
               GUID: 568
