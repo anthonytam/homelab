@@ -27,7 +27,7 @@ spec:
           gluetun:
             image:
               repository: qmcgaw/gluetun
-              tag: v3.41.1
+              tag: v3.41.3
             restartPolicy: Always
             securityContext:
               capabilities:
@@ -38,7 +38,7 @@ spec:
           dnsdist:
             image:
               repository: docker.io/powerdns/dnsdist-19
-              tag: 1.9.15
+              tag: 1.9.16
             restartPolicy: Always
             securityContext:
               runAsUser: 0
@@ -47,7 +47,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/prowlarr
-              tag: 2.4.0
+              tag: 2.5.2
             env:
               PUID: 568
               PGID: 568
