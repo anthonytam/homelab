@@ -1,9 +1,0 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: frappe
-  namespace: flux-system
-spec:
-  interval: 15m
-  url: https://helm.erpnext.com
-  timeout: 3m

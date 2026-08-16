@@ -13,5 +13,5 @@ spec:
           cloudflare:
             email: "cloudflare@anthonytam.me"
             apiTokenSecretRef:
-              name: cloudlare-api-secret
+              name: cloudflare-api-secret
               key: cloudflare-api-key

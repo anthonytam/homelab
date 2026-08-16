@@ -31,7 +31,7 @@ spec:
           entrypoint:
             to: websecure
             scheme: https
-            peranent: true
+            permanent: true
       websecure:
         asDefault: true
         tls:

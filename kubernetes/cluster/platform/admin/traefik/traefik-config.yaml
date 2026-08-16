@@ -8,7 +8,7 @@ data:
     http:
       middlewares:
         localOnly:
-          ipWhiteList:
+          ipAllowList:
             sourceRange:
               - 10.200.0.0/24
       routers:

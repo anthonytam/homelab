@@ -20,7 +20,7 @@ spec:
     server:
       name: server
       image:
-        respository: quay.io/prometheus/prometheus
+        repository: quay.io/prometheus/prometheus
         tag: v3.7.1
       persistentVolume:
         enabled: true

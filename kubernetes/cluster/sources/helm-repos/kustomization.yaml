@@ -1,23 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - appscode.yaml
-  - bitnami.yaml
   - bjw-s.yaml
   - cilium.yaml
   - csi-driver-smb.yaml
-  - external-secrets.yaml
   - factorio-helm.yaml
-  - frappe.yaml
   - grafana.yaml
   - hashicorp.yaml
   - jameswynn.yaml
   - jetstack.yaml
-  - k8s-sigs.yaml
   - mss.yaml
-  - nfs-provisioner.yaml
   - nvidia-gpu-cloud.yaml
   - prometheus-community.yaml
-  - sandermann.yaml
   - traefik.yaml
   - zabbix-community.yaml

@@ -74,7 +74,7 @@ spec:
         tls:
           - secretName: local-tamland-tls
             hosts:
-              - proawlarr.local.tam.land
+              - prowlarr.local.tam.land
     persistence:
       config:
         enabled: true

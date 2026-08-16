@@ -52,7 +52,7 @@ spec:
       ZBX_DEBUGLEVEL: 3
       ZBX_TIMEOUT: 4
       service:
-        type: ClusterIp
+        type: ClusterIP
         port: 10050
       livenessProbe:
         enabled: false
