@@ -4,9 +4,7 @@ metadata:
   name: nextcloud-sync
   namespace: miscellaneous
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: app-template
@@ -15,7 +13,7 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     defaultPodOptions:
       imagePullSecrets:

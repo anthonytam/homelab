@@ -4,9 +4,7 @@ metadata:
   name: csi-driver-smb
   namespace: csi-smb
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: csi-driver-smb
@@ -15,7 +13,7 @@ spec:
         kind: HelmRepository
         name: csi-driver-smb
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     image:
       smb:

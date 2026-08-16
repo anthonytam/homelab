@@ -4,9 +4,7 @@ metadata:
   name: prometheus
   namespace: monitoring
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: prometheus
@@ -15,7 +13,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     server:
       name: server

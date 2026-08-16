@@ -4,9 +4,7 @@ metadata:
   name: gpu-operator
   namespace: nvidia
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: gpu-operator
@@ -15,7 +13,7 @@ spec:
         kind: HelmRepository
         name: nvidia-gpu-cloud
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     runtimeClassName: nvidia
     cdi:

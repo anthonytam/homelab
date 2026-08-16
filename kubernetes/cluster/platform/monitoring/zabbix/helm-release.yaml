@@ -4,9 +4,7 @@ metadata:
   name: zabbix
   namespace: monitoring
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: zabbix
@@ -15,7 +13,7 @@ spec:
         kind: HelmRepository
         name: zabbix-community
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     zabbixImageTag: ubuntu-7.0.13
     postgresAccess:

@@ -5,9 +5,7 @@ metadata:
   name: factorio-treefiddy
   namespace: games
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: factorio-server-charts
@@ -16,7 +14,7 @@ spec:
         kind: HelmRepository
         name: factorio-helm
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     image:
       repository: "factoriotools/factorio"

@@ -4,7 +4,7 @@ metadata:
   name: local-path-provisioner
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 1h
   ref:
     tag: v0.0.36
   timeout: 60s

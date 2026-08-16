@@ -4,9 +4,7 @@ metadata:
   name: traefik
   namespace: admin
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: traefik
@@ -15,7 +13,7 @@ spec:
         kind: HelmRepository
         name: traefik-helm
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     serviceAccount:
       name: traefik-app

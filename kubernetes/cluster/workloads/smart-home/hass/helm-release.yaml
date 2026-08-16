@@ -4,11 +4,9 @@ metadata:
   name: homeassistant
   namespace: smart-home
 spec:
-  interval: 5m
+  interval: 1h
   driftDetection:
     mode: enabled
-  upgrade:
-    force: true
   chart:
     spec:
       chart: app-template
@@ -17,7 +15,7 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   values:
     controllers:
       app:

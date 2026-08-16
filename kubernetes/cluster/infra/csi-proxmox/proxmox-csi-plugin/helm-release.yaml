@@ -4,9 +4,7 @@ metadata:
   name: proxmox-csi-plugin
   namespace: csi-proxmox
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chartRef:
       name: proxmox-csi-plugin
       namespace: flux-system

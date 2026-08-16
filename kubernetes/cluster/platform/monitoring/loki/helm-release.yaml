@@ -4,9 +4,7 @@ metadata:
   name: loki
   namespace: monitoring
 spec:
-  interval: 5m
-  upgrade:
-    force: true
+  interval: 1h
   chart:
     spec:
       chart: loki
@@ -15,7 +13,7 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-      interval: 5m
+      interval: 1h
   valuesFrom:
     - kind: Secret
       name: loki-configuration
