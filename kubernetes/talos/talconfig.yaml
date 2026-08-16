@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./talconfig.json
 ---
 clusterName: tam.land
-talosVersion: v1.13.2
-kubernetesVersion: v1.36.1
+talosVersion: v1.13.8
+kubernetesVersion: v1.36.2
 endpoint: https://kube.local.tam.land:6443
 additionalApiServerCertSans:
   - kubeapi.local.tam.land
