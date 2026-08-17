@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: ollama/ollama
-              tag: 0.24.0
+              tag: 0.32.14
             env:
               NVIDIA_VISIBLE_DEVICES: all
               OLLAMA_KEEP_ALIVE: 24h
@@ -75,7 +75,7 @@ spec:
       webui:
         enabled: true
         hosts:
-          - host: aiui.local.tam.land
+          - host: ai.local.tam.land
             paths:
               - path: /
                 pathType: Prefix
@@ -84,7 +84,7 @@ spec:
         tls:
           - secretName: local-tamland-tls
             hosts:
-              - aiui.local.tam.land
+              - ai.local.tam.land
     persistence:
       ollama:
         enabled: true
