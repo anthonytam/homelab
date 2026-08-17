@@ -1,0 +1,14 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: grafana-community-loki
+  namespace: flux-system
+spec:
+  interval: 15m
+  url: oci://ghcr.io/grafana-community/helm-charts/loki
+  timeout: 3m
+  ref:
+    tag: 18.9.0
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy

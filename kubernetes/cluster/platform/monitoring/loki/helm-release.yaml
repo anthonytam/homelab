@@ -5,15 +5,10 @@ metadata:
   namespace: monitoring
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: loki
-      version: 6.55.0
-      sourceRef:
-        kind: HelmRepository
-        name: grafana
-        namespace: flux-system
-      interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: grafana-community-loki
+    namespace: flux-system
   valuesFrom:
     - kind: Secret
       name: loki-configuration
@@ -55,12 +50,36 @@ spec:
           signatureVersion: v4
           s3ForcePathStyle: true
           insecure: true
-    deploymentMode: SimpleScalable
-    backend:
-      replicas: 2
-    read:
-      replicas: 2
-    write:
+    deploymentMode: Monolithic
+    singleBinary:
       replicas: 3
+    
+    backend:
+      replicas: 0
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+
+    ingester:
+      replicas: 0
+    querier:
+      replicas: 0
+    queryFrontend:
+      replicas: 0
+    queryScheduler:
+      replicas: 0
+    distributor:
+      replicas: 0
+    compactor:
+      replicas: 0
+    indexGateway:
+      replicas: 0
+    bloomPlanner:
+      replicas: 0
+    bloomBuilder:
+      replicas: 0
+    bloomGateway:
+      replicas: 0
     minio:
       enabled: false
