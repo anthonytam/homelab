@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: ghcr.io/gethomepage/homepage
-      tag: v1.8.0
+      tag: v1.13.2
     enableRbac: true
     serviceAccount:
       name: homepage-app
