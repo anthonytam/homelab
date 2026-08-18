@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/radarr
-              tag: 6.1.1
+              tag: 6.3.0
             env:
               PUID: 568
               PGID: 568
