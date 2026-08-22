@@ -1,0 +1,108 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sparkyfitness
+  namespace: other-webapps
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: app-template
+      version: 5.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 1h
+  values:
+    controllers:
+      server:
+        enabled: true
+        containers:
+          server:
+            image:
+              repository: ghcr.io/codewithcj/sparkyfitness-server
+              tag: v1.6.2
+            envFrom:
+              - secret: sparkyfitness-server-configuration
+      frontend:
+        enabled: true
+        containers:
+          app:
+            image:
+              repository: ghcr.io/codewithcj/sparkyfitness
+              tag: 1.6.2
+            envFrom:
+              - secret: sparkyfitness-frontend-configuration
+      postgres:
+        enabled: true
+        containers:
+          postgres:
+            image:
+              repository: postgres
+              tag: 18.6
+            envFrom:
+              - secret: sparkyfitness-postgres-configuration
+    service:
+      server:
+        enabled: true
+        controller: server
+        primary: true
+        ports:
+          http:
+            port: 3010
+      frontend:
+        enabled: true
+        controller: frontend
+        primary: true
+        ports:
+          http:
+            port: 8080
+      postgres:
+        enabled: true
+        controller: postgres
+        ports:
+          http:
+            port: 5432
+    ingress:
+      frontend:
+        enabled: true
+        hosts:
+          - host: sparkyfitness.tam.land
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: frontend
+        tls:
+          - secretName: tamland-tls
+            hosts:
+              - sparkyfitness.tam.land
+    persistence:
+      backup:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/sparkyfitness/backup
+        advancedMounts:
+          server:
+            server:
+              - path: /app/SparkyFitnessServer/backup
+      uploads:
+        enabled: true
+        type: nfs
+        server: nfs.local.tam.land
+        path: /nfs-share/other-webapps/sparkyfitness/upload
+        advancedMounts:
+          server:
+            server:
+              - path: /app/SparkyFitnessServer/uploads
+      pgdata:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: sparkyfitness-postgres
+        advancedMounts:
+          postgres:
+            postgres:
+              - path: /var/lib/postgresql/18/docker
+                readOnly: false

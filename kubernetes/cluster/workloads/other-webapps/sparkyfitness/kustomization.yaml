@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - helm-release.yaml
+  - persistence.yaml
+  - sparkyfitness-frontend-configuration-secret.sops.yaml
+  - sparkyfitness-postgres-configuration-secret.sops.yaml
+  - sparkyfitness-server-configuration-secret.sops.yaml
