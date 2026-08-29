@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tam-land-modern-tekkit-pvc
+  namespace: games
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-fast-960-worker06
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tam-land-modern-tekkit
+  namespace: games
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: app-template
+      version: 5.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 1h
+  values:
+    controllers:
+      minecraft:
+        strategy: Recreate
+        containers:
+          minecraft:
+            image:
+              repository: itzg/minecraft-server
+              tag: java17
+            env:
+              EULA: true
+              MEMORY: 6G
+              USE_AIKAR_FLAGS: true
+              MOTD: "Welcome to the Tam Land."
+              TZ: America/Toronto
+              SPAWN_PROTECTION: "0"
+              MODPACK_PLATFORM: AUTO_CURSEFORGE
+              CF_SLUG: lexis-modern-tekkit
+              OPS: |-
+                Battlequailx
+            resources:
+              requests:
+                memory: 7Gi
+              limits:
+                memory: 8Gi
+        pod:
+          terminationGracePeriodSeconds: 180
+          nodeSelector:
+            "tam.land/gpu.present": "true"
+          tolerations:
+            - key: "tam.land/peripheralNode"
+              operator: "Equal"
+              value: "true"
+              effect: "NoSchedule"
+    service:
+      minecraft:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.200.12.10
+        controller: minecraft
+        primary: true
+        ports:
+          minecraft:
+            port: 25565
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: tam-land-modern-tekkit-pvc
+        advancedMounts:
+          minecraft:
+            minecraft:
+              - path: /data
