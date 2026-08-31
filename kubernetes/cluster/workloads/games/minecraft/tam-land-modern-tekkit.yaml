@@ -42,6 +42,7 @@ spec:
               USE_AIKAR_FLAGS: true
               MOTD: "Welcome to the Tam Land."
               TZ: America/Toronto
+              PVP: "false"
               SPAWN_PROTECTION: "0"
               VIEW_DISTANCE: "24"
               ENABLE_WHITELIST: "true"
@@ -49,6 +50,8 @@ spec:
                 Battlequailx
                 Fiddy74kg
                 bmxerd13
+                MoneyMoeM3
+                beem694
               MODPACK_PLATFORM: AUTO_CURSEFORGE
               CF_SLUG: lexis-modern-tekkit
               OPS: |-
