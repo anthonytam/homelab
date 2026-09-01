@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: grafana/grafana
-              tag: 12.4.6
+              tag: 12.4.10
     service:
       app:
         enabled: true
