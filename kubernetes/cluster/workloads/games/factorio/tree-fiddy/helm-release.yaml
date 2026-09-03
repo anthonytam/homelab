@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: "factoriotools/factorio"
-      tag: 2.1.12
+      tag: 2.1.17
     service:
       type: LoadBalancer
       port: 34197
