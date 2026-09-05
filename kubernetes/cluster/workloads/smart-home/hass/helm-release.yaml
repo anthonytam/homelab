@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: homeassistant/home-assistant
-              tag: "2026.8.2"
+              tag: "2026.9.1"
             env:
               TZ: America/Toronto
               PYTHONPATH: /config/deps
@@ -49,7 +49,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 18.1
+              tag: 18.6
             env:
               PGDATA: /var/lib/postgresql/18/docker/pgdata
             envFrom:
