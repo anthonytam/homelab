@@ -25,7 +25,7 @@ spec:
           affine-migration:
             image:
               repository: ghcr.io/toeverything/affine
-              tag: 0.25.7
+              tag: 0.27.4
             envFrom:
               - secret: affine-configuration
             command:
@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: ghcr.io/toeverything/affine
-              tag: 0.25.7
+              tag: 0.27.4
             envFrom:
               - secret: affine-configuration
     service:
