@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alloy-gateway-config
+  namespace: monitoring
+data:
+  config.alloy: |
+    logging {
+      level  = "info"
+      format = "logfmt"
+    }
+
+    // Loki Destination
+    loki.write "tamland_loki" {
+      endpoint {
+        name = "tamland-loki"
+        url = "http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
+      }
+    }
+
+    import.file "kubernetes" {
+      filename = "/etc/alloy/kubernetes-events.alloy"
+    }
+
+    kubernetes.events "tamland" {
+      cluster = "tamland"
+      forward_to = [
+        loki.write.tamland_loki.receiver,
+      ]
+    }
+
+  kubernetes-events.alloy: |
+    declare "events" {
+      argument "cluster" {
+        optional = false
+        comment  = "Cluster name added to Kubernetes event logs."
+      }
+
+      argument "forward_to" {
+        optional = false
+        comment  = "Loki receivers to forward processed events to."
+      }
+
+      loki.source.kubernetes_events "source" {
+        job_name   = "kubernetes/events"
+        log_format = "logfmt"
+
+        forward_to = [
+          loki.process.events.receiver,
+        ]
+      }
+
+      loki.process "events" {
+        stage.static_labels {
+          values = {
+            cluster = argument.cluster.value,
+            source  = "kubernetes-event",
+          }
+        }
+
+        forward_to = argument.forward_to.value
+      }
+    }

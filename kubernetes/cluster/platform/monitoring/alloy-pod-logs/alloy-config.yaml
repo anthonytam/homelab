@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: alloy-config
+  name: alloy-pod-logs-config
   namespace: monitoring
 data:
   config.alloy: |

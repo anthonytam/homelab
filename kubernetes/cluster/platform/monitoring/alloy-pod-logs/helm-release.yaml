@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: alloy
+  name: alloy-pod-logs
   namespace: monitoring
 spec:
   interval: 1h
@@ -18,7 +18,7 @@ spec:
     alloy:
       configMap:
         create: false
-        name: alloy-config
+        name: alloy-pod-logs-config
         key: config.alloy
       resources:
         requests:
