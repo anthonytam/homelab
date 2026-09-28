@@ -92,12 +92,10 @@ data:
     loki.process "pod_logs" {
       stage.static_labels {
         values = {
-          cluster = "tamland"
-          source  = "kubernetes"
+          cluster = "tamland",
+          source  = "kubernetes",
         }
       }
-
       stage.decolorize {}
-
       forward_to = [loki.write.tamland_loki.receiver]
     }
