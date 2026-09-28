@@ -28,8 +28,8 @@ spec:
           - ReadWriteOnce
         existingClaim: prometheus-server-pvc
       extraFlags:
-        - --web.enable-lifecycle
-        - --web.enable-remote-write-receiver
+        - web.enable-lifecycle
+        - web.enable-remote-write-receiver
       retention: "90d"
       retentionSize: "250GB"
     startupProbe:
