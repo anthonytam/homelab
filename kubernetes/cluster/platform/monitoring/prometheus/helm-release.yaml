@@ -20,14 +20,22 @@ spec:
       image:
         repository: quay.io/prometheus/prometheus
         tag: v3.7.1
+      strategy:
+        type: Recreate
       persistentVolume:
         enabled: true
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
         existingClaim: prometheus-server-pvc
+      retention: "90d"
+      retentionSize: "250GB"
+    startupProbe:
+      enabled: true
+      periodSeconds: 5
+      failureThreshold: 60
+      timeoutSeconds: 10
     extraScrapeConfigs: |
       - job_name: 'kubernetes-pods-fast'
-        honor_labels: true
         scrape_interval: 15s
 
         kubernetes_sd_configs:
@@ -58,8 +66,12 @@ spec:
           - action: labelmap
             regex: __meta_kubernetes_pod_annotation_prometheus_io_param_(.+)
             replacement: __param_$1
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+            action: replace
+            target_label: app
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_component]
+            action: replace
+            target_label: component
           - source_labels: [__meta_kubernetes_namespace]
             action: replace
             target_label: namespace
@@ -73,7 +85,7 @@ spec:
             action: replace
             target_label: node
     alertmanager:
-      enabled: true
+      enabled: false
     kube-state-metrics:
       enabled: true
     prometheus-node-exporter:
