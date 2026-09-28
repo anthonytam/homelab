@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: dxflrs/garage
-              tag: v2.3.0
+              tag: v2.4.1
     service:
       s3:
         enabled: true
