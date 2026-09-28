@@ -10,7 +10,7 @@ data:
       format = "logfmt"
     }
 
-    // Loki Destination
+    // Destinations
     loki.write "tamland_loki" {
       endpoint {
         name = "tamland-loki"
@@ -18,6 +18,22 @@ data:
       }
     }
 
+    prometheus.remote_write "tamland" {
+      endpoint {
+        url = "http://prometheus-server.monitoring.svc.cluster.local/api/v1/write"
+      }
+    }
+
+    otelcol.exporter.otlp "tempo" {
+      client {
+        endpoint = "tempo.monitoring.svc.cluster.local:4317"
+        tls {
+          insecure = true
+        }
+      }
+    }
+
+    // Jobs
     import.file "kubernetes" {
       filename = "/etc/alloy/kubernetes-events.alloy"
     }
