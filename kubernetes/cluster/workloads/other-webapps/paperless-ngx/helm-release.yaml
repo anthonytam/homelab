@@ -31,7 +31,7 @@ spec:
           postgres:
             image:
               repository: postgres
-              tag: 16.15
+              tag: 18.6
             envFrom: *envFrom
       redis:
         enabled: true
