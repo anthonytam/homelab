@@ -10,6 +10,5 @@ resources:
   - ollama
   - radicale
   - simhammer
-  - sparkyfitness
   - stirlingpdf
   - vaultwarden
