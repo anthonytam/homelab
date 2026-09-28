@@ -5,79 +5,74 @@ metadata:
   namespace: monitoring
 data:
   config.alloy: |
-    // Loki Cluster
+    logging {
+      level  = "info"
+      format = "logfmt"
+    }
+
+    // Loki Destination
     loki.write "tamland_loki" {
       endpoint {
+        name = "tamland-loki"
         url = "http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
       }
     }
 
-    // K8S Discovery
+    // K8S Pod disovery on local node
     discovery.kubernetes "log_pods" {
       role = "pod"
-      namespaces {
-        own_namespace = false
-        names = ["3d-printing", "admin", "cert-manager", "games", "homerow", "media", "other-webapps", "secrets", "small-indie-bot", "smart-home"]
-      }
+
       selectors {
-        role = "pod"
+        role  = "pod"
         field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
       }
     }
 
-    // Log handling to Loki
+    // Additional labeling for pod logs
     discovery.relabel "pod_logs" {
       targets = discovery.kubernetes.log_pods.targets
 
-      // Label creation - "namespace" field from "__meta_kubernetes_namespace"
       rule {
         source_labels = ["__meta_kubernetes_namespace"]
         action = "replace"
         target_label = "namespace"
       }
 
-      // Label creation - "pod" field from "__meta_kubernetes_pod_name"
       rule {
         source_labels = ["__meta_kubernetes_pod_name"]
         action = "replace"
         target_label = "pod"
       }
 
-      // Label creation - "container" field from "__meta_kubernetes_pod_container_name"
       rule {
         source_labels = ["__meta_kubernetes_pod_container_name"]
         action = "replace"
         target_label = "container"
       }
 
-      // Label creation -  "app" field from "__meta_kubernetes_pod_label_app_kubernetes_io_name"
       rule {
         source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
         action = "replace"
         target_label = "app"
       }
 
-      // Label creation -  "job" field from "__meta_kubernetes_namespace" and "__meta_kubernetes_pod_container_name"
-      // Concatenate values __meta_kubernetes_namespace/__meta_kubernetes_pod_container_name
       rule {
-        source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+        source_labels = [
+          "__meta_kubernetes_namespace",
+          "__meta_kubernetes_pod_container_name",
+        ]
         action = "replace"
         target_label = "job"
         separator = "/"
         replacement = "$1"
       }
 
-      // Label creation - "__path__" field from "__meta_kubernetes_pod_uid" and "__meta_kubernetes_pod_container_name"
-      // Concatenate values __meta_kubernetes_pod_uid/__meta_kubernetes_pod_container_name.log
       rule {
-        source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
-        action = "replace"
-        target_label = "__path__"
-        separator = "/"
-        replacement = "/var/log/pods/*$1/*.log"
+        source_labels = ["__meta_kubernetes_pod_phase"]
+        regex         = "Pending"
+        action        = "drop"
       }
 
-      // Label creation -  "container_runtime" field from "__meta_kubernetes_pod_container_id"
       rule {
         source_labels = ["__meta_kubernetes_pod_container_id"]
         action = "replace"
@@ -87,7 +82,22 @@ data:
       }
     }
 
+    // Forward pod logs to processor
     loki.source.kubernetes "pod_logs" {
       targets    = discovery.relabel.pod_logs.output
+      forward_to = [loki.process.pod_logs.receiver]
+    }
+
+    // General labels and forwarding to Loki
+    loki.process "pod_logs" {
+      stage.static_labels {
+        values = {
+          cluster = "tamland"
+          source  = "kubernetes"
+        }
+      }
+
+      stage.decolorize {}
+
       forward_to = [loki.write.tamland_loki.receiver]
     }

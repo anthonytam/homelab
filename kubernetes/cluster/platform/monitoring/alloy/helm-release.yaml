@@ -20,3 +20,22 @@ spec:
         create: false
         name: alloy-config
         key: config.alloy
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          memory: 512Mi
+    controller:
+      type: daemonset
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "12345"
+        prometheus.io/path: "/metrics"
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+        - key: "tam.land/peripheralNode"
+          operator: "Exists"
+          effect: "NoSchedule"
