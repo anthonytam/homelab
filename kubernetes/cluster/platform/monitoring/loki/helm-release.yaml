@@ -35,7 +35,10 @@ spec:
       limits_config:
         allow_structured_metadata: true
         volume_enabled: true
-        retention_period: 8766h
+        retention_period: 90d
+      compactor:
+        retention_enabled: true
+        delete_request_store: s3
       querier:
         max_concurrent: 4
       storage:
@@ -52,7 +55,16 @@ spec:
           insecure: true
     deploymentMode: Monolithic
     singleBinary:
-      replicas: 3
+      replicas: 1
+      persistence:
+        enabled: true
+        storageClass: proxmox-data-ssd-array
+        accessModes:
+          - ReadWriteOnce
+        size: 20Gi
+        enableStatefulSetAutoDeletePVC: false
+        whenDeleted: Retain
+        whenScaled: Retain
     
     backend:
       replicas: 0
