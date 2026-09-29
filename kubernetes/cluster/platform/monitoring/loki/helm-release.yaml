@@ -58,6 +58,13 @@ spec:
           signatureVersion: v4
           s3ForcePathStyle: true
           insecure: true
+    gateway:
+      metrics:
+        service:
+          annotations:
+            prometheus.io/scrape: "true"
+            prometheus.io/port: "4040"
+            prometheus.io/path: "/metrics"
     deploymentMode: Monolithic
     singleBinary:
       replicas: 1
@@ -75,7 +82,7 @@ spec:
         whenDeleted: Retain
         whenScaled: Retain
     lokiCanary:
-      annotations:
+      podAnnotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "3500"
         prometheus.io/path: "/metrics"
