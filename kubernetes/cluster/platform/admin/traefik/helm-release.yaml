@@ -25,16 +25,18 @@ spec:
     ports:
       web:
         asDefault: false
-        redirections:
-          entrypoint:
-            to: websecure
-            scheme: https
-            permanent: true
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true
       websecure:
         asDefault: true
-        tls:
-          enabled: true
-          options: "default"
+        http:
+          tls:
+            enabled: true
+            options: "default"
     volumes:
       - name: traefik-config
         mountPath: /etc/traefik
