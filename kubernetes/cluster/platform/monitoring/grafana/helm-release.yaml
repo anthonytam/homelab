@@ -17,6 +17,11 @@ spec:
   values:
     controllers:
       app:
+        pod:
+          annotations:
+            prometheus.io/scrape: "true"
+            prometheus.io/port: "3000"
+            prometheus.io/path: "/metrics"
         enabled: true
         containers:
           app:

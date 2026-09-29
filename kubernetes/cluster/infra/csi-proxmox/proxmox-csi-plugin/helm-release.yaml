@@ -27,6 +27,9 @@ spec:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
+    metrics:
+      enabled: true
+      port: 8080
     storageClass:
       - name: proxmox-data-ssd-array
         storage: SSD-Array

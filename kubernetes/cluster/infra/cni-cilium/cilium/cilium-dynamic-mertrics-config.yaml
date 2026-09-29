@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cilium-dynamic-metrics-config
+  namespace: cilium
+data:
+  dynamic-metrics.yaml: |
+    metrics:
+      - name: dns
+
+      - name: drop
+        contextOptions:
+          - name: sourceContext
+            values:
+              - workload-name
+              - reserved-identity
+          - name: destinationContext
+            values:
+              - workload-name
+              - reserved-identity
+
+      - name: tcp
+
+      - name: icmp
+
+      - name: httpV2
+        contextOptions:
+          - name: exemplars
+            values:
+              - true
+          - name: sourceContext
+            values:
+              - workload-name
+              - reserved-identity
+          - name: destinationContext
+            values:
+              - workload-name
+              - reserved-identity
+          - name: labelsContext
+            values:
+              - source_namespace
+              - source_workload
+              - destination_namespace
+              - destination_workload
+              - traffic_direction

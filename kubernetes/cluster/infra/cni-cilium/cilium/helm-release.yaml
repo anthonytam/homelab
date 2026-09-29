@@ -37,7 +37,22 @@ spec:
       enabled: true
       relay:
         enabled: true
+        prometheus:
+          enabled: true
       ui:
+        enabled: true
+      metrics:
+        enableOpenMetrics: true
+        enabled: []
+        dynamic:
+          enabled: true
+          config:
+            configMapName: cilium-dynamic-metrics-config
+            createConfigMap: false
+    prometheus:
+      enabled: true
+    operator:
+      prometheus:
         enabled: true
     ipv4:
       masquerade: true

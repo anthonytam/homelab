@@ -61,6 +61,10 @@ spec:
     deploymentMode: Monolithic
     singleBinary:
       replicas: 1
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3100"
+        prometheus.io/path: "/metrics"
       persistence:
         enabled: true
         storageClass: proxmox-data-ssd-array
@@ -70,6 +74,21 @@ spec:
         enableStatefulSetAutoDeletePVC: false
         whenDeleted: Retain
         whenScaled: Retain
+    lokiCanary:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3500"
+        prometheus.io/path: "/metrics"
+    chunksCache:
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9150"
+        prometheus.io/path: "/metrics"
+    resultsCache:
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9150"
+        prometheus.io/path: "/metrics"
     
     backend:
       replicas: 0

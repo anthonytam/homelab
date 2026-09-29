@@ -23,6 +23,11 @@ spec:
             image:
               repository: dxflrs/garage
               tag: v2.4.1
+            pod:
+              annotations:
+                prometheus.io/scrape: "true"
+                prometheus.io/port: "3903"
+                prometheus.io/path: "/metrics"
     service:
       s3:
         enabled: true
