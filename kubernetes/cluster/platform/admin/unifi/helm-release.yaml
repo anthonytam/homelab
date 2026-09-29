@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/unifi-network-application
-              tag: 10.3.58
+              tag: 10.6.106
             envFrom: &envFrom
               - secret: unifi-configuration
             env:
