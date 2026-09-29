@@ -27,6 +27,8 @@ spec:
     autoDirectNodeRoutes: true
     ipv4NativeRoutingCIDR: "10.201.0.0/16"
     kubeProxyReplacement: true
+    socketLB:
+      hostNamespaceOnly: true
     ipam:
       mode: "kubernetes"
     cluster:
