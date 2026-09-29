@@ -123,21 +123,10 @@ spec:
             postgres:
               - path: /var/lib/postgresql/18/docker
                 readOnly: false
-      influxconfig:
-        enabled: true
-        type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/smart-home/influxdb/config
-        advancedMounts:
-          influxdb:
-            influxdb:
-              - path: /etc/influxdb2
-                readOnly: false
       influxdata:
         enabled: true
-        type: nfs
-        server: nfs.local.tam.land
-        path: /nfs-share/smart-home/influxdb/data
+        type: persistentVolumeClaim
+        existingClaim: homeassistant-influxdb
         advancedMounts:
           influxdb:
             influxdb:
