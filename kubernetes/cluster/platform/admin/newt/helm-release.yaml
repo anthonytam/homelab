@@ -22,6 +22,6 @@ spec:
           app:
             image:
               repository: fosrl/newt
-              tag: 1.15.0
+              tag: 1.17.0
             envFrom:
               - secret: newt-configuration
