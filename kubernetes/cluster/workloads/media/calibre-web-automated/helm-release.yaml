@@ -61,7 +61,7 @@ spec:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
-        path: /mnt/main-bay/k8s-data/media/books/import
+        path: /mnt/main-bay/media/books/import
         advancedMounts:
           app:
             app:
@@ -70,7 +70,7 @@ spec:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
-        path: /mnt/main-bay/k8s-data/media/books/library
+        path: /mnt/main-bay/media/books/library
         advancedMounts:
           app:
             app:
