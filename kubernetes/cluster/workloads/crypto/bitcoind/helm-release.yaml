@@ -60,4 +60,4 @@ spec:
         advancedMounts:
           app:
             app:
-              - path: /app/.bitcoin
+              - path: /data
