@@ -117,7 +117,7 @@ spec:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
-        path: /mnt/main-bay/k8s-data/immich/data
+        path: /mnt/main-bay/photos/immich/data
         advancedMounts:
           app:
             app:
