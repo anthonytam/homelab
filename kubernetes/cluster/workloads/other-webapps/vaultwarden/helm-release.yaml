@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: vaultwarden/server
-              tag: 1.37.3
+              tag: 1.37.4
             env:
               TZ: America/Toronto
               SIGNUPS_ALLOWED: false
