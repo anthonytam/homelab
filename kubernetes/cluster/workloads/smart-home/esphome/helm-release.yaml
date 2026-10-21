@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: esphome/esphome
-              tag: "2026.9.0"
+              tag: "2026.9.1"
             env:
               ESPHOME_DASHBOARD_USE_PING: true
     service:
