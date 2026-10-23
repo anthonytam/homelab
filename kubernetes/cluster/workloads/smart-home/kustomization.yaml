@@ -7,4 +7,5 @@ resources:
   - frigate
   - hass
   - mosquitto
+  - reostream
   - wyoming
