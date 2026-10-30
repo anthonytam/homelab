@@ -60,7 +60,7 @@ spec:
         enabled: true
         type: nfs
         server: truenas.local.tam.land
-        path: /mnt/main-bay/k8s-data/media/
+        path: /mnt/main-bay/media/
         advancedMounts:
           app:
             app:

@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: ghcr.io/volttech21/reostream
-              tag: "0.1.11"
+              tag: 0.1.11
             probes:
               liveness:
                 enabled: true
