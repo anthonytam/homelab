@@ -68,6 +68,15 @@ spec:
           http:
             port: 1984
     persistence:
+      # Frigate config.yml sets database.path to /database/frigate.db.
+      # Keep SQLite on the node SSD; NFS remains for config and media.
+      database:
+        type: persistentVolumeClaim
+        existingClaim: frigate-database
+        advancedMounts:
+          app:
+            app:
+              - path: /database
       config:
         type: nfs
         server: nfs.local.tam.land
