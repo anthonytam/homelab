@@ -72,6 +72,31 @@ hostname may be short rather than fully qualified. Find streams with:
 {site="thebridge", source="syslog", syslog_format="rfc3164"}
 ```
 
+RFC 3164 headers carry local time without a timezone or year. The collector uses
+receipt time for these logs so a Toronto timestamp is not interpreted as UTC
+and shifted several hours into the past. RFC 5424 listeners retain the supplied
+timestamp, which includes its timezone. CORE can include the original logger's
+RFC 5424 timestamp inside the forwarded message body; that text is preserved.
+
+If forwarding is absent, check DNS and the generated configuration on TrueNAS:
+
+```sh
+getent hosts telemetry.local.tam.land
+service syslog-ng onestatus
+tail -n 5 /etc/local/syslog-ng.conf
+```
+
+The generated file should end with a `destination loghost` block for UDP/TCP
+port 514 and a `log` rule using `filter(f_info)`. Info includes errors and higher
+severities. Save the settings in System → Advanced. If the generated file is
+stale, use the middleware to regenerate it and restart the service as root:
+
+```sh
+midclt call etc.generate syslogd
+midclt call service.restart syslogd
+logger -p user.err -t alloy-test "TrueNAS forwarding test"
+```
+
 Physical-disk temperatures, SMART status and hardware/controller errors belong
 to the **HypeStore Linux hypervisor**. This module does not walk the HDD
 temperature or LM-SENSORS branches. See `TODO.md` for that follow-up. Native

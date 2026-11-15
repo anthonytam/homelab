@@ -12,21 +12,21 @@ data:
 
     // Legacy appliances use RFC3164 on external port 514. RFC5424 uses 1514.
     // The Service maps these to unprivileged container ports.
+    // RFC3164 omits timezone/year. Use receipt time so appliance local time
+    // does not shift logs outside the current query window.
     loki.source.syslog "local" {
       listener {
         address                        = "0.0.0.0:1514"
         protocol                       = "tcp"
         syslog_format                  = "rfc3164"
-        use_incoming_timestamp         = true
-        rfc3164_default_to_current_year = true
+        use_incoming_timestamp         = false
         labels                         = { source = "syslog", syslog_format = "rfc3164" }
       }
       listener {
         address                        = "0.0.0.0:1514"
         protocol                       = "udp"
         syslog_format                  = "rfc3164"
-        use_incoming_timestamp         = true
-        rfc3164_default_to_current_year = true
+        use_incoming_timestamp         = false
         labels                         = { source = "syslog", syslog_format = "rfc3164" }
       }
       listener {
