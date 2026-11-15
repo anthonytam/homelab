@@ -37,6 +37,16 @@ spec:
       periodSeconds: 5
       failureThreshold: 60
       timeoutSeconds: 10
+    scrapeConfigs:
+      kubernetes-nodes-cadvisor:
+        # Helm replaces relabel lists: retain the chart's node/path rules.
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - source_labels: [__metrics_path__]
+            target_label: metrics_path
+          - target_label: site
+            replacement: thebridge
     extraScrapeConfigs: |
       - job_name: 'kubernetes-pods-fast'
         scrape_interval: 15s

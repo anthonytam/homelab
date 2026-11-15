@@ -1,0 +1,107 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: alloy-local
+  namespace: monitoring
+spec:
+  releaseName: alloy-local
+  interval: 1h
+  chart:
+    spec:
+      chart: alloy
+      version: 1.9.0
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+      interval: 1h
+  values:
+    global:
+      podSecurityContext:
+        runAsNonRoot: true
+        runAsUser: 473
+        runAsGroup: 473
+        fsGroup: 473
+        seccompProfile:
+          type: RuntimeDefault
+    crds:
+      create: false
+    rbac:
+      create: false
+    serviceAccount:
+      automountServiceAccountToken: false
+    alloy:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+      configMap:
+        create: false
+        name: alloy-local-config
+        key: config.alloy
+      storagePath: /var/lib/alloy
+      mounts:
+        extra:
+          - name: alloy-local-data
+            mountPath: /var/lib/alloy
+      extraPorts:
+        - name: syslog-bsd-tcp
+          port: 1514
+          targetPort: 1514
+          protocol: TCP
+        - name: syslog-bsd-udp
+          port: 1514
+          targetPort: 1514
+          protocol: UDP
+        - name: syslog-ietf-tcp
+          port: 2514
+          targetPort: 2514
+          protocol: TCP
+        - name: syslog-ietf-udp
+          port: 2514
+          targetPort: 2514
+          protocol: UDP
+        - name: loki-push
+          port: 3100
+          targetPort: 3100
+          protocol: TCP
+        - name: prom-write
+          port: 9999
+          targetPort: 9999
+          protocol: TCP
+        - name: otlp-grpc
+          port: 4317
+          targetPort: 4317
+          protocol: TCP
+        - name: otlp-http
+          port: 4318
+          targetPort: 4318
+          protocol: TCP
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 1Gi
+    configReloader:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+    controller:
+      type: deployment
+      replicas: 1
+      # A single writer owns the persistent metrics WAL.
+      updateStrategy:
+        type: Recreate
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "12345"
+        prometheus.io/path: /metrics
+      volumes:
+        extra:
+          - name: alloy-local-data
+            persistentVolumeClaim:
+              claimName: alloy-local-data

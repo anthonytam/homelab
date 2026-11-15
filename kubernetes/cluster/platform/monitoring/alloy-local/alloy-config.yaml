@@ -1,0 +1,150 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alloy-local-config
+  namespace: monitoring
+data:
+  config.alloy: |
+    logging {
+      level  = "info"
+      format = "logfmt"
+    }
+
+    // Legacy appliances use RFC3164 on external port 514. RFC5424 uses 1514.
+    // The Service maps these to unprivileged container ports.
+    loki.source.syslog "local" {
+      listener {
+        address                        = "0.0.0.0:1514"
+        protocol                       = "tcp"
+        syslog_format                  = "rfc3164"
+        use_incoming_timestamp         = true
+        rfc3164_default_to_current_year = true
+        labels                         = { source = "syslog", syslog_format = "rfc3164" }
+      }
+      listener {
+        address                        = "0.0.0.0:1514"
+        protocol                       = "udp"
+        syslog_format                  = "rfc3164"
+        use_incoming_timestamp         = true
+        rfc3164_default_to_current_year = true
+        labels                         = { source = "syslog", syslog_format = "rfc3164" }
+      }
+      listener {
+        address                = "0.0.0.0:2514"
+        protocol               = "tcp"
+        syslog_format          = "rfc5424"
+        use_incoming_timestamp = true
+        labels                 = { source = "syslog", syslog_format = "rfc5424" }
+      }
+      listener {
+        address                = "0.0.0.0:2514"
+        protocol               = "udp"
+        syslog_format          = "rfc5424"
+        use_incoming_timestamp = true
+        labels                 = { source = "syslog", syslog_format = "rfc5424" }
+      }
+      relabel_rules = loki.relabel.syslog.rules
+      forward_to    = [loki.process.local.receiver]
+    }
+
+    // Preserve useful syslog fields before the receiver removes internal labels.
+    loki.relabel "syslog" {
+      rule {
+        source_labels = ["__syslog_message_hostname"]
+        target_label  = "host"
+      }
+      rule {
+        source_labels = ["__syslog_message_app_name"]
+        target_label  = "app"
+      }
+      rule {
+        source_labels = ["__syslog_message_severity"]
+        target_label  = "severity"
+      }
+      rule {
+        source_labels = ["__syslog_message_facility"]
+        target_label  = "facility"
+      }
+      rule {
+        source_labels = ["__syslog_connection_ip_address"]
+        target_label  = "source_ip"
+      }
+      forward_to = []
+    }
+
+    // Native Loki push endpoint for Linux/Windows Alloy agents.
+    loki.source.api "agents" {
+      http {
+        listen_address = "0.0.0.0"
+        listen_port    = 3100
+      }
+      forward_to = [loki.process.local.receiver]
+    }
+
+    // Apply the collector's site identity after receiving client labels.
+    loki.process "local" {
+      stage.static_labels {
+        values = { site = "thebridge" }
+      }
+      forward_to = [loki.write.tamland_loki.receiver]
+    }
+
+    loki.write "tamland_loki" {
+      endpoint {
+        name = "tamland-loki"
+        url  = "http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
+      }
+    }
+
+    // Prometheus remote-write endpoint for host agents.
+    prometheus.receive_http "agents" {
+      http {
+        listen_address = "0.0.0.0"
+        listen_port    = 9999
+      }
+      forward_to = [prometheus.relabel.local.receiver]
+    }
+
+    prometheus.relabel "local" {
+      rule {
+        target_label = "site"
+        replacement  = "thebridge"
+      }
+      forward_to = [prometheus.remote_write.tamland.receiver]
+    }
+
+    // The WAL lives on the PVC mounted at /var/lib/alloy.
+    prometheus.remote_write "tamland" {
+      endpoint {
+        url = "http://prometheus-server.monitoring.svc.cluster.local/api/v1/write"
+      }
+    }
+
+    // OpenTelemetry agents can send logs and metrics; traces are not forwarded.
+    otelcol.receiver.otlp "agents" {
+      grpc {
+        endpoint = "0.0.0.0:4317"
+      }
+      http {
+        endpoint = "0.0.0.0:4318"
+      }
+      output {
+        logs    = [otelcol.processor.batch.agents.input]
+        metrics = [otelcol.processor.batch.agents.input]
+      }
+    }
+
+    otelcol.processor.batch "agents" {
+      output {
+        logs    = [otelcol.exporter.loki.agents.input]
+        metrics = [otelcol.exporter.prometheus.agents.input]
+      }
+    }
+
+    otelcol.exporter.loki "agents" {
+      forward_to = [loki.process.local.receiver]
+    }
+
+    otelcol.exporter.prometheus "agents" {
+      forward_to = [prometheus.relabel.local.receiver]
+    }

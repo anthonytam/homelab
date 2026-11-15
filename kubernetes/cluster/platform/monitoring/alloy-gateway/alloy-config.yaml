@@ -40,6 +40,7 @@ data:
 
     kubernetes.events "tamland" {
       cluster = "tamland"
+      site    = "thebridge"
       forward_to = [
         loki.write.tamland_loki.receiver,
       ]
@@ -50,6 +51,11 @@ data:
       argument "cluster" {
         optional = false
         comment  = "Cluster name added to Kubernetes event logs."
+      }
+
+      argument "site" {
+        optional = false
+        comment  = "Site name added to Kubernetes event logs."
       }
 
       argument "forward_to" {
@@ -70,6 +76,7 @@ data:
         stage.static_labels {
           values = {
             cluster = argument.cluster.value,
+            site    = argument.site.value,
             source  = "kubernetes-event",
           }
         }

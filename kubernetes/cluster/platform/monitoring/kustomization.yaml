@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - alloy-gateway
+  - alloy-local
   - alloy-pod-logs
   - grafana
   - loki
