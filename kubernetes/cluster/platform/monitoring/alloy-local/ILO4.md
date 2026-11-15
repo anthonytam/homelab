@@ -115,8 +115,12 @@ logout/login produces an iLO event suitable for an ingestion check.
 Alloy retains the RFC 5424 timestamp, so configure working SNTP servers under
 **Network → iLO Dedicated Network Port** (or **Shared Network Port**) → **SNTP**.
 Verify the emitted UTC time agrees with actual UTC time. The initial HypeStore
-capture was about one hour behind; use a wider Grafana time range until the
-device clock is corrected.
+capture was about one hour behind because SNTP was unset and the time zone
+was incorrect. After saving SNTP/time-zone changes, apply them by rebooting
+the iLO controller: **Information → Diagnostics → Reset → OK**. The server and
+VMs keep running; iLO web and remote-console sessions disconnect until the
+controller returns. Log back in to generate a fresh event and verify its
+timestamp. Use a wider Grafana time range while diagnosing a wrong device clock.
 
 Syslog's `host` comes from the iLO's configured hostname and can differ in case
 or domain from its SNMP target FQDN. Query by the preserved source IP when
