@@ -107,6 +107,13 @@ Mappings and units were checked against the release's
 [FREENAS-MIB](https://github.com/truenas/middleware/blob/5021f909d2f5476f918a185d87d66b958477028f/src/freenas/usr/local/share/snmp/mibs/FREENAS-MIB.txt)
 and [SNMP agent](https://github.com/truenas/middleware/blob/5021f909d2f5476f918a185d87d66b958477028f/src/freenas/usr/local/bin/snmp-agent.py).
 
+## HPE iLO 4 targets
+
+`ilo-hype01.local.tam.land` (DL360e Gen8) and
+`ilo-hypestore.local.tam.land` (DL380p Gen8), both running iLO 4 firmware 2.82,
+use independent SNMPv3 profiles and the focused `hpe_ilo4` module. See
+[ILO4.md](ILO4.md) for setup, hardware coverage, status semantics, and queries.
+
 ## Credentials and activation
 
 `snmp-auth-secret.sops.yaml` is encrypted to the existing Kubernetes SOPS PGP
@@ -117,7 +124,7 @@ permissions for Alloy's existing UID/GID 473. Alloy reads it with
 the private auth profiles and custom module into the standard exporter modules. Credentials do not
 appear in the target list or scrape URL.
 
-The pfSense and TrueNAS targets are enabled after their passwords were populated locally.
+Appliance targets are enabled only after their passwords are populated locally.
 Setting `"enabled": "false"` removes a target from the scrape list and prevents
 polling, without changing or removing its authentication profile. Keep new
 targets disabled until their real credentials are configured.

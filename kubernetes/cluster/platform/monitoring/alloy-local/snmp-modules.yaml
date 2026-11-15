@@ -2,7 +2,12 @@
 # Source revision: truenas/middleware 5021f909d2f5476f918a185d87d66b958477028f
 # MIB: src/freenas/usr/local/share/snmp/mibs/FREENAS-MIB.txt
 # Units/counter semantics checked against src/freenas/usr/local/bin/snmp-agent.py.
-# Hardware temperatures, SMART, and physical errors belong to HypeStore.
+# TrueNAS physical-disk temperatures, SMART, and errors belong to HypeStore.
+# hpe_ilo4 uses the pinned Alloy v1.16.3 HPE definitions plus CPQHLTH-MIB,
+# CPQSM2-MIB and CPQIDA-MIB from HPE's upd11.85mib.tar.gz archive:
+# https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
+# SHA256: be18d3977d62d24f5ac049168fb3bf8b73b19dc3180bc710781d2d9ec2f34a2c
+# Only selected scalar/column OIDs are requested; no full enterprise walk.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -315,3 +320,631 @@ data:
           type: gauge
           help: L2ARC size in bytes; CORE 13 agent reports KiB.
           scale: 1024
+      hpe_ilo4:
+        get:
+        - 1.3.6.1.4.1.232.3.1.3.0
+        - 1.3.6.1.4.1.232.6.1.3.0
+        - 1.3.6.1.4.1.232.6.2.6.1.0
+        - 1.3.6.1.4.1.232.6.2.6.3.0
+        - 1.3.6.1.4.1.232.6.2.6.4.0
+        - 1.3.6.1.4.1.232.6.2.6.5.0
+        - 1.3.6.1.4.1.232.6.2.15.1.0
+        - 1.3.6.1.4.1.232.6.2.15.2.0
+        - 1.3.6.1.4.1.232.6.2.15.3.0
+        - 1.3.6.1.4.1.232.9.1.3.0
+        - 1.3.6.1.4.1.232.9.2.2.32.0
+        walk:
+        - 1.3.6.1.4.1.232.1.2.2.1.1.6
+        - 1.3.6.1.4.1.232.3.2.2.1.1.6
+        - 1.3.6.1.4.1.232.3.2.3.1.1.4
+        - 1.3.6.1.4.1.232.3.2.3.1.1.11
+        - 1.3.6.1.4.1.232.3.2.5.1.1.6
+        - 1.3.6.1.4.1.232.3.2.5.1.1.37
+        - 1.3.6.1.4.1.232.3.2.5.1.1.70
+        - 1.3.6.1.4.1.232.6.2.6.7.1.4
+        - 1.3.6.1.4.1.232.6.2.6.7.1.6
+        - 1.3.6.1.4.1.232.6.2.6.7.1.7
+        - 1.3.6.1.4.1.232.6.2.6.7.1.9
+        - 1.3.6.1.4.1.232.6.2.6.7.1.11
+        - 1.3.6.1.4.1.232.6.2.6.8.1.3
+        - 1.3.6.1.4.1.232.6.2.6.8.1.4
+        - 1.3.6.1.4.1.232.6.2.6.8.1.5
+        - 1.3.6.1.4.1.232.6.2.6.8.1.6
+        - 1.3.6.1.4.1.232.6.2.6.8.1.7
+        - 1.3.6.1.4.1.232.6.2.6.8.1.8
+        - 1.3.6.1.4.1.232.6.2.9.3.1.3
+        - 1.3.6.1.4.1.232.6.2.9.3.1.4
+        - 1.3.6.1.4.1.232.6.2.9.3.1.5
+        - 1.3.6.1.4.1.232.6.2.9.3.1.7
+        - 1.3.6.1.4.1.232.6.2.9.3.1.8
+        - 1.3.6.1.4.1.232.6.2.9.3.1.9
+        - 1.3.6.1.4.1.232.6.2.9.3.1.15
+        - 1.3.6.1.4.1.232.6.2.14.13.1.6
+        - 1.3.6.1.4.1.232.6.2.14.13.1.13
+        - 1.3.6.1.4.1.232.6.2.14.13.1.19
+        - 1.3.6.1.4.1.232.6.2.14.13.1.20
+        metrics:
+        - name: cpqHeMibCondition
+          oid: 1.3.6.1.4.1.232.6.1.3
+          type: gauge
+          help: The overall condition.
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqSm2MibCondition
+          oid: 1.3.6.1.4.1.232.9.1.3
+          type: gauge
+          help: Remote Insight/ Integrated Lights-Out condition.
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqDaMibCondition
+          oid: 1.3.6.1.4.1.232.3.1.3
+          type: gauge
+          help: The overall condition (status) of the system represented by this MIB.
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqHeThermalCondition
+          oid: 1.3.6.1.4.1.232.6.2.6.1
+          type: gauge
+          help: This value specifies the overall condition of the system's thermal environment.
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqHeThermalTempStatus
+          oid: 1.3.6.1.4.1.232.6.2.6.3
+          type: gauge
+          help: 'The status of the system''s temperature sensors: This value will be one of the following: other(1) Temp sensing is not supported by this system or driver.'
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqHeThermalSystemFanStatus
+          oid: 1.3.6.1.4.1.232.6.2.6.4
+          type: gauge
+          help: The status of the fan(s) in the system.
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqHeThermalCpuFanStatus
+          oid: 1.3.6.1.4.1.232.6.2.6.5
+          type: gauge
+          help: The status of the processor fan(s) in the system.
+          enum_values:
+            1: other
+            2: ok
+            4: failed
+        - name: cpqSeCpuStatus
+          oid: 1.3.6.1.4.1.232.1.2.2.1.1.6
+          type: gauge
+          help: The status of the processor - 1.3.6.1.4.1.232.1.2.2.1.1.6
+          indexes:
+          - labelname: cpqSeCpuUnitIndex
+            type: gauge
+          enum_values:
+            1: unknown
+            2: ok
+            3: degraded
+            4: failed
+            5: disabled
+        - name: cpqSm2CntlrServerPowerState
+          oid: 1.3.6.1.4.1.232.9.2.2.32
+          type: gauge
+          help: The current power state for the server - 1.3.6.1.4.1.232.9.2.2.32
+          enum_values:
+            1: unknown
+            2: poweredOff
+            3: poweredOn
+            4: insufficientPowerOrPowerOnDenied
+        - name: cpqHePowerMeterSupport
+          oid: 1.3.6.1.4.1.232.6.2.15.1
+          type: gauge
+          help: This value specifies whether Power Meter is supported by this Server  - 1.3.6.1.4.1.232.6.2.15.1
+          enum_values:
+            1: other
+            2: supported
+            3: unsupported
+        - name: cpqHePowerMeterStatus
+          oid: 1.3.6.1.4.1.232.6.2.15.2
+          type: gauge
+          help: This value specifies whether Power Meter reading is supported by this Server  - 1.3.6.1.4.1.232.6.2.15.2
+          enum_values:
+            1: other
+            2: present
+            3: absent
+        - name: cpqHePowerMeterCurrReading
+          oid: 1.3.6.1.4.1.232.6.2.15.3
+          type: gauge
+          help: This is the current Power Meter reading in Watts - 1.3.6.1.4.1.232.6.2.15.3
+        - name: cpqHeTemperatureLocale
+          oid: 1.3.6.1.4.1.232.6.2.6.8.1.3
+          type: gauge
+          help: This specifies the location of the temperature sensor present in the system. - 1.3.6.1.4.1.232.6.2.6.8.1.3
+          indexes:
+          - labelname: cpqHeTemperatureChassis
+            type: gauge
+          - labelname: cpqHeTemperatureIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: unknown
+            3: system
+            4: systemBoard
+            5: ioBoard
+            6: cpu
+            7: memory
+            8: storage
+            9: removableMedia
+            10: powerSupply
+            11: ambient
+            12: chassis
+            13: bridgeCard
+          lookups:
+          - labels:
+            - cpqHeTemperatureChassis
+            - cpqHeTemperatureIndex
+            labelname: cpqHeTemperatureHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.8.1.8
+            type: DisplayString
+        - name: cpqHeTemperatureCelsius
+          oid: 1.3.6.1.4.1.232.6.2.6.8.1.4
+          type: gauge
+          help: This is the current temperature sensor reading in degrees celsius - 1.3.6.1.4.1.232.6.2.6.8.1.4
+          indexes:
+          - labelname: cpqHeTemperatureChassis
+            type: gauge
+          - labelname: cpqHeTemperatureIndex
+            type: gauge
+          lookups:
+          - labels:
+            - cpqHeTemperatureChassis
+            - cpqHeTemperatureIndex
+            labelname: cpqHeTemperatureHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.8.1.8
+            type: DisplayString
+        - name: cpqHeTemperatureThreshold
+          oid: 1.3.6.1.4.1.232.6.2.6.8.1.5
+          type: gauge
+          help: This is the shutdown threshold temperature sensor setting in degrees celsius - 1.3.6.1.4.1.232.6.2.6.8.1.5
+          indexes:
+          - labelname: cpqHeTemperatureChassis
+            type: gauge
+          - labelname: cpqHeTemperatureIndex
+            type: gauge
+          lookups:
+          - labels:
+            - cpqHeTemperatureChassis
+            - cpqHeTemperatureIndex
+            labelname: cpqHeTemperatureHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.8.1.8
+            type: DisplayString
+        - name: cpqHeTemperatureCondition
+          oid: 1.3.6.1.4.1.232.6.2.6.8.1.6
+          type: gauge
+          help: The Temperature sensor condition - 1.3.6.1.4.1.232.6.2.6.8.1.6
+          indexes:
+          - labelname: cpqHeTemperatureChassis
+            type: gauge
+          - labelname: cpqHeTemperatureIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+          lookups:
+          - labels:
+            - cpqHeTemperatureChassis
+            - cpqHeTemperatureIndex
+            labelname: cpqHeTemperatureHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.8.1.8
+            type: DisplayString
+        - name: cpqHeTemperatureThresholdType
+          oid: 1.3.6.1.4.1.232.6.2.6.8.1.7
+          type: gauge
+          help: This specifies the type of this instance of temperature sensor - 1.3.6.1.4.1.232.6.2.6.8.1.7
+          indexes:
+          - labelname: cpqHeTemperatureChassis
+            type: gauge
+          - labelname: cpqHeTemperatureIndex
+            type: gauge
+          enum_values:
+            1: other
+            5: blowout
+            9: caution
+            15: critical
+            16: noreaction
+          lookups:
+          - labels:
+            - cpqHeTemperatureChassis
+            - cpqHeTemperatureIndex
+            labelname: cpqHeTemperatureHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.8.1.8
+            type: DisplayString
+        - name: cpqHeFltTolPowerSupplyPresent
+          oid: 1.3.6.1.4.1.232.6.2.9.3.1.3
+          type: gauge
+          help: Indicates whether the power supply is present in the chassis. - 1.3.6.1.4.1.232.6.2.9.3.1.3
+          indexes:
+          - labelname: cpqHeFltTolPowerSupplyChassis
+            type: gauge
+          - labelname: cpqHeFltTolPowerSupplyBay
+            type: gauge
+          enum_values:
+            1: other
+            2: absent
+            3: present
+          lookups:
+          - labels:
+            - cpqHeFltTolPowerSupplyChassis
+            - cpqHeFltTolPowerSupplyBay
+            labelname: cpqHeFltTolPowerSupplyHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.9.3.1.15
+            type: DisplayString
+        - name: cpqHeFltTolPowerSupplyCondition
+          oid: 1.3.6.1.4.1.232.6.2.9.3.1.4
+          type: gauge
+          help: The condition of the power supply - 1.3.6.1.4.1.232.6.2.9.3.1.4
+          indexes:
+          - labelname: cpqHeFltTolPowerSupplyChassis
+            type: gauge
+          - labelname: cpqHeFltTolPowerSupplyBay
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+          lookups:
+          - labels:
+            - cpqHeFltTolPowerSupplyChassis
+            - cpqHeFltTolPowerSupplyBay
+            labelname: cpqHeFltTolPowerSupplyHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.9.3.1.15
+            type: DisplayString
+        - name: cpqHeFltTolPowerSupplyStatus
+          oid: 1.3.6.1.4.1.232.6.2.9.3.1.5
+          type: gauge
+          help: The status of the power supply. - 1.3.6.1.4.1.232.6.2.9.3.1.5
+          indexes:
+          - labelname: cpqHeFltTolPowerSupplyChassis
+            type: gauge
+          - labelname: cpqHeFltTolPowerSupplyBay
+            type: gauge
+          enum_values:
+            1: noError
+            2: generalFailure
+            3: bistFailure
+            4: fanFailure
+            5: tempFailure
+            6: interlockOpen
+            7: epromFailed
+            8: vrefFailed
+            9: dacFailed
+            10: ramTestFailed
+            11: voltageChannelFailed
+            12: orringdiodeFailed
+            13: brownOut
+            14: giveupOnStartup
+            15: nvramInvalid
+            16: calibrationTableInvalid
+            17: noPowerInput
+          lookups:
+          - labels:
+            - cpqHeFltTolPowerSupplyChassis
+            - cpqHeFltTolPowerSupplyBay
+            labelname: cpqHeFltTolPowerSupplyHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.9.3.1.15
+            type: DisplayString
+        - name: cpqHeFltTolPowerSupplyCapacityUsed
+          oid: 1.3.6.1.4.1.232.6.2.9.3.1.7
+          type: gauge
+          help: The currently used capacity of the power supply in watts. - 1.3.6.1.4.1.232.6.2.9.3.1.7
+          indexes:
+          - labelname: cpqHeFltTolPowerSupplyChassis
+            type: gauge
+          - labelname: cpqHeFltTolPowerSupplyBay
+            type: gauge
+          lookups:
+          - labels:
+            - cpqHeFltTolPowerSupplyChassis
+            - cpqHeFltTolPowerSupplyBay
+            labelname: cpqHeFltTolPowerSupplyHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.9.3.1.15
+            type: DisplayString
+        - name: cpqHeFltTolPowerSupplyCapacityMaximum
+          oid: 1.3.6.1.4.1.232.6.2.9.3.1.8
+          type: gauge
+          help: The maximum capacity of the power supply in watts. - 1.3.6.1.4.1.232.6.2.9.3.1.8
+          indexes:
+          - labelname: cpqHeFltTolPowerSupplyChassis
+            type: gauge
+          - labelname: cpqHeFltTolPowerSupplyBay
+            type: gauge
+          lookups:
+          - labels:
+            - cpqHeFltTolPowerSupplyChassis
+            - cpqHeFltTolPowerSupplyBay
+            labelname: cpqHeFltTolPowerSupplyHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.9.3.1.15
+            type: DisplayString
+        - name: cpqHeFltTolPowerSupplyRedundant
+          oid: 1.3.6.1.4.1.232.6.2.9.3.1.9
+          type: gauge
+          help: The redundancy state of the power supply - 1.3.6.1.4.1.232.6.2.9.3.1.9
+          indexes:
+          - labelname: cpqHeFltTolPowerSupplyChassis
+            type: gauge
+          - labelname: cpqHeFltTolPowerSupplyBay
+            type: gauge
+          enum_values:
+            1: other
+            2: notRedundant
+            3: redundant
+          lookups:
+          - labels:
+            - cpqHeFltTolPowerSupplyChassis
+            - cpqHeFltTolPowerSupplyBay
+            labelname: cpqHeFltTolPowerSupplyHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.9.3.1.15
+            type: DisplayString
+        - name: cpqHeResMem2ModuleSize
+          oid: 1.3.6.1.4.1.232.6.2.14.13.1.6
+          type: gauge
+          help: Module memory size in kilobytes - 1.3.6.1.4.1.232.6.2.14.13.1.6
+          indexes:
+          - labelname: cpqHeResMem2Module
+            type: gauge
+          lookups:
+          - labels:
+            - cpqHeResMem2Module
+            labelname: cpqHeResMem2ModuleHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.14.13.1.13
+            type: DisplayString
+        - name: cpqDaCntlrCondition
+          oid: 1.3.6.1.4.1.232.3.2.2.1.1.6
+          type: gauge
+          help: The condition of the device - 1.3.6.1.4.1.232.3.2.2.1.1.6
+          indexes:
+          - labelname: cpqDaCntlrIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqDaLogDrvStatus
+          oid: 1.3.6.1.4.1.232.3.2.3.1.1.4
+          type: gauge
+          help: Logical Drive Status - 1.3.6.1.4.1.232.3.2.3.1.1.4
+          indexes:
+          - labelname: cpqDaLogDrvCntlrIndex
+            type: gauge
+          - labelname: cpqDaLogDrvIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: failed
+            4: unconfigured
+            5: recovering
+            6: readyForRebuild
+            7: rebuilding
+            8: wrongDrive
+            9: badConnect
+            10: overheating
+            11: shutdown
+            12: expanding
+            13: notAvailable
+            14: queuedForExpansion
+            15: multipathAccessDegraded
+            16: erasing
+            17: predictiveSpareRebuildReady
+            18: rapidParityInitInProgress
+            19: rapidParityInitPending
+            20: noAccessEncryptedNoCntlrKey
+            21: unencryptedToEncryptedInProgress
+            22: newLogDrvKeyRekeyInProgress
+            23: noAccessEncryptedCntlrEncryptnNotEnbld
+            24: unencryptedToEncryptedNotStarted
+            25: newLogDrvKeyRekeyRequestReceived
+            26: unsupported
+            27: offline
+            28: sedQualInProgrss
+            29: sedQualFailed
+        - name: cpqDaLogDrvCondition
+          oid: 1.3.6.1.4.1.232.3.2.3.1.1.11
+          type: gauge
+          help: The Logical Drive condition - 1.3.6.1.4.1.232.3.2.3.1.1.11
+          indexes:
+          - labelname: cpqDaLogDrvCntlrIndex
+            type: gauge
+          - labelname: cpqDaLogDrvIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqDaPhyDrvStatus
+          oid: 1.3.6.1.4.1.232.3.2.5.1.1.6
+          type: gauge
+          help: Physical Drive Status - 1.3.6.1.4.1.232.3.2.5.1.1.6
+          indexes:
+          - labelname: cpqDaPhyDrvCntlrIndex
+            type: gauge
+          - labelname: cpqDaPhyDrvIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: failed
+            4: predictiveFailure
+            5: erasing
+            6: eraseDone
+            7: eraseQueued
+            8: ssdWearOut
+            9: notAuthenticated
+        - name: cpqDaPhyDrvCondition
+          oid: 1.3.6.1.4.1.232.3.2.5.1.1.37
+          type: gauge
+          help: The condition of the device - 1.3.6.1.4.1.232.3.2.5.1.1.37
+          indexes:
+          - labelname: cpqDaPhyDrvCntlrIndex
+            type: gauge
+          - labelname: cpqDaPhyDrvIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+        - name: cpqDaPhyDrvCurrentTemperature
+          oid: 1.3.6.1.4.1.232.3.2.5.1.1.70
+          type: gauge
+          help: Drive Array Physical Drive Current Temperature - 1.3.6.1.4.1.232.3.2.5.1.1.70
+          indexes:
+          - labelname: cpqDaPhyDrvCntlrIndex
+            type: gauge
+          - labelname: cpqDaPhyDrvIndex
+            type: gauge
+        - name: cpqHeFltTolFanPresent
+          oid: 1.3.6.1.4.1.232.6.2.6.7.1.4
+          type: gauge
+          help: This specifies if the fan described is present in the system.
+          indexes:
+          - labelname: cpqHeFltTolFanChassis
+            type: gauge
+          - labelname: cpqHeFltTolFanIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: absent
+            3: present
+          lookups:
+          - labels:
+            - cpqHeFltTolFanChassis
+            - cpqHeFltTolFanIndex
+            labelname: cpqHeFltTolFanHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.7.1.11
+            type: DisplayString
+        - name: cpqHeFltTolFanCondition
+          oid: 1.3.6.1.4.1.232.6.2.6.7.1.9
+          type: gauge
+          help: The condition of the fan.
+          indexes:
+          - labelname: cpqHeFltTolFanChassis
+            type: gauge
+          - labelname: cpqHeFltTolFanIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: failed
+          lookups:
+          - labels:
+            - cpqHeFltTolFanChassis
+            - cpqHeFltTolFanIndex
+            labelname: cpqHeFltTolFanHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.7.1.11
+            type: DisplayString
+        - name: cpqHeFltTolFanSpeed
+          oid: 1.3.6.1.4.1.232.6.2.6.7.1.6
+          type: gauge
+          help: This specifies the speed of the fan.
+          indexes:
+          - labelname: cpqHeFltTolFanChassis
+            type: gauge
+          - labelname: cpqHeFltTolFanIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: normal
+            3: high
+          lookups:
+          - labels:
+            - cpqHeFltTolFanChassis
+            - cpqHeFltTolFanIndex
+            labelname: cpqHeFltTolFanHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.7.1.11
+            type: DisplayString
+        - name: cpqHeFltTolFanRedundant
+          oid: 1.3.6.1.4.1.232.6.2.6.7.1.7
+          type: gauge
+          help: This specifies if the fan is in a redundant configuration.
+          indexes:
+          - labelname: cpqHeFltTolFanChassis
+            type: gauge
+          - labelname: cpqHeFltTolFanIndex
+            type: gauge
+          enum_values:
+            1: other
+            2: notRedundant
+            3: redundant
+          lookups:
+          - labels:
+            - cpqHeFltTolFanChassis
+            - cpqHeFltTolFanIndex
+            labelname: cpqHeFltTolFanHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.6.7.1.11
+            type: DisplayString
+        - name: cpqHeResMem2ModuleStatus
+          oid: 1.3.6.1.4.1.232.6.2.14.13.1.19
+          type: gauge
+          help: This provides the current status of the correctable memory errors for this memory module.
+          indexes:
+          - labelname: cpqHeResMem2Module
+            type: gauge
+          enum_values:
+            1: other
+            2: notPresent
+            3: present
+            4: good
+            5: add
+            6: upgrade
+            7: missing
+            8: doesNotMatch
+            9: notSupported
+            10: badConfig
+            11: degraded
+            12: spare
+            13: partial
+            14: configError
+            15: trainingFailure
+          lookups:
+          - labels:
+            - cpqHeResMem2Module
+            labelname: cpqHeResMem2ModuleHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.14.13.1.13
+            type: DisplayString
+        - name: cpqHeResMem2ModuleCondition
+          oid: 1.3.6.1.4.1.232.6.2.14.13.1.20
+          type: gauge
+          help: This provides the current status of the correctable memory errors for this memory module.
+          indexes:
+          - labelname: cpqHeResMem2Module
+            type: gauge
+          enum_values:
+            1: other
+            2: ok
+            3: degraded
+            4: degradedModuleIndexUnknown
+          lookups:
+          - labels:
+            - cpqHeResMem2Module
+            labelname: cpqHeResMem2ModuleHwLocation
+            oid: 1.3.6.1.4.1.232.6.2.14.13.1.13
+            type: DisplayString

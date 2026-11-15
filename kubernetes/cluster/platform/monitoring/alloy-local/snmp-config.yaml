@@ -27,5 +27,29 @@ data:
         "device_type": "truenas",
         "source": "snmp",
         "enabled": "true"
+      },
+      {
+        "name": "ilo-hype01",
+        "address": "ilo-hype01.local.tam.land:161",
+        "auth": "ilo_hype01_v3",
+        "module": "system,hpe_ilo4",
+        "walk_params": "appliances",
+        "host": "ilo-hype01.local.tam.land",
+        "server": "hype01.local.tam.land",
+        "device_type": "ilo4",
+        "source": "snmp",
+        "enabled": "true"
+      },
+      {
+        "name": "ilo-hypestore",
+        "address": "ilo-hypestore.local.tam.land:161",
+        "auth": "ilo_hypestore_v3",
+        "module": "system,hpe_ilo4",
+        "walk_params": "appliances",
+        "host": "ilo-hypestore.local.tam.land",
+        "server": "hypestore.local.tam.land",
+        "device_type": "ilo4",
+        "source": "snmp",
+        "enabled": "true"
       }
     ]

@@ -33,3 +33,13 @@ the guest and ZFS pool/dataset/zvol metrics.
       with the storage presented to TrueNAS.
 - [ ] Add disk-health alerts and verify collection does not unnecessarily wake
       disks configured to sleep.
+
+## HPE iLO 4
+
+- [ ] Add dashboards and alerts for scrape failures, overall hardware condition,
+      temperature thresholds, fans, PSU redundancy and memory errors. Respect
+      each metric's enum and planned server shutdowns.
+- [ ] Compare exposed storage OIDs on both Gen8 platforms with existing Zabbix
+      checks; assess AMS only if required data is missing.
+- [ ] Verify forwarded IML hardware events and add event alerts where needed;
+      polling and remote syslog do not import historical event logs.
