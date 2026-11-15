@@ -8,7 +8,7 @@ The Talos reader matches only `/var/log/*.log`. It excludes rotated files and
 the `pods` and `containers` directories, which prevents collecting pod logs twice.
 Talos streams have `site="thebridge"`, `cluster="tamland"`, `source="talos"`,
 `job="talos"`, `node`, `host`, `service` (the log filename without `.log`), and
-`filename` labels. Original lines are preserved because service formats vary;
+`filename` labels. ANSI colour codes are removed; log payloads are otherwise preserved.
 Loki timestamps represent collection time rather than parsed source timestamps.
 
 New files start at the end on first discovery, so deployment does not backfill
@@ -41,3 +41,39 @@ count by (job) (up{site="thebridge", job=~"kubernetes-nodes.*"})
 This change adds labels to new samples only; older data retains its original
 labels. The existing Kubernetes API pod-log reader has separate restart/replay
 behavior and is unchanged by the Talos file checkpoints.
+
+## Severity classification
+
+The Talos pipeline adds a bounded `level` label for new entries so Grafana can
+classify these formats without relying on words inside the message:
+
+| Format | Classification |
+| --- | --- |
+| Talos console logs, including coloured controller-runtime/DNS output | The explicit level after the ISO timestamp |
+| JSON from etcd/containerd and other structured services | The top-level `level` field |
+| Kubelet JSON without a level | A nonempty `err` field means error; otherwise a `msg` field means info |
+| Klog text | `I`, `W`, `E`, `F` prefixes map to info, warn, error, fatal |
+| Kernel logs | The explicit severity after `kern:`; notice maps to info |
+| Machined RPC result lines | OK/Canceled map to info; Internal/Unavailable/Unknown/DataLoss/DeadlineExceeded/ResourceExhausted map to error; other recognized statuses map to warn |
+| Audit records, authorization traces and unrecognized/malformed formats | unknown |
+
+Machined's RPC mapping is a collection policy based on operation outcomes, not
+a severity emitted by its logger. Its `rpc_code` label retains the original
+bounded status value. For explicit levels, warning maps to warn, err to error,
+panic/dpanic to fatal, and crit/alert/emerg to critical. Other severity values
+remain unknown. A message mentioning an error does not override its source's
+explicit info/debug severity.
+
+Audit records describe security events rather than log severity. In particular,
+an audit `success=no` is not automatically a system error; evaluate those records
+with audit-specific queries or alerts. Unknown is an intentional classification
+for records without enough information, not evidence of failed ingestion.
+
+```logql
+{site="thebridge", source="talos", level=~"warn|error|critical|fatal"}
+{site="thebridge", source="talos", service="kubelet", level="error"}
+{site="thebridge", source="talos", service="machined", rpc_code="PermissionDenied"}
+```
+
+The change does not reclassify historical entries. Inspect a recent time range
+after the DaemonSet reloads when checking the new labels.

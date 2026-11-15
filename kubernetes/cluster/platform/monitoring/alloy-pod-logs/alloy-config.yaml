@@ -130,7 +130,81 @@ data:
       stage.labels {
         values = { service = "" }
       }
-      // Talos services use different formats. Preserve the original lines;
-      // Loki uses collection time, with source timestamps retained in the text.
+
+      // Talos console loggers wrap levels in ANSI colour codes.
+      stage.decolorize {}
+
+      // Structured etcd/containerd logs have a level. Kubelet's JSON logger
+      // instead distinguishes errors with an err field and info with msg.
+      stage.match {
+        selector = `{source="talos"} |~ "^\\s*\\{"`
+        stage.json {
+          expressions = {
+            json_level   = "level",
+            json_error   = "err",
+            json_message = "msg",
+          }
+        }
+      }
+      stage.regex {
+        expression = `^\d{4}-\d{2}-\d{2}T\S+\s+(?P<console_level>TRACE|DEBUG|INFO|WARN|WARNING|ERROR|DPANIC|PANIC|FATAL)\s`
+      }
+      stage.regex {
+        expression = `^kern:\s*(?P<kernel_level>emerg|alert|crit|err|error|warn|warning|notice|info|debug):`
+      }
+      stage.regex {
+        expression = `^(?P<klog_level>[IWEF])\d{4}\s+\d{2}:\d{2}:\d{2}\.\d+\s`
+      }
+      // A machined RPC status is an outcome, not a logger severity. Classify
+      // successful/cancelled calls as info, server faults as error, others warn.
+      stage.regex {
+        expression = `^\d{4}/\d{2}/\d{2} [0-9:.]+ machined (?P<rpc_code>OK|Canceled|Unknown|InvalidArgument|DeadlineExceeded|NotFound|AlreadyExists|PermissionDenied|ResourceExhausted|FailedPrecondition|Aborted|OutOfRange|Unimplemented|Internal|Unavailable|DataLoss|Unauthenticated) \[`
+      }
+      stage.template {
+        source = "level"
+        template = `{{- if .json_level -}}
+          {{ .json_level }}
+        {{- else if .console_level -}}
+          {{ .console_level }}
+        {{- else if .kernel_level -}}
+          {{ .kernel_level }}
+        {{- else if .klog_level -}}
+          {{ .klog_level }}
+        {{- else if and (eq .service "kubelet") .json_error -}}
+          error
+        {{- else if and (eq .service "kubelet") .json_message -}}
+          info
+        {{- else if .rpc_code -}}
+          {{- if or (eq .rpc_code "OK") (eq .rpc_code "Canceled") -}}
+            info
+          {{- else if or (eq .rpc_code "Internal") (eq .rpc_code "Unavailable") (eq .rpc_code "Unknown") (eq .rpc_code "DataLoss") (eq .rpc_code "DeadlineExceeded") (eq .rpc_code "ResourceExhausted") -}}
+            error
+          {{- else -}}
+            warn
+          {{- end -}}
+        {{- else -}}
+          unknown
+        {{- end -}}`
+      }
+      stage.template {
+        source = "level"
+        template = `{{- $level := ToLower .Value -}}
+        {{- if or (eq $level "i") (eq $level "info") (eq $level "informational") (eq $level "notice") -}}info
+        {{- else if or (eq $level "w") (eq $level "warn") (eq $level "warning") -}}warn
+        {{- else if or (eq $level "e") (eq $level "err") (eq $level "error") -}}error
+        {{- else if or (eq $level "f") (eq $level "fatal") (eq $level "panic") (eq $level "dpanic") -}}fatal
+        {{- else if or (eq $level "crit") (eq $level "critical") (eq $level "alert") (eq $level "emerg") (eq $level "emergency") -}}critical
+        {{- else if or (eq $level "trace") (eq $level "debug") -}}{{ $level }}
+        {{- else -}}unknown
+        {{- end -}}`
+      }
+      stage.labels {
+        values = {
+          level    = "",
+          rpc_code = "",
+        }
+      }
+      // Keep the payload (apart from ANSI colours) and collection timestamp.
+      // Audit records and unrecognised formats have no inferred severity.
       forward_to = [loki.write.tamland_loki.receiver]
     }
