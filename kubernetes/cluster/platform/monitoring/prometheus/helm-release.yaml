@@ -38,6 +38,12 @@ spec:
       failureThreshold: 60
       timeoutSeconds: 10
     scrapeConfigs:
+      kubernetes-nodes:
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: site
+            replacement: thebridge
       kubernetes-nodes-cadvisor:
         # Helm replaces relabel lists: retain the chart's node/path rules.
         relabel_configs:
@@ -103,5 +109,9 @@ spec:
       enabled: true
     prometheus-node-exporter:
       enabled: true
+      service:
+        # The service-endpoints job copies Service labels onto every target.
+        labels:
+          site: thebridge
     prometheus-pushgateway:
       enabled: false

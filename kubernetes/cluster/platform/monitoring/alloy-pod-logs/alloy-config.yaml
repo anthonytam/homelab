@@ -18,7 +18,7 @@ data:
       }
     }
 
-    // K8S Pod disovery on local node
+    // K8S Pod discovery on local node
     discovery.kubernetes "log_pods" {
       role = "pod"
 
@@ -98,5 +98,39 @@ data:
         }
       }
       stage.decolorize {}
+      forward_to = [loki.write.tamland_loki.receiver]
+    }
+
+    // Only top-level Talos service logs; pod/container logs use the API above.
+    local.file_match "talos" {
+      path_targets = [{
+        __path__ = "/var/log/*.log",
+        job      = "talos",
+        cluster  = "tamland",
+        site     = "thebridge",
+        source   = "talos",
+        node     = coalesce(sys.env("HOSTNAME"), constants.hostname),
+        host     = coalesce(sys.env("HOSTNAME"), constants.hostname),
+      }]
+      sync_period = "10s"
+    }
+
+    loki.source.file "talos" {
+      targets       = local.file_match.talos.targets
+      forward_to    = [loki.process.talos.receiver]
+      // Apply only when no saved position exists; restarts resume saved offsets.
+      tail_from_end = true
+    }
+
+    loki.process "talos" {
+      stage.regex {
+        source     = "filename"
+        expression = "/(?P<service>[^/]+)\\.log$"
+      }
+      stage.labels {
+        values = { service = "" }
+      }
+      // Talos services use different formats. Preserve the original lines;
+      // Loki uses collection time, with source timestamps retained in the text.
       forward_to = [loki.write.tamland_loki.receiver]
     }

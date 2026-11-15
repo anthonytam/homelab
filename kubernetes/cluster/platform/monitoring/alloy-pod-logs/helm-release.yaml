@@ -16,6 +16,13 @@ spec:
       interval: 1h
   values:
     alloy:
+      # Persist file offsets across pod replacements on the same Talos node.
+      storagePath: /var/lib/alloy/data
+      mounts:
+        varlog: true
+        extra:
+          - name: alloy-data
+            mountPath: /var/lib/alloy/data
       configMap:
         create: false
         name: alloy-pod-logs-config
@@ -28,6 +35,12 @@ spec:
           memory: 512Mi
     controller:
       type: daemonset
+      volumes:
+        extra:
+          - name: alloy-data
+            hostPath:
+              path: /var/lib/alloy-pod-logs
+              type: DirectoryOrCreate
       podAnnotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "12345"
