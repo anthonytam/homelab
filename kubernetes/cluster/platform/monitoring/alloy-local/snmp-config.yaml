@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alloy-local-snmp-config
+  namespace: monitoring
+data:
+  targets.json: |
+    [
+      {
+        "name": "pf01",
+        "address": "10.200.11.1:161",
+        "auth": "pfsense_v3",
+        "module": "system,if_mib,hrDevice,hrStorage,hrSystem,ucd_memory,ucd_system_stats,ucd_la_table",
+        "walk_params": "appliances",
+        "host": "pf01.local.tam.land",
+        "device_type": "pfsense",
+        "source": "snmp",
+        "enabled": "true"
+      }
+    ]

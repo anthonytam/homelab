@@ -5,3 +5,5 @@ resources:
   - helm-release.yaml
   - persistence.yaml
   - service.yaml
+  - snmp-config.yaml
+  - snmp-auth-secret.sops.yaml

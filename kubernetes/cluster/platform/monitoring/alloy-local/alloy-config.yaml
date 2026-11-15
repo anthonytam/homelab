@@ -96,6 +96,61 @@ data:
       }
     }
 
+    // Credentials are decrypted by Flux and projected as a read-only Secret.
+    // Full-directory mounts allow local.file to pick up Secret updates.
+    local.file "snmp_auth" {
+      filename  = "/etc/alloy/snmp-auth/snmp.yml"
+      is_secret = true
+    }
+
+    local.file "snmp_targets" {
+      filename = "/etc/alloy/snmp/targets.json"
+    }
+
+    prometheus.exporter.snmp "appliances" {
+      // Keep the standard modules embedded in the pinned Alloy image, and
+      // merge only our private authentication profiles into that configuration.
+      config                = local.file.snmp_auth.content
+      config_merge_strategy = "merge"
+      targets               = encoding.from_json(local.file.snmp_targets.content)
+
+      walk_param "appliances" {
+        max_repetitions = 25
+        retries         = 1
+        timeout         = "5s"
+      }
+    }
+
+    discovery.relabel "snmp" {
+      targets = prometheus.exporter.snmp.appliances.targets
+
+      // A target must be explicitly enabled after credentials are populated.
+      rule {
+        source_labels = ["enabled"]
+        regex         = "true"
+        action        = "keep"
+      }
+      rule {
+        source_labels = ["__param_target"]
+        target_label  = "instance"
+      }
+      rule {
+        target_label = "job"
+        replacement  = "integrations/snmp"
+      }
+      rule {
+        action = "labeldrop"
+        regex  = "enabled"
+      }
+    }
+
+    prometheus.scrape "snmp" {
+      targets         = discovery.relabel.snmp.output
+      scrape_interval = "60s"
+      scrape_timeout  = "45s"
+      forward_to      = [prometheus.relabel.local.receiver]
+    }
+
     // Prometheus remote-write endpoint for host agents.
     prometheus.receive_http "agents" {
       http {
