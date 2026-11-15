@@ -1,0 +1,317 @@
+# TrueNAS CORE 13.0-U6.8, FREENAS-MIB (not the SCALE TRUENAS-MIB).
+# Source revision: truenas/middleware 5021f909d2f5476f918a185d87d66b958477028f
+# MIB: src/freenas/usr/local/share/snmp/mibs/FREENAS-MIB.txt
+# Units/counter semantics checked against src/freenas/usr/local/bin/snmp-agent.py.
+# Hardware temperatures, SMART, and physical errors belong to HypeStore.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alloy-local-snmp-modules
+  namespace: monitoring
+data:
+  modules.yml: |
+    modules:
+      truenas_core13:
+        walk:
+        - 1.3.6.1.4.1.50536.1.1.1
+        - 1.3.6.1.4.1.50536.1.2.1
+        - 1.3.6.1.4.1.50536.1.3.1
+        - 1.3.6.1.4.1.50536.1.4
+        - 1.3.6.1.4.1.50536.1.5.5
+        metrics:
+        - name: zpoolAllocationUnits
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.3
+          type: gauge
+          help: Bytes per allocation unit.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolSize
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.4
+          type: gauge
+          help: Capacity in allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolUsed
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.5
+          type: gauge
+          help: Used allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolAvailable
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.6
+          type: gauge
+          help: Available allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolHealth
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.7
+          type: gauge
+          help: 'Pool health: 0 online, 1 degraded, 2 faulted, 3 offline, 4 unavail, 5 removed.'
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolReadOps
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.8
+          type: counter
+          help: Cumulative logical pool read operations since import/boot.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolWriteOps
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.9
+          type: counter
+          help: Cumulative logical pool write operations since import/boot.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolReadBytes
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.10
+          type: counter
+          help: Cumulative logical pool bytes read since import/boot.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: zpoolWriteBytes
+          oid: 1.3.6.1.4.1.50536.1.1.1.1.11
+          type: counter
+          help: Cumulative logical pool bytes written since import/boot.
+          indexes:
+          - labelname: zpoolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zpoolIndex
+            labelname: zpoolDescr
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+        - name: datasetAllocationUnits
+          oid: 1.3.6.1.4.1.50536.1.2.1.1.3
+          type: gauge
+          help: Bytes per allocation unit.
+          indexes:
+          - labelname: datasetIndex
+            type: gauge
+          lookups:
+          - labels:
+            - datasetIndex
+            labelname: datasetDescr
+            oid: 1.3.6.1.4.1.50536.1.2.1.1.2
+            type: DisplayString
+        - name: datasetSize
+          oid: 1.3.6.1.4.1.50536.1.2.1.1.4
+          type: gauge
+          help: Capacity in allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: datasetIndex
+            type: gauge
+          lookups:
+          - labels:
+            - datasetIndex
+            labelname: datasetDescr
+            oid: 1.3.6.1.4.1.50536.1.2.1.1.2
+            type: DisplayString
+        - name: datasetUsed
+          oid: 1.3.6.1.4.1.50536.1.2.1.1.5
+          type: gauge
+          help: Used allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: datasetIndex
+            type: gauge
+          lookups:
+          - labels:
+            - datasetIndex
+            labelname: datasetDescr
+            oid: 1.3.6.1.4.1.50536.1.2.1.1.2
+            type: DisplayString
+        - name: datasetAvailable
+          oid: 1.3.6.1.4.1.50536.1.2.1.1.6
+          type: gauge
+          help: Available allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: datasetIndex
+            type: gauge
+          lookups:
+          - labels:
+            - datasetIndex
+            labelname: datasetDescr
+            oid: 1.3.6.1.4.1.50536.1.2.1.1.2
+            type: DisplayString
+        - name: zvolAllocationUnits
+          oid: 1.3.6.1.4.1.50536.1.3.1.1.3
+          type: gauge
+          help: Bytes per allocation unit.
+          indexes:
+          - labelname: zvolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zvolIndex
+            labelname: zvolDescr
+            oid: 1.3.6.1.4.1.50536.1.3.1.1.2
+            type: DisplayString
+        - name: zvolSize
+          oid: 1.3.6.1.4.1.50536.1.3.1.1.4
+          type: gauge
+          help: Capacity in allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: zvolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zvolIndex
+            labelname: zvolDescr
+            oid: 1.3.6.1.4.1.50536.1.3.1.1.2
+            type: DisplayString
+        - name: zvolUsed
+          oid: 1.3.6.1.4.1.50536.1.3.1.1.5
+          type: gauge
+          help: Used allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: zvolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zvolIndex
+            labelname: zvolDescr
+            oid: 1.3.6.1.4.1.50536.1.3.1.1.2
+            type: DisplayString
+        - name: zvolAvailable
+          oid: 1.3.6.1.4.1.50536.1.3.1.1.6
+          type: gauge
+          help: Available allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: zvolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zvolIndex
+            labelname: zvolDescr
+            oid: 1.3.6.1.4.1.50536.1.3.1.1.2
+            type: DisplayString
+        - name: zvolReferenced
+          oid: 1.3.6.1.4.1.50536.1.3.1.1.7
+          type: gauge
+          help: Referenced allocation units; multiply by the matching AllocationUnits.
+          indexes:
+          - labelname: zvolIndex
+            type: gauge
+          lookups:
+          - labels:
+            - zvolIndex
+            labelname: zvolDescr
+            oid: 1.3.6.1.4.1.50536.1.3.1.1.2
+            type: DisplayString
+        - name: truenas_zfs_arc_size_bytes
+          oid: 1.3.6.1.4.1.50536.1.4.1
+          type: gauge
+          help: ARC size in bytes; CORE 13 agent reports KiB.
+          scale: 1024
+        - name: truenas_zfs_arc_metadata_bytes
+          oid: 1.3.6.1.4.1.50536.1.4.2
+          type: gauge
+          help: ARC metadata in bytes; CORE 13 agent reports KiB.
+          scale: 1024
+        - name: truenas_zfs_arc_data_bytes
+          oid: 1.3.6.1.4.1.50536.1.4.3
+          type: gauge
+          help: ARC data in bytes; CORE 13 agent reports KiB.
+          scale: 1024
+        - name: truenas_zfs_arc_target_bytes
+          oid: 1.3.6.1.4.1.50536.1.4.6
+          type: gauge
+          help: ARC target in bytes; CORE 13 agent reports KiB.
+          scale: 1024
+        - name: truenas_zfs_arc_mru_target_bytes
+          oid: 1.3.6.1.4.1.50536.1.4.7
+          type: gauge
+          help: ARC mru target in bytes; CORE 13 agent reports KiB.
+          scale: 1024
+        - name: truenas_zfs_arc_hits_total
+          oid: 1.3.6.1.4.1.50536.1.4.4
+          type: counter
+          help: Cumulative ARC hits; the CORE 13 agent wraps this value at 2^32.
+        - name: truenas_zfs_arc_misses_total
+          oid: 1.3.6.1.4.1.50536.1.4.5
+          type: counter
+          help: Cumulative ARC misses; the CORE 13 agent wraps this value at 2^32.
+        - name: truenas_zfs_arc_miss_percent
+          oid: 1.3.6.1.4.1.50536.1.4.8
+          type: DisplayString
+          help: ARC miss percentage (0-100), parsed from the CORE agent string.
+          regex_extracts:
+            '':
+            - regex: ([0-9]+(?:\.[0-9]+)?)
+              value: $1
+        - name: truenas_zfs_arc_cache_hit_percent
+          oid: 1.3.6.1.4.1.50536.1.4.9
+          type: DisplayString
+          help: ARC cache hit percentage (0-100), parsed from the CORE agent string.
+          regex_extracts:
+            '':
+            - regex: ([0-9]+(?:\.[0-9]+)?)
+              value: $1
+        - name: truenas_zfs_arc_cache_miss_percent
+          oid: 1.3.6.1.4.1.50536.1.4.10
+          type: DisplayString
+          help: ARC cache miss percentage (0-100), parsed from the CORE agent string.
+          regex_extracts:
+            '':
+            - regex: ([0-9]+(?:\.[0-9]+)?)
+              value: $1
+        - name: truenas_zfs_l2arc_size_bytes
+          oid: 1.3.6.1.4.1.50536.1.5.5
+          type: gauge
+          help: L2ARC size in bytes; CORE 13 agent reports KiB.
+          scale: 1024

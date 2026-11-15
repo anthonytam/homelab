@@ -107,10 +107,14 @@ data:
       filename = "/etc/alloy/snmp/targets.json"
     }
 
+    local.file "snmp_modules" {
+      filename = "/etc/alloy/snmp-modules/modules.yml"
+    }
+
     prometheus.exporter.snmp "appliances" {
       // Keep the standard modules embedded in the pinned Alloy image, and
-      // merge only our private authentication profiles into that configuration.
-      config                = local.file.snmp_auth.content
+      // merge our private auth profiles and version-specific storage module.
+      config                = local.file.snmp_auth.content + "\n" + local.file.snmp_modules.content
       config_merge_strategy = "merge"
       targets               = encoding.from_json(local.file.snmp_targets.content)
 

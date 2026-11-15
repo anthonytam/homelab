@@ -16,5 +16,16 @@ data:
         "device_type": "pfsense",
         "source": "snmp",
         "enabled": "true"
+      },
+      {
+        "name": "truenas",
+        "address": "truenas.local.tam.land:161",
+        "auth": "truenas_v3",
+        "module": "system,if_mib,hrDevice,hrStorage,hrSystem,ucd_memory,ucd_system_stats,ucd_la_table,truenas_core13",
+        "walk_params": "appliances",
+        "host": "truenas.local.tam.land",
+        "device_type": "truenas",
+        "source": "snmp",
+        "enabled": "true"
       }
     ]

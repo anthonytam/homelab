@@ -51,6 +51,9 @@ spec:
           - name: snmp-auth
             mountPath: /etc/alloy/snmp-auth
             readOnly: true
+          - name: snmp-modules
+            mountPath: /etc/alloy/snmp-modules
+            readOnly: true
       extraPorts:
         - name: syslog-bsd-tcp
           port: 1514
@@ -118,3 +121,6 @@ spec:
             secret:
               secretName: alloy-local-snmp-auth
               defaultMode: 0440
+          - name: snmp-modules
+            configMap:
+              name: alloy-local-snmp-modules

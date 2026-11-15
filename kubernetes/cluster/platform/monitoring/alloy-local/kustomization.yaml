@@ -6,4 +6,5 @@ resources:
   - persistence.yaml
   - service.yaml
   - snmp-config.yaml
+  - snmp-modules.yaml
   - snmp-auth-secret.sops.yaml

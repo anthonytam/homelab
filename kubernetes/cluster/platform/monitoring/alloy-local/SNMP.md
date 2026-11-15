@@ -25,6 +25,63 @@ or CARP coverage. The built-in bsnmpd PF module does not automatically configure
 the replacement NET-SNMP agent. Check available OIDs before adding a PF module;
 these gaps must be addressed before retiring equivalent Zabbix checks.
 
+## TrueNAS CORE target
+
+`truenas.local.tam.land:161/UDP` uses its own `truenas_v3` authentication
+profile with SHA/AES `authPriv`. Its `host` is `truenas.local.tam.land`,
+`device_type` is `truenas`, and `site` is `thebridge`.
+
+It uses the same standard modules as pfSense plus `truenas_core13` from
+`snmp-modules.yaml`. The custom module collects pool health, capacity and
+cumulative logical I/O counters, dataset and zvol capacity, and ZFS ARC/L2ARC
+statistics. Pool, dataset and zvol names are retained as labels. It is pinned to
+the **CORE 13.0-U6.8 FREENAS-MIB** and its agent implementation; reassess the
+module before upgrading or migrating to SCALE.
+
+Important units and semantics:
+
+- Pool, dataset and zvol capacity values require multiplication by their
+  matching `AllocationUnits` metric to obtain bytes. These units are dynamic.
+- The custom ARC/L2ARC metrics ending in `_bytes` already convert the agent's
+  KiB values to bytes. Percentage metrics range from 0 to 100.
+- `zpoolHealth == 0` means online; 1 degraded, 2 faulted, 3 offline, 4 unavailable,
+  and 5 removed. Pool I/O metrics are cumulative counters; use `rate()`.
+- CORE exposes ARC hit/miss counters as 32-bit values, so they can wrap.
+- Dataset capacity shares pool space; summing dataset sizes double-counts it.
+
+For example, in Grafana Explore:
+
+```promql
+up{site="thebridge", host="truenas.local.tam.land", job="integrations/snmp"}
+zpoolHealth{site="thebridge", host="truenas.local.tam.land"}
+zpoolSize{site="thebridge", host="truenas.local.tam.land"}
+  * zpoolAllocationUnits{site="thebridge", host="truenas.local.tam.land"}
+100 * zpoolUsed{site="thebridge", host="truenas.local.tam.land"}
+  / zpoolSize{site="thebridge", host="truenas.local.tam.land"}
+rate(zpoolReadBytes{site="thebridge", host="truenas.local.tam.land"}[5m])
+truenas_zfs_arc_size_bytes{site="thebridge", host="truenas.local.tam.land"}
+```
+
+TrueNAS syslog uses the existing RFC 3164 listener at
+`telemetry.local.tam.land:514`, using TCP or UDP to match the appliance setting.
+Alloy extracts the hostname carried in the message into `host`; it also retains
+`source_ip`, `syslog_format="rfc3164"`, and `site="thebridge"`. The supplied
+hostname may be short rather than fully qualified. Find streams with:
+
+```logql
+{site="thebridge", source="syslog", syslog_format="rfc3164"}
+```
+
+Physical-disk temperatures, SMART status and hardware/controller errors belong
+to the **HypeStore Linux hypervisor**. This module does not walk the HDD
+temperature or LM-SENSORS branches. See `TODO.md` for that follow-up. Native
+TrueNAS alerts, replication/job results and full ZFS error/scrub details also
+need separate coverage before retiring their Zabbix checks.
+
+Mappings and units were checked against the release's
+[FREENAS-MIB](https://github.com/truenas/middleware/blob/5021f909d2f5476f918a185d87d66b958477028f/src/freenas/usr/local/share/snmp/mibs/FREENAS-MIB.txt)
+and [SNMP agent](https://github.com/truenas/middleware/blob/5021f909d2f5476f918a185d87d66b958477028f/src/freenas/usr/local/bin/snmp-agent.py).
+
 ## Credentials and activation
 
 `snmp-auth-secret.sops.yaml` is encrypted to the existing Kubernetes SOPS PGP
@@ -32,10 +89,10 @@ recipient. Flux's platform Kustomization decrypts it into the
 `alloy-local-snmp-auth` Secret. The pod mounts it read-only with group-readable
 permissions for Alloy's existing UID/GID 473. Alloy reads it with
 `local.file.is_secret = true`, which redacts it in the Alloy UI, and merges only
-the private auth profile into the standard exporter modules. Credentials do not
+the private auth profiles and custom module into the standard exporter modules. Credentials do not
 appear in the target list or scrape URL.
 
-The pfSense target is enabled after its passwords were populated locally.
+The pfSense and TrueNAS targets are enabled after their passwords were populated locally.
 Setting `"enabled": "false"` removes a target from the scrape list and prevents
 polling, without changing or removing its authentication profile. Keep new
 targets disabled until their real credentials are configured.
@@ -46,9 +103,9 @@ From the repository's `kubernetes` directory:
 sops edit cluster/platform/monitoring/alloy-local/snmp-auth-secret.sops.yaml
 ```
 
-Inside `stringData.snmp.yml`, set `password` to the NET-SNMP user's
+Inside the relevant profile in `stringData.snmp.yml`, set `password` to the SNMP user's
 authentication password and `priv_password` with its encryption passphrase.
-Leave `username: alloy`, `version: 3`, `security_level: authPriv`,
+Use the appliance's username (currently `alloy`), `version: 3`, `security_level: authPriv`,
 `auth_protocol: SHA`, and `priv_protocol: AES` intact. Save and close the editor;
 SOPS re-encrypts the Secret. Do not commit decrypted copies.
 
