@@ -33,7 +33,26 @@ data:
       }
     }
 
-    // Jobs
+    // Remote-site Alloy collectors supply their own site labels. Preserve them
+    // and the original log timestamps, including logs queued during WAN outages.
+    loki.source.api "remote_sites" {
+      http {
+        listen_address = "0.0.0.0"
+        listen_port    = 3100
+      }
+      use_incoming_timestamp = true
+      forward_to = [loki.write.tamland_loki.receiver]
+    }
+
+    prometheus.receive_http "remote_sites" {
+      http {
+        listen_address = "0.0.0.0"
+        listen_port    = 9999
+      }
+      forward_to = [prometheus.remote_write.tamland.receiver]
+    }
+
+    // Local Kubernetes events retain their own thebridge site label.
     import.file "kubernetes" {
       filename = "/etc/alloy/kubernetes-events.alloy"
     }

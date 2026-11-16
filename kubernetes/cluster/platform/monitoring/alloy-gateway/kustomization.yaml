@@ -4,3 +4,4 @@ resources:
   - alloy-config.yaml
   - helm-release.yaml
   - persistence.yaml
+  - service.yaml

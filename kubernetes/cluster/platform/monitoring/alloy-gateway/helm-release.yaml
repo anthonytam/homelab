@@ -21,6 +21,15 @@ spec:
         name: alloy-gateway-config
         key: config.alloy
       storagePath: /var/lib/alloy
+      extraPorts:
+        - name: loki-push
+          port: 3100
+          targetPort: 3100
+          protocol: TCP
+        - name: prom-write
+          port: 9999
+          targetPort: 9999
+          protocol: TCP
       mounts:
         extra:
           - name: allow-gateway-data
@@ -34,6 +43,9 @@ spec:
     controller:
       type: deployment
       replicas: 1
+      # A single writer owns the persistent metrics WAL.
+      updateStrategy:
+        type: Recreate
       podAnnotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "12345"
