@@ -1,3 +1,10 @@
+# hpe_comware: ENTITY-MIB and HH3C-ENTITY-EXT-MIB, HPE 5130 EI companion:
+# https://arubanetworking.hpe.com/techdocs/comware/MIB_files/HPE5130EICmwr7MIBCompanion.pdf
+# hpe_comware_poe: RFC 3621 POWER-ETHERNET-MIB and HH3C-POWER-ETH-EXT-MIB:
+# https://www.h3c.com/en/d_202603/2774558_294551_0.htm
+# https://wwwsg.h3c.com/en/d_202603/2773995_294551_0.htm
+# PoE support must be verified on each firmware. Retain its two-part port index;
+# it is not an IF-MIB ifIndex. Raw private PoE power readings are milliwatts.
 # TrueNAS CORE 13.0-U6.8, FREENAS-MIB (not the SCALE TRUENAS-MIB).
 # Source revision: truenas/middleware 5021f909d2f5476f918a185d87d66b958477028f
 # MIB: src/freenas/usr/local/share/snmp/mibs/FREENAS-MIB.txt
@@ -948,3 +955,326 @@ data:
             labelname: cpqHeResMem2ModuleHwLocation
             oid: 1.3.6.1.4.1.232.6.2.14.13.1.13
             type: DisplayString
+      hpe_comware:
+        walk:
+        - 1.3.6.1.2.1.47.1.1.1.1.2
+        - 1.3.6.1.2.1.47.1.1.1.1.5
+        - 1.3.6.1.2.1.47.1.1.1.1.7
+        - 1.3.6.1.4.1.25506.2.6.1.1.1.1.12
+        - 1.3.6.1.4.1.25506.2.6.1.1.1.1.13
+        - 1.3.6.1.4.1.25506.2.6.1.1.1.1.17
+        - 1.3.6.1.4.1.25506.2.6.1.1.1.1.19
+        - 1.3.6.1.4.1.25506.2.6.1.1.1.1.3
+        - 1.3.6.1.4.1.25506.2.6.1.1.1.1.6
+        - 1.3.6.1.4.1.25506.2.6.1.1.1.1.8
+        metrics:
+        - name: hh3cEntityExtCpuUsage
+          oid: 1.3.6.1.4.1.25506.2.6.1.1.1.1.6
+          type: gauge
+          help: Entity CPU utilization in percent (5-second interval).
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+        - name: hh3cEntityExtMemUsage
+          oid: 1.3.6.1.4.1.25506.2.6.1.1.1.1.8
+          type: gauge
+          help: Entity memory utilization in percent.
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+        - name: hh3cEntityExtTemperature
+          oid: 1.3.6.1.4.1.25506.2.6.1.1.1.1.12
+          type: gauge
+          help: Entity temperature in degrees Celsius; 65535 means unavailable on the 5130 EI.
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+        - name: hh3cEntityExtTemperatureThreshold
+          oid: 1.3.6.1.4.1.25506.2.6.1.1.1.1.13
+          type: gauge
+          help: Temperature warning threshold in degrees Celsius; 65535 means unavailable.
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+        - name: hh3cEntityExtCriticalTemperatureThreshold
+          oid: 1.3.6.1.4.1.25506.2.6.1.1.1.1.17
+          type: gauge
+          help: Critical temperature threshold in degrees Celsius; 65535 means unavailable.
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+        - name: hh3cEntityExtOperStatus
+          oid: 1.3.6.1.4.1.25506.2.6.1.1.1.1.3
+          type: gauge
+          help: 'Entity operating state: 1 notSupported, 2 disabled, 3 enabled, 4 dangerous.'
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+        - name: hh3cEntityExtErrorStatus
+          oid: 1.3.6.1.4.1.25506.2.6.1.1.1.1.19
+          type: gauge
+          help: 'Entity hardware error status: 2 normal, 3 POST failure, 4 absent; other codes identify specific faults.
+            Consult HH3C-ENTITY-EXT-MIB.'
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+        - name: entPhysicalClass
+          oid: 1.3.6.1.2.1.47.1.1.1.1.5
+          type: gauge
+          help: 'Physical entity class: 3 chassis, 6 powerSupply, 7 fan, 8 sensor, 9 module, 10 port, 11 stack, 12 cpu.'
+          indexes:
+          - labelname: entPhysicalIndex
+            type: gauge
+          lookups:
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalName
+            oid: 1.3.6.1.2.1.47.1.1.1.1.7
+            type: DisplayString
+          - labels:
+            - entPhysicalIndex
+            labelname: entPhysicalDescr
+            oid: 1.3.6.1.2.1.47.1.1.1.1.2
+            type: DisplayString
+      hpe_comware_poe:
+        walk:
+        - 1.3.6.1.2.1.105.1.1.1.3
+        - 1.3.6.1.2.1.105.1.1.1.6
+        - 1.3.6.1.2.1.105.1.1.1.7
+        - 1.3.6.1.2.1.105.1.1.1.8
+        - 1.3.6.1.2.1.105.1.1.1.10
+        - 1.3.6.1.2.1.105.1.1.1.11
+        - 1.3.6.1.2.1.105.1.1.1.12
+        - 1.3.6.1.2.1.105.1.1.1.13
+        - 1.3.6.1.2.1.105.1.1.1.14
+        - 1.3.6.1.2.1.105.1.3.1.1.2
+        - 1.3.6.1.2.1.105.1.3.1.1.3
+        - 1.3.6.1.2.1.105.1.3.1.1.4
+        - 1.3.6.1.2.1.105.1.3.1.1.5
+        - 1.3.6.1.4.1.25506.2.14.1.1.3
+        - 1.3.6.1.4.1.25506.2.14.1.1.4
+        - 1.3.6.1.4.1.25506.2.14.1.1.5
+        - 1.3.6.1.4.1.25506.2.14.1.1.6
+        metrics:
+        - name: pethPsePortAdminEnable
+          oid: 1.3.6.1.2.1.105.1.1.1.3
+          type: gauge
+          help: 'PoE administratively enabled: 1 true, 2 false.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortDetectionStatus
+          oid: 1.3.6.1.2.1.105.1.1.1.6
+          type: gauge
+          help: 'PoE detection status: 1 disabled, 2 searching, 3 deliveringPower, 4 fault, 5 test, 6 otherFault.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortPowerPriority
+          oid: 1.3.6.1.2.1.105.1.1.1.7
+          type: gauge
+          help: 'PoE port priority: 1 critical, 2 high, 3 low.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortMPSAbsentCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.8
+          type: counter
+          help: Count of powered-device disconnects detected by the maintain-power signature.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortPowerClassifications
+          oid: 1.3.6.1.2.1.105.1.1.1.10
+          type: gauge
+          help: 'PoE power classification: 1 class0, 2 class1, 3 class2, 4 class3, 5 class4.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortInvalidSignatureCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.11
+          type: counter
+          help: Count of invalid powered-device signatures.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortPowerDeniedCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.12
+          type: counter
+          help: Count of power-denied events on this PoE port.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortOverLoadCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.13
+          type: counter
+          help: Count of overload events on this PoE port.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortShortCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.14
+          type: counter
+          help: Count of short-circuit events on this PoE port.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethMainPsePower
+          oid: 1.3.6.1.2.1.105.1.3.1.1.2
+          type: gauge
+          help: Nominal PSE power capacity in watts.
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: pethMainPseOperStatus
+          oid: 1.3.6.1.2.1.105.1.3.1.1.3
+          type: gauge
+          help: 'PSE operational status: 1 on, 2 off, 3 faulty.'
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: pethMainPseConsumptionPower
+          oid: 1.3.6.1.2.1.105.1.3.1.1.4
+          type: gauge
+          help: PSE power consumption in watts.
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: pethMainPseUsageThreshold
+          oid: 1.3.6.1.2.1.105.1.3.1.1.5
+          type: gauge
+          help: Configured PSE power usage notification threshold in percent.
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: hh3cPsePortPeakPower
+          oid: 1.3.6.1.4.1.25506.2.14.1.1.3
+          type: gauge
+          help: Peak PoE port power in milliwatts; divide by 1000 for watts.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: hh3cPsePortAveragePower
+          oid: 1.3.6.1.4.1.25506.2.14.1.1.4
+          type: gauge
+          help: Average PoE port power in milliwatts; divide by 1000 for watts.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: hh3cPsePortCurrentPower
+          oid: 1.3.6.1.4.1.25506.2.14.1.1.5
+          type: gauge
+          help: Current PoE port power in milliwatts; divide by 1000 for watts.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: hh3cPsePortPowerLimit
+          oid: 1.3.6.1.4.1.25506.2.14.1.1.6
+          type: gauge
+          help: Configured PoE port power limit in milliwatts; divide by 1000 for watts.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge

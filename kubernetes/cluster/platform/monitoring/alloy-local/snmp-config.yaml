@@ -51,5 +51,16 @@ data:
         "device_type": "ilo4",
         "source": "snmp",
         "enabled": "true"
+      },
+      {
+        "name": "ups-acs01-hp-5130",
+        "address": "UPS-ACS01-HP-5130.local.tam.land:161",
+        "auth": "ups_acs01_hp_5130_v3",
+        "module": "system,if_mib,hpe_comware,hpe_comware_poe",
+        "walk_params": "appliances",
+        "host": "UPS-ACS01-HP-5130.local.tam.land",
+        "device_type": "hpe_comware",
+        "source": "snmp",
+        "enabled": "true"
       }
     ]
