@@ -2,7 +2,7 @@
 
 The existing `alloy-local` collector polls SNMP over UDP 161 every 60 seconds.
 The switch forwards syslog to `telemetry.local.tam.land` (10.200.12.12) over
-UDP 514. No additional exporter deployment or inbound SNMP service is needed.
+UDP 5514. No additional exporter deployment or inbound SNMP service is needed.
 
 | Switch | Management IP | Model | Firmware | Topology | SOPS auth profile |
 | --- | --- | --- | --- | --- | --- |
@@ -33,19 +33,34 @@ snmp-agent usm-user v3 alloy alloy-ro simple authentication-mode sha AUTH_PASSPH
 info-center enable
 info-center source default loghost level informational
 info-center timestamp loghost no-year-date
-info-center loghost 10.200.12.12 port 514 facility local7
+info-center loghost 10.200.12.12 port 5514 facility local7
 quit
 save safely
 ```
 
 Confirm the save prompt. The destination IP avoids a dependency on switch DNS.
 Comware's default loghost timestamp includes a year in a non-RFC-3164 position;
-`no-year-date` selects the BSD-style timestamp expected by the external port
-514 listener. That listener assigns receipt time, retaining the original
-message body. ISO timestamps alone do not make a message RFC 5424.
+`no-year-date` selects the BSD-style timestamp expected by the Comware parser.
+Release 3507-US appends a NUL byte to each UDP message. A captured fan event
+reproduced the standard RFC 3164 UDP parser silently treating the message as
+empty. Comware therefore uses its own **external UDP 5514** listener, mapped
+to container UDP 3514. Keep TrueNAS and other standard RFC 3164 senders on
+514, and RFC 5424 senders on 1514.
+
+The Comware listener uses raw input, strips trailing NUL bytes, and parses the header in
+`loki.process`. It preserves the sender IP, extracts the sysname, module,
+severity and event mnemonic, strips the NUL terminator, and forwards the
+original Comware message body with receipt time. Unmatched lines are retained
+with unknown severity. No device timestamp is trusted for ingestion. ISO
+timestamps alone do not make a message RFC 5424.
+
+Raw input is experimental in the pinned Alloy v1.16.3. The Helm release sets
+`alloy.stabilityLevel: experimental` for this listener. The image stays pinned;
+existing standard listeners keep their RFC parsers. Recheck the recorded
+packet and severity cases before upgrading Alloy.
 
 Permit collector egress to the management address on UDP 161, and switch
-egress to 10.200.12.12 on UDP 514. The telemetry VIP is an inbound address;
+egress to 10.200.12.12 on UDP 5514. The telemetry VIP is an inbound address;
 SNMP requests do not necessarily originate from 10.200.12.12. Any source ACL
 must allow the actual cluster egress addresses across collector rescheduling.
 No SNMP trap destination is required for polling.
@@ -117,7 +132,8 @@ hh3cPsePortCurrentPower{host="UPS-ACS01-HP-5130.local.tam.land"} / 1000
 pethMainPseConsumptionPower{host="UPS-ACS01-HP-5130.local.tam.land"}
 ```
 
-Syslog's `host` comes from the switch's sysname, which can differ from its DNS
+Syslog also includes `syslog_format="comware"`, `severity`, `level`, `app`
+and `comware_event` labels. Its `host` comes from the switch's sysname, which can differ from its DNS
 name. Its source IP follows routing unless a specific loghost source interface
 is configured. Start with:
 

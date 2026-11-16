@@ -29,6 +29,10 @@ spec:
       port: 1514
       targetPort: syslog-ietf-udp
       protocol: UDP
+    - name: syslog-comware
+      port: 5514
+      targetPort: syslog-comware
+      protocol: UDP
     - name: loki-push
       port: 3100
       targetPort: loki-push
