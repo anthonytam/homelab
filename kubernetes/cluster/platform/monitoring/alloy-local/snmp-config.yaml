@@ -62,5 +62,16 @@ data:
         "device_type": "hpe_comware",
         "source": "snmp",
         "enabled": "true"
+      },
+      {
+        "name": "bmt-acs01-hp-2530",
+        "address": "BMT-ACS01-HP-2530.local.tam.land:161",
+        "auth": "bmt_acs01_hp_2530_v3",
+        "module": "system,if_mib,hp_procurve,hp_procurve_poe",
+        "walk_params": "appliances",
+        "host": "BMT-ACS01-HP-2530.local.tam.land",
+        "device_type": "hp_procurve",
+        "source": "snmp",
+        "enabled": "true"
       }
     ]

@@ -1,3 +1,12 @@
+# hp_procurve: vendor-authored STATISTICS-MIB, NETSWITCH-MIB,
+# HP-ICF-CHASSIS, HP-ICF-POE-MIB and HP-ICF-OID, mirrored by LibreNMS:
+# https://github.com/librenms/librenms/tree/c5c3425c484d891510587f7c8c3727b5ace67b59/mibs/hp
+# SHA256 HP-ICF-CHASSIS: 108839866466007b991c9bb282ad7685107a40f5521b21adfc58c97c13598c88
+# SHA256 HP-ICF-POE-MIB: 6b48cb6dd94f413195b7c27c8f156fc7a743569c921a8dbddbec0aa38be2f5bf
+# SHA256 NETSWITCH-MIB: d3182ef544796d30881d42e6ec3279940680cec9b9313d1d562fe774193db439
+# SHA256 STATISTICS-MIB: 880fdf333ea0cede12c0e031bfe084765e0d9561b91bd567b55766805a1667d5
+# hp_procurve_poe also uses the same RFC 3621 definitions as Comware.
+# Sensor status uses 4=good; this differs from the iLO/Comware mappings.
 # hpe_comware: ENTITY-MIB and HH3C-ENTITY-EXT-MIB, HPE 5130 EI companion:
 # https://arubanetworking.hpe.com/techdocs/comware/MIB_files/HPE5130EICmwr7MIBCompanion.pdf
 # hpe_comware_poe: RFC 3621 POWER-ETHERNET-MIB and HH3C-POWER-ETH-EXT-MIB:
@@ -1273,6 +1282,284 @@ data:
           oid: 1.3.6.1.4.1.25506.2.14.1.1.6
           type: gauge
           help: Configured PoE port power limit in milliwatts; divide by 1000 for watts.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+      hp_procurve:
+        get:
+        - 1.3.6.1.4.1.11.2.14.11.5.1.9.6.1.0
+        walk:
+        - 1.3.6.1.4.1.11.2.14.11.1.2.6.1.4
+        - 1.3.6.1.4.1.11.2.14.11.1.2.6.1.5
+        - 1.3.6.1.4.1.11.2.14.11.1.2.6.1.6
+        - 1.3.6.1.4.1.11.2.14.11.1.2.6.1.7
+        - 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.2
+        - 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.3
+        - 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.6
+        - 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.7
+        - 1.3.6.1.4.1.11.2.14.11.5.1.1.2.2.1.1.5
+        - 1.3.6.1.4.1.11.2.14.11.5.1.1.2.2.1.1.6
+        - 1.3.6.1.4.1.11.2.14.11.5.1.1.2.2.1.1.7
+        metrics:
+        - name: hpSwitchCpuStat
+          oid: 1.3.6.1.4.1.11.2.14.11.5.1.9.6.1
+          type: gauge
+          help: Switch CPU utilization in percent.
+        - name: hpGlobalMemTotalBytes
+          oid: 1.3.6.1.4.1.11.2.14.11.5.1.1.2.2.1.1.5
+          type: gauge
+          help: Installed global memory in bytes.
+          indexes:
+          - labelname: hpGlobalMemSlotIndex
+            type: gauge
+        - name: hpGlobalMemFreeBytes
+          oid: 1.3.6.1.4.1.11.2.14.11.5.1.1.2.2.1.1.6
+          type: gauge
+          help: Available global memory in bytes.
+          indexes:
+          - labelname: hpGlobalMemSlotIndex
+            type: gauge
+        - name: hpGlobalMemAllocBytes
+          oid: 1.3.6.1.4.1.11.2.14.11.5.1.1.2.2.1.1.7
+          type: gauge
+          help: Allocated global memory in bytes.
+          indexes:
+          - labelname: hpGlobalMemSlotIndex
+            type: gauge
+        - name: hpicfSensorStatus
+          oid: 1.3.6.1.4.1.11.2.14.11.1.2.6.1.4
+          type: gauge
+          help: 'Hardware sensor status: 1 unknown, 2 bad, 3 warning, 4 good, 5 notPresent.'
+          indexes:
+          - labelname: hpicfSensorIndex
+            type: gauge
+          lookups:
+          - labels:
+            - hpicfSensorIndex
+            labelname: hpicfSensorDescr
+            oid: 1.3.6.1.4.1.11.2.14.11.1.2.6.1.7
+            type: DisplayString
+          enum_values:
+            1: unknown
+            2: bad
+            3: warning
+            4: good
+            5: notPresent
+        - name: hpicfSensorWarnings
+          oid: 1.3.6.1.4.1.11.2.14.11.1.2.6.1.5
+          type: counter
+          help: Number of times this hardware sensor entered warning state.
+          indexes:
+          - labelname: hpicfSensorIndex
+            type: gauge
+          lookups:
+          - labels:
+            - hpicfSensorIndex
+            labelname: hpicfSensorDescr
+            oid: 1.3.6.1.4.1.11.2.14.11.1.2.6.1.7
+            type: DisplayString
+        - name: hpicfSensorFailures
+          oid: 1.3.6.1.4.1.11.2.14.11.1.2.6.1.6
+          type: counter
+          help: Number of times this hardware sensor entered bad state.
+          indexes:
+          - labelname: hpicfSensorIndex
+            type: gauge
+          lookups:
+          - labels:
+            - hpicfSensorIndex
+            labelname: hpicfSensorDescr
+            oid: 1.3.6.1.4.1.11.2.14.11.1.2.6.1.7
+            type: DisplayString
+        - name: hpSystemAirCurrentTemp
+          oid: 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.3
+          type: DisplayString
+          help: Numeric chassis air temperature from HP-ICF-CHASSIS; unsupported/non-numeric readings produce no sample.
+          indexes:
+          - labelname: hpSystemAirSensor
+            type: gauge
+          lookups:
+          - labels:
+            - hpSystemAirSensor
+            labelname: hpSystemAirName
+            oid: 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.2
+            type: DisplayString
+          regex_extracts:
+            ? ''
+            : - regex: \s*([-+]?[0-9]+(?:\.[0-9]+)?)\s*(?:[cC])?\s*
+                value: $1
+        - name: hpSystemAirThresholdTemp
+          oid: 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.7
+          type: DisplayString
+          help: Numeric chassis air temperature from HP-ICF-CHASSIS; unsupported/non-numeric readings produce no sample.
+          indexes:
+          - labelname: hpSystemAirSensor
+            type: gauge
+          lookups:
+          - labels:
+            - hpSystemAirSensor
+            labelname: hpSystemAirName
+            oid: 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.2
+            type: DisplayString
+          regex_extracts:
+            ? ''
+            : - regex: \s*([-+]?[0-9]+(?:\.[0-9]+)?)\s*(?:[cC])?\s*
+                value: $1
+        - name: hpSystemAirOverTemp
+          oid: 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.6
+          type: gauge
+          help: 'Chassis air over-temperature state: 1 yes, 2 no.'
+          indexes:
+          - labelname: hpSystemAirSensor
+            type: gauge
+          lookups:
+          - labels:
+            - hpSystemAirSensor
+            labelname: hpSystemAirName
+            oid: 1.3.6.1.4.1.11.2.14.11.1.2.8.1.1.2
+            type: DisplayString
+      hp_procurve_poe:
+        walk:
+        - 1.3.6.1.2.1.105.1.1.1.3
+        - 1.3.6.1.2.1.105.1.1.1.6
+        - 1.3.6.1.2.1.105.1.1.1.7
+        - 1.3.6.1.2.1.105.1.1.1.8
+        - 1.3.6.1.2.1.105.1.1.1.10
+        - 1.3.6.1.2.1.105.1.1.1.11
+        - 1.3.6.1.2.1.105.1.1.1.12
+        - 1.3.6.1.2.1.105.1.1.1.13
+        - 1.3.6.1.2.1.105.1.1.1.14
+        - 1.3.6.1.2.1.105.1.3.1.1.2
+        - 1.3.6.1.2.1.105.1.3.1.1.3
+        - 1.3.6.1.2.1.105.1.3.1.1.4
+        - 1.3.6.1.2.1.105.1.3.1.1.5
+        - 1.3.6.1.4.1.11.2.14.11.1.9.1.1.1.1
+        - 1.3.6.1.4.1.11.2.14.11.1.9.1.1.1.3
+        metrics:
+        - name: pethPsePortAdminEnable
+          oid: 1.3.6.1.2.1.105.1.1.1.3
+          type: gauge
+          help: 'PoE administratively enabled: 1 true, 2 false.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortDetectionStatus
+          oid: 1.3.6.1.2.1.105.1.1.1.6
+          type: gauge
+          help: 'PoE detection status: 1 disabled, 2 searching, 3 deliveringPower, 4 fault, 5 test, 6 otherFault.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortPowerPriority
+          oid: 1.3.6.1.2.1.105.1.1.1.7
+          type: gauge
+          help: 'PoE port priority: 1 critical, 2 high, 3 low.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortMPSAbsentCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.8
+          type: counter
+          help: Count of powered-device disconnects detected by the maintain-power signature.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortPowerClassifications
+          oid: 1.3.6.1.2.1.105.1.1.1.10
+          type: gauge
+          help: 'PoE power classification: 1 class0, 2 class1, 3 class2, 4 class3, 5 class4.'
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortInvalidSignatureCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.11
+          type: counter
+          help: Count of invalid powered-device signatures.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortPowerDeniedCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.12
+          type: counter
+          help: Count of power-denied events on this PoE port.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortOverLoadCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.13
+          type: counter
+          help: Count of overload events on this PoE port.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethPsePortShortCounter
+          oid: 1.3.6.1.2.1.105.1.1.1.14
+          type: counter
+          help: Count of short-circuit events on this PoE port.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: pethMainPsePower
+          oid: 1.3.6.1.2.1.105.1.3.1.1.2
+          type: gauge
+          help: Nominal PSE power capacity in watts.
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: pethMainPseOperStatus
+          oid: 1.3.6.1.2.1.105.1.3.1.1.3
+          type: gauge
+          help: 'PSE operational status: 1 on, 2 off, 3 faulty.'
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: pethMainPseConsumptionPower
+          oid: 1.3.6.1.2.1.105.1.3.1.1.4
+          type: gauge
+          help: PSE power consumption in watts.
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: pethMainPseUsageThreshold
+          oid: 1.3.6.1.2.1.105.1.3.1.1.5
+          type: gauge
+          help: Configured PSE power usage notification threshold in percent.
+          indexes:
+          - labelname: pethMainPseGroupIndex
+            type: gauge
+        - name: hpicfPoePethPsePortCurrent
+          oid: 1.3.6.1.4.1.11.2.14.11.1.9.1.1.1.1
+          type: gauge
+          help: PoE port current in milliamperes; divide by 1000 for amperes.
+          indexes:
+          - labelname: pethPsePortGroupIndex
+            type: gauge
+          - labelname: pethPsePortIndex
+            type: gauge
+        - name: hpicfPoePethPsePortPower
+          oid: 1.3.6.1.4.1.11.2.14.11.1.9.1.1.1.3
+          type: gauge
+          help: PoE port supplied power in milliwatts; divide by 1000 for watts.
           indexes:
           - labelname: pethPsePortGroupIndex
             type: gauge
