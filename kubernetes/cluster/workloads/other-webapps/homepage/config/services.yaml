@@ -106,8 +106,8 @@
 - Smart Home:
   - FlightRadar24 Receiver:
       icon: mdi-airplane
-      href: http://rtlsdr.local.tam.land:8754
-      description: ADS-B aircraft receiver status
+      href: http://rtlsdr.local.tam.land/tar1090/
+      description: Live ADS-B aircraft map
   - Home Assistant:
       icon: home-assistant.png
       description: Home automation
@@ -156,7 +156,7 @@
       podSelector: app.kubernetes.io/instance=reostream,app.kubernetes.io/controller=app
   - Mosquitto:
       icon: mosquitto.png
-      description: MQTT broker at 10.200.12.3:1883
+      description: MQTT broker
       namespace: smart-home
       app: mosquitto
       podSelector: app.kubernetes.io/instance=mosquitto,app.kubernetes.io/controller=app
@@ -168,13 +168,13 @@
       podSelector: app.kubernetes.io/instance=fr24-mqtt-bridge,app.kubernetes.io/controller=app
   - Whisper:
       icon: mdi-microphone
-      description: Speech recognition at 10.200.12.8:10300
+      description: Speech recognition
       namespace: smart-home
       app: wyoming
       podSelector: app.kubernetes.io/instance=wyoming,app.kubernetes.io/controller=whisper
   - Piper:
       icon: mdi-microphone
-      description: Text to speech at 10.200.12.9:10200
+      description: Text to speech
       namespace: smart-home
       app: wyoming
       podSelector: app.kubernetes.io/instance=wyoming,app.kubernetes.io/controller=piper
@@ -270,7 +270,7 @@
   - Fluidd:
       icon: fluidd.png
       description: Klipper printer interface
-      href: https://fluidd.local.tam.land
+      href: http://3dprinter.local.tam.land/
       namespace: 3d-printing
       app: fluidd
       podSelector: app.kubernetes.io/instance=fluidd,app.kubernetes.io/controller=app
@@ -287,7 +287,7 @@
 - Games:
   - Modern Tekkit:
       icon: minecraft.png
-      description: Minecraft at 10.200.12.10:25565
+      description: Modded Minecraft server
       namespace: games
       app: tam-land-modern-tekkit
       podSelector: app.kubernetes.io/instance=tam-land-modern-tekkit,app.kubernetes.io/controller=minecraft
@@ -296,7 +296,7 @@
         url: udp://tam-land-modern-tekkit.games.svc.cluster.local:25565
   - iPad Kids:
       icon: minecraft.png
-      description: Minecraft at 10.200.12.11:25565
+      description: Minecraft server
       namespace: games
       app: ipadkids
       podSelector: app.kubernetes.io/instance=ipadkids,app.kubernetes.io/controller=minecraft
@@ -305,7 +305,7 @@
         url: udp://ipadkids.games.svc.cluster.local:25565
   - Factorio Tree Fiddy:
       icon: factorio.png
-      description: Factorio at 10.200.12.4:34197/UDP
+      description: Factorio server
       namespace: games
       app: factorio-treefiddy
       podSelector: app=factorio-treefiddy-factorio-server-charts
@@ -393,10 +393,6 @@
         url: https://hype01.local.tam.land:8006
         username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
         password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
-  - Proxmox Hypestore:
-      icon: proxmox.png
-      href: https://hypestore.local.tam.land:8006
-      description: Hypestore hypervisor management
   - TrueNAS:
       icon: truenas.png
       href: https://truenas.local.tam.land
@@ -446,7 +442,7 @@
       podSelector: app.kubernetes.io/instance=garage
   - Mailrise:
       icon: mdi-email-fast
-      description: SMTP notifications at 10.200.12.1:8025
+      description: SMTP notifications
       namespace: admin
       app: mailrise
       podSelector: app.kubernetes.io/instance=mailrise,app.kubernetes.io/controller=app
@@ -519,19 +515,19 @@
 - Crypto:
   - Bitcoin Core:
       icon: bitcoin.png
-      description: Full node at 10.200.12.5:8333
+      description: Bitcoin full node
       namespace: bitcoin
       app: bitcoind
       podSelector: app.kubernetes.io/instance=bitcoind,app.kubernetes.io/controller=app
   - Electrs:
       icon: bitcoin.png
-      description: Electrum server at 10.200.12.6:50001
+      description: Electrum server
       namespace: bitcoin
       app: electrs
       podSelector: app.kubernetes.io/instance=electrs,app.kubernetes.io/controller=app
   - Chia:
       icon: chia.png
-      description: Farming and blockchain node at 10.200.12.2
+      description: Farming and blockchain node
       namespace: chia
       app: chia-blockchain
       podSelector: app.kubernetes.io/instance=chia-blockchain,app.kubernetes.io/controller=app

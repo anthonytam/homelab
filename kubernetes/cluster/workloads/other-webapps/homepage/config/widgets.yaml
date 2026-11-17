@@ -1,20 +1,35 @@
-- resources:
-    backend: kubernetes
-    expanded: true
-    cpu: true
-    memory: true
+# Scope resource queries to this cluster's node-exporter scrape job so that
+# remote hosts and other homelab machines are not included in cluster totals.
+- customapi:
+    url: >-
+      http://prometheus-server.monitoring.svc.cluster.local/api/v1/query?query=100*(1-avg(rate(node_cpu_seconds_total{job="kubernetes-service-endpoints",site="thebridge",mode="idle"}[5m])))
+    icon: mdi-cpu-64-bit
+    label: Cluster CPU
+    refreshInterval: 30000
+    mappings:
+      - field: data.result.0.value.1
+        label: Usage (5m)
+        format: percent
+- customapi:
+    url: >-
+      http://prometheus-server.monitoring.svc.cluster.local/api/v1/query?query=100*(1-sum(node_memory_MemAvailable_bytes{job="kubernetes-service-endpoints",site="thebridge"})/sum(node_memory_MemTotal_bytes{job="kubernetes-service-endpoints",site="thebridge"}))
+    icon: mdi-memory
+    label: Cluster Memory
+    refreshInterval: 30000
+    mappings:
+      - field: data.result.0.value.1
+        label: Usage
+        format: percent
+- customapi:
+    url: >-
+      http://prometheus-server.monitoring.svc.cluster.local/api/v1/query?query=sum(kube_node_status_condition{job="kubernetes-service-endpoints",namespace="monitoring",service="prometheus-kube-state-metrics",condition="Ready",status="true"})
+    icon: kubernetes.png
+    label: Cluster Nodes
+    refreshInterval: 30000
+    mappings:
+      - field: data.result.0.value.1
+        label: Ready
+        format: number
 - search:
     provider: google
     target: _self
-- kubernetes:
-    cluster:
-      show: true
-      cpu: true
-      memory: true
-      showLabel: true
-      label: Tam Land Cluster
-    nodes:
-      show: true
-      cpu: true
-      memory: true
-      showLabel: true
