@@ -407,6 +407,10 @@
       icon: pfsense.png
       href: https://pf01.local.tam.land
       description: Firewall, routing and VPN
+  - FreePBX:
+      icon: mdi-phone-voip
+      href: http://freepbx.local.tam.land/
+      description: Phone system and extensions
   - Hype01 iLO:
       icon: mdi-server-security
       href: https://ilo-hype01.local.tam.land
