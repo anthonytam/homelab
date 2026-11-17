@@ -1,0 +1,40 @@
+title: Tam Land
+description: Homelab services
+startUrl: https://home.tam.land
+theme: dark
+color: slate
+headerStyle: clean
+statusStyle: dot
+hideVersion: true
+useEqualHeights: true
+layout:
+  - Media:
+      style: row
+      columns: 4
+  - Media Automation:
+      style: row
+      columns: 4
+  - Smart Home:
+      style: row
+      columns: 4
+  - Productivity:
+      style: row
+      columns: 4
+  - 3D Printing:
+      style: row
+      columns: 2
+  - Games:
+      style: row
+      columns: 4
+  - Homerow:
+      style: row
+      columns: 2
+  - Monitoring:
+      style: row
+      columns: 4
+  - Infrastructure:
+      style: row
+      columns: 4
+  - Crypto:
+      style: row
+      columns: 3

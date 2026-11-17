@@ -1,0 +1,537 @@
+# API credentials are substituted by Homepage at runtime from homepage-widget-secrets.
+# ClusterIP URLs are for widgets; browser links use the existing ingress hosts.
+- Media:
+  - Jellyfin:
+      icon: jellyfin.png
+      description: Movies and television
+      href: https://jellyfin.tam.land
+      namespace: media
+      app: jellyfin
+      podSelector: app.kubernetes.io/instance=jellyfin,app.kubernetes.io/controller=app
+      widget:
+        type: jellyfin
+        url: http://jellyfin.media.svc.cluster.local:8096
+        key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+        enableBlocks: true
+        enableNowPlaying: false
+        enableMediaControl: false
+  - Seerr:
+      icon: jellyseerr.png
+      description: Media requests
+      href: https://request.tam.land
+      namespace: media
+      app: seerr
+      podSelector: app.kubernetes.io/instance=seerr,app.kubernetes.io/controller=app
+      widget:
+        type: seerr
+        url: http://seerr.media.svc.cluster.local:5055
+        key: "{{HOMEPAGE_VAR_SEERR_KEY}}"
+  - Calibre Web Automated:
+      icon: calibre-web.png
+      description: Ebook library
+      href: https://books.local.tam.land
+      namespace: media
+      app: calibre-web-automated
+      podSelector: app.kubernetes.io/instance=calibre-web-automated,app.kubernetes.io/controller=app
+      widget:
+        type: calibreweb
+        url: http://calibre-web-automated.media.svc.cluster.local:8083
+        username: "{{HOMEPAGE_VAR_CALIBRE_USERNAME}}"
+        password: "{{HOMEPAGE_VAR_CALIBRE_PASSWORD}}"
+  - Shelfmark:
+      icon: mdi-book-search
+      description: Find and download ebooks
+      href: https://getbooks.local.tam.land
+      namespace: media
+      app: shelfmark
+      podSelector: app.kubernetes.io/instance=shelfmark,app.kubernetes.io/controller=app
+  - Dispatcharr:
+      icon: mdi-television-classic
+      description: IPTV streams and channels
+      href: https://dispacharr.tam.land
+      namespace: media
+      app: dispacharr
+      podSelector: app.kubernetes.io/instance=dispacharr,app.kubernetes.io/controller=app
+- Media Automation:
+  - Sonarr:
+      icon: sonarr.png
+      description: Television library automation
+      href: https://sonarr.local.tam.land
+      namespace: media
+      app: sonarr
+      podSelector: app.kubernetes.io/instance=sonarr,app.kubernetes.io/controller=app
+      widget:
+        type: sonarr
+        url: http://sonarr.media.svc.cluster.local:8989
+        key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
+  - Radarr:
+      icon: radarr.png
+      description: Movie library automation
+      href: https://radarr.local.tam.land
+      namespace: media
+      app: radarr
+      podSelector: app.kubernetes.io/instance=radarr,app.kubernetes.io/controller=app
+      widget:
+        type: radarr
+        url: http://radarr.media.svc.cluster.local:7878
+        key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
+  - Prowlarr:
+      icon: prowlarr.png
+      description: Indexer management
+      href: https://prowlarr.local.tam.land
+      namespace: media
+      app: prowlarr
+      podSelector: app.kubernetes.io/instance=prowlarr,app.kubernetes.io/controller=app
+      widget:
+        type: prowlarr
+        url: http://prowlarr.media.svc.cluster.local:9696
+        key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
+  - qBittorrent:
+      icon: qbittorrent.png
+      description: Torrent downloads through VPN
+      href: https://qbittorrent.local.tam.land
+      namespace: media
+      app: qbittorrent
+      podSelector: app.kubernetes.io/instance=qbittorrent,app.kubernetes.io/controller=app
+      widget:
+        type: qbittorrent
+        url: http://qbittorrent.media.svc.cluster.local:8080
+        key: "{{HOMEPAGE_VAR_QBITTORRENT_KEY}}"
+  - FlareSolverr:
+      icon: flaresolverr.png
+      description: Browser challenge solver
+      namespace: media
+      app: flaresolverr
+      podSelector: app.kubernetes.io/instance=flaresolverr,app.kubernetes.io/controller=main
+- Smart Home:
+  - FlightRadar24 Receiver:
+      icon: mdi-airplane
+      href: http://rtlsdr.local.tam.land:8754
+      description: ADS-B aircraft receiver status
+  - Home Assistant:
+      icon: home-assistant.png
+      description: Home automation
+      href: https://hass.tam.land
+      namespace: smart-home
+      app: homeassistant
+      podSelector: app.kubernetes.io/instance=homeassistant,app.kubernetes.io/controller=app
+      widget:
+        type: homeassistant
+        url: http://homeassistant-app.smart-home.svc.cluster.local:8123
+        key: "{{HOMEPAGE_VAR_HOMEASSISTANT_TOKEN}}"
+  - ESPHome:
+      icon: esphome.png
+      description: ESP device firmware and status
+      href: https://esphome.tam.land
+      namespace: smart-home
+      app: esphome
+      podSelector: app.kubernetes.io/instance=esphome,app.kubernetes.io/controller=app
+      widget:
+        type: esphome
+        url: http://esphome.smart-home.svc.cluster.local:6052
+  - Frigate:
+      icon: frigate.png
+      description: Camera recording and detection
+      href: https://frigate.local.tam.land
+      namespace: smart-home
+      app: frigate
+      podSelector: app.kubernetes.io/instance=frigate,app.kubernetes.io/controller=app
+      widget:
+        type: frigate
+        url: http://frigate-app.smart-home.svc.cluster.local:5000
+        enableRecentEvents: false
+  - go2rtc:
+      icon: mdi-cctv
+      description: Camera stream restreaming
+      href: https://go2rtc.local.tam.land
+      namespace: smart-home
+      app: frigate
+      podSelector: app.kubernetes.io/instance=frigate,app.kubernetes.io/controller=app
+  - Reostream:
+      icon: mdi-video-wireless
+      description: Reolink camera restreaming
+      href: https://reostream.local.tam.land
+      namespace: smart-home
+      app: reostream
+      podSelector: app.kubernetes.io/instance=reostream,app.kubernetes.io/controller=app
+  - Mosquitto:
+      icon: mosquitto.png
+      description: MQTT broker at 10.200.12.3:1883
+      namespace: smart-home
+      app: mosquitto
+      podSelector: app.kubernetes.io/instance=mosquitto,app.kubernetes.io/controller=app
+  - FlightRadar24 MQTT Bridge:
+      icon: mdi-airplane
+      description: Aircraft telemetry to MQTT
+      namespace: smart-home
+      app: fr24-mqtt-bridge
+      podSelector: app.kubernetes.io/instance=fr24-mqtt-bridge,app.kubernetes.io/controller=app
+  - Whisper:
+      icon: mdi-microphone
+      description: Speech recognition at 10.200.12.8:10300
+      namespace: smart-home
+      app: wyoming
+      podSelector: app.kubernetes.io/instance=wyoming,app.kubernetes.io/controller=whisper
+  - Piper:
+      icon: mdi-microphone
+      description: Text to speech at 10.200.12.9:10200
+      namespace: smart-home
+      app: wyoming
+      podSelector: app.kubernetes.io/instance=wyoming,app.kubernetes.io/controller=piper
+  - OpenWakeWord:
+      icon: mdi-microphone
+      description: Voice assistant wake word detection
+      namespace: smart-home
+      app: wyoming
+      podSelector: app.kubernetes.io/instance=wyoming,app.kubernetes.io/controller=openwakeword
+- Productivity:
+  - AFFiNE:
+      icon: affine.png
+      description: Notes and collaborative workspaces
+      href: https://notes.tam.land
+      namespace: other-webapps
+      app: affine
+      podSelector: app.kubernetes.io/instance=affine,app.kubernetes.io/controller=app
+  - Immich:
+      icon: immich.png
+      description: Photo and video library
+      href: https://photos.tam.land
+      namespace: other-webapps
+      app: immich
+      podSelector: app.kubernetes.io/instance=immich,app.kubernetes.io/controller=app
+      widget:
+        type: immich
+        url: http://immich-app.other-webapps.svc.cluster.local:2283
+        key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
+        version: 2
+  - Vaultwarden:
+      icon: vaultwarden.png
+      description: Password vault
+      href: https://bw.tam.land
+      namespace: other-webapps
+      app: vaultwarden
+      podSelector: app.kubernetes.io/instance=vaultwarden,app.kubernetes.io/controller=app
+  - Radicale:
+      icon: radicale.png
+      description: Calendar and contact synchronization
+      href: https://cal.tam.land
+      namespace: other-webapps
+      app: radicale
+      podSelector: app.kubernetes.io/instance=radicale,app.kubernetes.io/controller=app
+  - Stirling PDF:
+      icon: stirling-pdf.png
+      description: PDF tools
+      href: https://pdf.tam.land
+      namespace: other-webapps
+      app: stirling-pdf
+      podSelector: app.kubernetes.io/instance=stirling-pdf,app.kubernetes.io/controller=app
+  - LubeLogger:
+      icon: lubelogger.png
+      description: Vehicle maintenance and reminders
+      href: https://lubelog.tam.land
+      namespace: other-webapps
+      app: lubelog
+      podSelector: app.kubernetes.io/instance=lubelog,app.kubernetes.io/controller=app
+  - Ghostfolio:
+      icon: ghostfolio.png
+      description: Investment portfolio
+      href: https://ghostfolio.local.tam.land
+      namespace: other-webapps
+      app: ghostfolio
+      podSelector: app.kubernetes.io/instance=ghostfolio,app.kubernetes.io/controller=app
+  - Open WebUI:
+      icon: open-webui.png
+      description: Chat with local language models
+      href: https://ai.local.tam.land
+      namespace: other-webapps
+      app: ollama
+      podSelector: app.kubernetes.io/instance=ollama,app.kubernetes.io/controller=webui
+  - Ollama:
+      icon: ollama.png
+      description: Local model inference API
+      href: https://aiapi.local.tam.land
+      namespace: other-webapps
+      app: ollama
+      podSelector: app.kubernetes.io/instance=ollama,app.kubernetes.io/controller=app
+  - Simhammer:
+      icon: mdi-dice-multiple
+      description: Warhammer combat simulations
+      href: https://simhammer.tam.land
+      namespace: other-webapps
+      app: simhammer
+      podSelector: app.kubernetes.io/instance=simhammer,app.kubernetes.io/controller=app
+  - Nextcloud Sync:
+      icon: nextcloud.png
+      description: Scheduled Nextcloud file synchronization
+      namespace: miscellaneous
+      app: nextcloud-sync
+      podSelector: app.kubernetes.io/instance=nextcloud-sync
+- 3D Printing:
+  - Fluidd:
+      icon: fluidd.png
+      description: Klipper printer interface
+      href: https://fluidd.local.tam.land
+      namespace: 3d-printing
+      app: fluidd
+      podSelector: app.kubernetes.io/instance=fluidd,app.kubernetes.io/controller=app
+  - Spoolman:
+      icon: spoolman.png
+      description: Filament inventory
+      href: https://spoolman.local.tam.land
+      namespace: 3d-printing
+      app: spoolman
+      podSelector: app.kubernetes.io/instance=spoolman,app.kubernetes.io/controller=app
+      widget:
+        type: spoolman
+        url: http://spoolman.3d-printing.svc.cluster.local:8000
+- Games:
+  - Modern Tekkit:
+      icon: minecraft.png
+      description: Minecraft at 10.200.12.10:25565
+      namespace: games
+      app: tam-land-modern-tekkit
+      podSelector: app.kubernetes.io/instance=tam-land-modern-tekkit,app.kubernetes.io/controller=minecraft
+      widget:
+        type: minecraft
+        url: udp://tam-land-modern-tekkit.games.svc.cluster.local:25565
+  - iPad Kids:
+      icon: minecraft.png
+      description: Minecraft at 10.200.12.11:25565
+      namespace: games
+      app: ipadkids
+      podSelector: app.kubernetes.io/instance=ipadkids,app.kubernetes.io/controller=minecraft
+      widget:
+        type: minecraft
+        url: udp://ipadkids.games.svc.cluster.local:25565
+  - Factorio Tree Fiddy:
+      icon: factorio.png
+      description: Factorio at 10.200.12.4:34197/UDP
+      namespace: games
+      app: factorio-treefiddy
+      podSelector: app=factorio-treefiddy-factorio-server-charts
+  - Small Indie Bot:
+      icon: mdi-robot
+      description: Bot and supporting data services
+      namespace: small-indie-bot
+      app: bot
+      podSelector: app.kubernetes.io/instance=bot
+- Homerow:
+  - Ecommerce UAT:
+      icon: mdi-store
+      description: Ecommerce test environment
+      href: https://uat.homerow.ca
+      namespace: homerow
+      app: ecommerce-uat
+      podSelector: app.kubernetes.io/instance=ecommerce-uat,app.kubernetes.io/controller=app
+  - NocoDB:
+      icon: nocodb.png
+      description: Business database workspace
+      href: https://nocodb.homerow.ca
+      namespace: homerow
+      app: nocodb
+      podSelector: app.kubernetes.io/instance=nocodb,app.kubernetes.io/controller=app
+- Monitoring:
+  - Grafana:
+      icon: grafana.png
+      description: Dashboards and alerting
+      href: https://grafana.tam.land
+      namespace: monitoring
+      app: grafana
+      podSelector: app.kubernetes.io/instance=grafana,app.kubernetes.io/controller=app
+      widget:
+        type: grafana
+        url: http://grafana.monitoring.svc.cluster.local:3000
+        username: "{{HOMEPAGE_VAR_GRAFANA_USERNAME}}"
+        password: "{{HOMEPAGE_VAR_GRAFANA_PASSWORD}}"
+        version: 2
+  - Prometheus:
+      icon: prometheus.png
+      description: Metrics storage and scrape targets
+      namespace: monitoring
+      app: prometheus
+      podSelector: app.kubernetes.io/instance=prometheus,app.kubernetes.io/component=server
+      widget:
+        type: prometheus
+        url: http://prometheus-server.monitoring.svc.cluster.local
+  - Loki:
+      icon: loki.png
+      description: Log aggregation; explore in Grafana
+      namespace: monitoring
+      app: loki
+      podSelector: app.kubernetes.io/instance=loki,app.kubernetes.io/component=single-binary
+  - Tempo:
+      icon: mdi-chart-timeline-variant
+      description: Distributed traces; explore in Grafana
+      namespace: monitoring
+      app: tempo
+      podSelector: app.kubernetes.io/instance=tempo
+  - Alloy Local:
+      icon: alloy.png
+      description: Local syslog, SNMP and OTLP collection
+      namespace: monitoring
+      app: alloy-local
+      podSelector: app.kubernetes.io/instance=alloy-local
+  - Alloy Gateway:
+      icon: alloy.png
+      description: Remote site telemetry ingestion
+      namespace: monitoring
+      app: alloy-gateway
+      podSelector: app.kubernetes.io/instance=alloy-gateway
+  - Alloy Pod Logs:
+      icon: alloy.png
+      description: Kubernetes container log collection
+      namespace: monitoring
+      app: alloy-pod-logs
+      podSelector: app.kubernetes.io/instance=alloy-pod-logs
+- Infrastructure:
+  - Proxmox Cluster:
+      icon: proxmox.png
+      href: https://hype01.local.tam.land:8006
+      description: Virtual machines, containers and cluster resources
+      widget:
+        type: proxmox
+        url: https://hype01.local.tam.land:8006
+        username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+        password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+  - Proxmox Hypestore:
+      icon: proxmox.png
+      href: https://hypestore.local.tam.land:8006
+      description: Hypestore hypervisor management
+  - TrueNAS:
+      icon: truenas.png
+      href: https://truenas.local.tam.land
+      description: NAS storage and pool health
+      widget:
+        type: truenas
+        url: https://truenas.local.tam.land
+        key: "{{HOMEPAGE_VAR_TRUENAS_KEY}}"
+        nasType: core
+        enablePools: true
+  - pfSense:
+      icon: pfsense.png
+      href: https://pf01.local.tam.land
+      description: Firewall, routing and VPN
+  - Hype01 iLO:
+      icon: mdi-server-security
+      href: https://ilo-hype01.local.tam.land
+      description: Hype01 hardware management
+  - Hypestore iLO:
+      icon: mdi-server-security
+      href: https://ilo-hypestore.local.tam.land
+      description: Hypestore hardware management
+  - UniFi:
+      icon: unifi.png
+      description: Network device management
+      href: https://unifi.local.tam.land
+      namespace: admin
+      app: unifi
+      podSelector: app.kubernetes.io/instance=unifi,app.kubernetes.io/controller=app
+      widget:
+        type: unifi
+        url: https://unifi.local.tam.land
+        username: "{{HOMEPAGE_VAR_UNIFI_USERNAME}}"
+        password: "{{HOMEPAGE_VAR_UNIFI_PASSWORD}}"
+  - Traefik:
+      icon: traefik.png
+      description: Ingress routing and certificates
+      href: https://traefik.local.tam.land
+      namespace: admin
+      app: traefik-admin
+      podSelector: app.kubernetes.io/instance=traefik-admin
+  - Garage:
+      icon: mdi-database
+      description: S3 compatible object storage
+      namespace: admin
+      app: garage
+      podSelector: app.kubernetes.io/instance=garage
+  - Mailrise:
+      icon: mdi-email-fast
+      description: SMTP notifications at 10.200.12.1:8025
+      namespace: admin
+      app: mailrise
+      podSelector: app.kubernetes.io/instance=mailrise,app.kubernetes.io/controller=app
+  - Newt:
+      icon: pangolin.png
+      description: Pangolin tunnel connector
+      namespace: admin
+      app: newt
+      podSelector: app.kubernetes.io/instance=newt,app.kubernetes.io/controller=app
+  - Flux:
+      icon: flux-cd.png
+      description: GitOps reconciliation
+      namespace: flux-system
+      app: flux-system
+      podSelector: app.kubernetes.io/part-of=flux
+  - cert-manager:
+      icon: cert-manager.png
+      description: TLS certificate automation
+      namespace: cert-manager
+      app: cert-manager
+      podSelector: app.kubernetes.io/instance=cert-manager
+  - Secret Sync:
+      icon: mdi-key-chain
+      description: Cross namespace secret distribution
+      namespace: secrets
+      app: secret-sync
+      podSelector: app=secret-sync
+  - Cilium:
+      icon: cilium.png
+      description: Cluster network and policy
+      namespace: cilium
+      app: cilium
+      podSelector: k8s-app=cilium
+  - Hubble:
+      icon: mdi-lan-connect
+      description: Network flow observability
+      namespace: cilium
+      app: hubble-ui
+      podSelector: k8s-app=hubble-ui
+  - Proxmox CSI:
+      icon: proxmox.png
+      description: Proxmox persistent storage
+      namespace: csi-proxmox
+      app: proxmox-csi-plugin
+      podSelector: app.kubernetes.io/instance=proxmox-csi-plugin
+  - SMB CSI:
+      icon: mdi-folder-network
+      description: SMB persistent storage
+      namespace: csi-smb
+      app: csi-driver-smb
+      podSelector: app.kubernetes.io/instance=csi-driver-smb
+  - Local Path Storage:
+      icon: mdi-harddisk
+      description: Worker06 local persistent storage
+      namespace: local-path-provisioner
+      app: local-path-provisioner-worker06
+      podSelector: app.kubernetes.io/instance=local-path-provisioner-worker06
+  - NVIDIA GPU Operator:
+      icon: nvidia.png
+      description: GPU drivers and device management
+      namespace: nvidia
+      app: gpu-operator
+      podSelector: app.kubernetes.io/instance=gpu-operator
+  - MetalLB:
+      icon: mdi-ip-network
+      description: Load balancer IP allocation
+      namespace: metallb-system
+      app: metallb
+      podSelector: app=metallb
+- Crypto:
+  - Bitcoin Core:
+      icon: bitcoin.png
+      description: Full node at 10.200.12.5:8333
+      namespace: bitcoin
+      app: bitcoind
+      podSelector: app.kubernetes.io/instance=bitcoind,app.kubernetes.io/controller=app
+  - Electrs:
+      icon: bitcoin.png
+      description: Electrum server at 10.200.12.6:50001
+      namespace: bitcoin
+      app: electrs
+      podSelector: app.kubernetes.io/instance=electrs,app.kubernetes.io/controller=app
+  - Chia:
+      icon: chia.png
+      description: Farming and blockchain node at 10.200.12.2
+      namespace: chia
+      app: chia-blockchain
+      podSelector: app.kubernetes.io/instance=chia-blockchain,app.kubernetes.io/controller=app

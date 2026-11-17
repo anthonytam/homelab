@@ -1,0 +1,5 @@
+mode: cluster
+# Use the curated catalog instead of adding duplicate ingress-discovered cards.
+ingress: false
+traefik: false
+gateway: false

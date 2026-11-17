@@ -1,0 +1,6 @@
+# Keep local plaintext credentials out of Git.
+*.env
+*.env.local
+*.secret.yaml
+*.secret.json
+homepage-widget-secrets.yaml

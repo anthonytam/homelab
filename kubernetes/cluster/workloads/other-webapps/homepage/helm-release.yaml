@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: ghcr.io/gethomepage/homepage
-      tag: v1.8.0
+      tag: v2.8.0
     enableRbac: true
     serviceAccount:
       name: homepage-app
@@ -35,38 +35,11 @@ spec:
             hosts:
               - home.tam.land
     config:
-      bookmarks:
-        - Social:
-          - Reddit:
-            - abbr: RDT
-              href: https://reddit.com
-        - Dev:
-          - Github:
-            - abbr: GH
-              href: https://github.com/
-      widgets:
-        - resources:
-            backend: kubernetes
-            expanded: true
-            cpu: true
-            memory: true
-        - search:
-            provider: google
-            target: _self
-        - kubernetes:
-            cluster:
-              show: true
-              cpu: true
-              memory: true
-              showLabel: true
-              label: "Tam Land Cluster"
-            nodes:
-              show: true
-              cpu: true
-              memory: true
-              showLabel: true
-    kubernetes:
-      mode: cluster
+      # Kustomize replaces this with the generated ConfigMap's content hash.
+      useExistingConfigMap: homepage-config
+    envFrom:
+      - secretRef:
+          name: homepage-widget-secrets
     env:
       - name: HOMEPAGE_ALLOWED_HOSTS
         value: home.tam.land
